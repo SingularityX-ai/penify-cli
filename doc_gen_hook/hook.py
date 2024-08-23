@@ -9,7 +9,17 @@ class PostCommitHook:
         self.repo = Repo(repo_path)
 
     def get_modified_files_in_last_commit(self):
-        """Get the list of files modified in the last commit."""
+        """Get the list of files modified in the last commit.
+
+        This function retrieves the files that were modified in the most recent
+        commit of the repository. It accesses the last commit and iterates
+        through the differences between the last commit and its parent,
+        collecting the paths of modified files. The function ensures that each
+        modified file is only included once in the returned list.
+
+        Returns:
+            list: A list of file paths that were modified in the last commit.
+        """
         last_commit = self.repo.head.commit
         modified_files = []
         for diff in last_commit.diff('HEAD~1'):
@@ -18,7 +28,20 @@ class PostCommitHook:
         return modified_files
 
     def get_modified_lines(self, diff):
-        """Extract modified line numbers from a diff object."""
+        """Extract modified line numbers from a diff object.
+
+        This function iterates through the hunks of a diff object and collects
+        the line numbers that have been modified. It specifically looks for
+        lines that start with a '+' character, indicating they have been added,
+        while ignoring lines that start with '+++' which are typically used to
+        denote file headers in diffs.
+
+        Args:
+            diff (object): A diff object containing hunks of changes.
+
+        Returns:
+            list: A list of modified lines from the diff, excluding file headers.
+        """
         modified_lines = []
         for hunk in diff.hunks:
             for line in hunk:
@@ -27,7 +50,22 @@ class PostCommitHook:
         return modified_lines
 
     def process_file(self, file_path):
-        """Read the file, check if it's supported, and send it to the API."""
+        """Process a file by reading its content, checking its support, and sending
+        it to an API.
+
+        This function takes a file path, verifies if the file type is supported
+        by the API client, reads the file's content, retrieves the modified
+        lines from the last commit, and sends the data to the API. If the API
+        responds with a success status, it updates the file with the response
+        content.
+
+        Args:
+            file_path (str): The relative path to the file to be processed.
+
+        Returns:
+            bool: True if the file was successfully processed and updated, False
+                otherwise.
+        """
         file_abs_path = os.path.join(self.repo_path, file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
 
@@ -58,7 +96,14 @@ class PostCommitHook:
         return False
 
     def run(self):
-        """Run the post-commit hook."""
+        """Run the post-commit hook to process modified files.
+
+        This method retrieves the list of files modified in the last commit and
+        processes each file. If any file is modified during processing, it
+        stages the file and creates a new commit with a predefined message. This
+        is typically used to automate tasks that need to occur after a commit is
+        made.
+        """
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
 
