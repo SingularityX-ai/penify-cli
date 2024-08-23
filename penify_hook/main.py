@@ -77,7 +77,11 @@ def main():
     as generating documentation for modified functions and classes in the
     latest commit. It manages the API token for authentication and
     determines whether to analyze a specific file, an entire folder, or the
-    Git repository itself.
+    Git repository itself.  It includes options for installing and
+    uninstalling the post-commit hook, and it ensures that the necessary API
+    token is provided either through command-line arguments or environment
+    variables. Depending on the user’s input, it will invoke the appropriate
+    analyzer to generate documentation based on the specified paths.
     """
 
     parser = argparse.ArgumentParser(description="A Git post-commit hook that generates docstrings for modified functions and classes in the latest commit.")
