@@ -8,7 +8,24 @@ class APIClient:
         self.AUTH_TOKEN = api_token
 
     def send_file_for_docstring_generation(self, file_name, content, line_numbers):
-        """Send file content and modified lines to the API and return modified content."""
+        """Send file content and modified lines to the API and return modified
+        content.
+
+        This function constructs a payload containing the file path, content,
+        and modified line numbers, then sends this payload to a specified API
+        endpoint for processing. It handles the API response and returns the
+        modified content if the request is successful. If the request fails, it
+        returns the original content.
+
+        Args:
+            file_name (str): The name of the file to be processed.
+            content (str): The content of the file to be sent.
+            line_numbers (list): A list of line numbers that have been modified.
+
+        Returns:
+            str: The modified content returned by the API, or the original
+            content if the request was unsuccessful.
+        """
         payload = {
             'file_path': file_name,
             'content': content,
