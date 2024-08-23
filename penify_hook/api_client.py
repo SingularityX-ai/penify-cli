@@ -16,7 +16,7 @@ class APIClient:
         }
         print(f"Sending file {file_name} to API for processing.")
         url = self.api_url+"/v1/file/generate/diff/doc"
-        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"})
+        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
         print("status_code",response.status_code)
         if response.status_code == 200:
             response = response.json()
