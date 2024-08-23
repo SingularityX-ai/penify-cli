@@ -44,15 +44,15 @@ This will display all available commands and options for using Penify-Hook.
 
 ## 4. Usage
 
-### 4.1 Using Simple Command
+### 4.1 Using Simple Command (in a GIT enabled Repo)
 
 You can use Penify-Hook to track Git changes and generate documentation for only the modified lines:
 
 ```bash
-penify-hook -l <FILE_PATH>
+penify-hook -gf <GIT_FOLDER_PATH>
 ```
 
-This command will analyze the specified file, generate docstrings for the modified functions and classes, and update the file.
+This command will analyze the specified file, generate docstrings for the modified functions and classes, and update the files. If nothing is provided, it will take the default directory.
 
 ### 4.2 Git Hook
 
@@ -65,10 +65,10 @@ Penify-Hook can be configured as a Git post-commit hook. Once set up, it will au
    Navigate to the root directory of your Git repository and run:
 
    ```bash
-   penify-hook --install -f <YOUR_FOLDER_PATH>
+   penify-hook --install -gf <GIT_FOLDER_PATH>
    ```
 
-   Replace `<YOUR_FOLDER_PATH>` with the path to the folder containing your Git repository. This command will install the post-commit hook.
+   Replace `<GIT_FOLDER_PATH>` with the path to the folder containing your Git repository. This command will install the post-commit hook.
 
 2. **How It Works:**
 
@@ -87,7 +87,7 @@ Penify-Hook can be configured as a Git post-commit hook. Once set up, it will au
    To remove the post-commit hook, use:
 
    ```bash
-   penify-hook --uninstall -f <YOUR_FOLDER_PATH>
+   penify-hook --uninstall -f <GIT_FOLDER_PATH>
    ```
 
 ### 4.3 Generating Documentation for a Full Repository
