@@ -42,7 +42,13 @@ class FolderAnalyzerGenHook:
         them and running a file analyzer on each one. It provides feedback on
         the number of files being processed and handles any errors that occur
         during the analysis of individual files, ensuring that the progress bar
-        updates appropriately even in the event of an error.
+        updates appropriately even in the event of an error.  It first retrieves
+        a list of all files in the designated directory, then iterates over each
+        file, creating an instance of `FileAnalyzerGenHook` to analyze the file.
+        If any errors occur during the analysis of a file, they are caught and
+        logged, allowing the process to continue with the remaining files. The
+        progress of file processing is visually represented using a progress
+        bar.
         """
         try:
             file_list = self.list_all_files_in_dir(self.dir_path)
