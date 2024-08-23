@@ -1,2 +1,0 @@
-[console_scripts]
-doc_gen_hook = doc_gen_hook.main:main

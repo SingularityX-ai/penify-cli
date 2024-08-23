@@ -1,8 +1,0 @@
-README.md
-setup.py
-doc_gen_hook.egg-info/PKG-INFO
-doc_gen_hook.egg-info/SOURCES.txt
-doc_gen_hook.egg-info/dependency_links.txt
-doc_gen_hook.egg-info/entry_points.txt
-doc_gen_hook.egg-info/requires.txt
-doc_gen_hook.egg-info/top_level.txt
