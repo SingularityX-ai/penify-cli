@@ -9,7 +9,20 @@ class FileAnalyzerGenHook:
         self.supported_file_types = set(self.api_client.get_supported_file_types())
 
     def process_file(self, file_path):
-        """Read the file, check if it's supported, and send it to the API."""
+        """Process a file by reading its content and sending it to an API for
+        processing.
+
+        This function checks if the provided file has a supported extension. If
+        the file is valid, it reads the content of the file and sends it to an
+        API client for further processing. If the API responds successfully, the
+        original file content is replaced with the response.
+
+        Args:
+            file_path (str): The relative path to the file that needs to be processed.
+
+        Returns:
+            bool: True if the file was processed successfully, False otherwise.
+        """
         file_abs_path = os.path.join(os.getcwd(), file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
 
@@ -38,7 +51,13 @@ class FileAnalyzerGenHook:
 
 
     def run(self):
-        """Run the post-commit hook."""
+        """Run the post-commit hook.
+
+        This method executes the post-commit hook by processing a specified
+        file. It attempts to process the file located at `self.file_path`. If an
+        error occurs during the processing, it catches the exception and prints
+        an error message indicating that the file was not processed.
+        """
         try:
             self.process_file(self.file_path)
             # Stage the modified file

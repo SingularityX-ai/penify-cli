@@ -18,6 +18,20 @@ penify-hook -t {token} -f {folder_path}
 """
 
 def install_hook(repo_path, token, folder_path):
+    """Install a post-commit hook in a specified Git repository.
+
+    This function creates a post-commit hook script in the specified Git
+    repository's hooks directory. It checks if the hooks directory exists,
+    and if it does, it writes the hook content formatted with the provided
+    token and folder path. The script is then made executable.
+
+    Args:
+        repo_path (str): The path to the Git repository where the hook
+            will be installed.
+        token (str): A token to be included in the hook script.
+        folder_path (str): The folder path to be included in the hook script.
+    """
+
     hooks_dir = Path(repo_path) / ".git/hooks"
     hook_path = hooks_dir / HOOK_FILENAME
     
@@ -32,6 +46,21 @@ def install_hook(repo_path, token, folder_path):
     print(f"Post-commit hook installed in {hook_path}")
 
 def uninstall_hook(repo_path):
+    """Uninstall the post-commit hook from a Git repository.
+
+    This function removes the post-commit hook file from the specified Git
+    repository path. It checks if the hook file exists and, if so, deletes
+    it. If the hook file does not exist, it informs the user that no hook
+    was found.
+
+    Args:
+        repo_path (str): The path to the Git repository from which to
+            uninstall the post-commit hook.
+
+    Returns:
+        None: This function does not return any value.
+    """
+
     hook_path = Path(repo_path) / ".git/hooks" / HOOK_FILENAME
     
     if hook_path.exists():
@@ -41,6 +70,16 @@ def uninstall_hook(repo_path):
         print(f"No post-commit hook found in {hook_path}")
 
 def main():
+    """Main entry point for the Git post-commit hook that generates docstrings.
+
+    This function sets up an argument parser to handle command-line
+    arguments for installing or uninstalling the post-commit hook, as well
+    as generating documentation for modified functions and classes in the
+    latest commit. It manages the API token for authentication and
+    determines whether to analyze a specific file, an entire folder, or the
+    Git repository itself.
+    """
+
     parser = argparse.ArgumentParser(description="A Git post-commit hook that generates docstrings for modified functions and classes in the latest commit.")
 
     parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))

@@ -8,7 +8,24 @@ class APIClient:
         self.AUTH_TOKEN = api_token
 
     def send_file_for_docstring_generation(self, file_name, content, line_numbers):
-        """Send file content and modified lines to the API and return modified content."""
+        """Send file content and modified lines to the API and return modified
+        content.
+
+        This function constructs a payload containing the file path, content,
+        and modified line numbers, and sends it to a specified API endpoint for
+        processing. It handles the response from the API, returning the modified
+        content if the request is successful. If the request fails, it logs the
+        error details and returns the original content.
+
+        Args:
+            file_name (str): The path to the file being sent.
+            content (str): The content of the file to be processed.
+            line_numbers (list): A list of line numbers that have been modified.
+
+        Returns:
+            str: The modified content returned by the API, or the original content if the
+                request fails.
+        """
         payload = {
             'file_path': file_name,
             'content': content,
@@ -25,7 +42,16 @@ class APIClient:
             return content
 
     def get_supported_file_types(self) -> list[str]:
-        """Send file content and modified lines to the API and return modified content."""
+        """Retrieve the supported file types from the API.
+
+        This function sends a request to the API to obtain a list of supported
+        file types. If the API responds successfully, it returns the list of
+        supported file types. If the API call fails, it returns a default list
+        of common file types.
+
+        Returns:
+            list[str]: A list of supported file types, either from the API or a default set.
+        """
 
         url = self.api_url+"/v1/file/supported_languages"
         response = requests.get(url)

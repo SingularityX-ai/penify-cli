@@ -10,6 +10,22 @@ class FolderAnalyzerGenHook:
         self.api_client = api_client
 
     def list_all_files_in_dir(self, dir_path: str):
+        """List all files in a directory and its subdirectories.
+
+        This function traverses the specified directory and its subdirectories,
+        collecting the full paths of all files found. It ignores any directories
+        that start with a dot (.), which are typically hidden directories in
+        Unix-like operating systems. The resulting list contains the full paths
+        of the files, making it useful for file management tasks.
+
+        Args:
+            dir_path (str): The path to the directory to search for files.
+
+        Returns:
+            list: A list of full file paths found in the specified directory and its
+            subdirectories.
+        """
+
         files = []
         for dirpath, dirnames, filenames in os.walk(dir_path):
             dirnames[:] = [d for d in dirnames if not d.startswith(".")]
@@ -20,7 +36,14 @@ class FolderAnalyzerGenHook:
         return files
 
     def run(self):
-        """Run the post-commit hook."""
+        """Run the post-commit hook.
+
+        This method processes all files in the specified directory by listing
+        them and running a file analyzer on each one. It provides feedback on
+        the number of files being processed and handles any errors that occur
+        during the analysis of individual files, ensuring that the progress bar
+        updates appropriately even in the event of an error.
+        """
         try:
             file_list = self.list_all_files_in_dir(self.dir_path)
             total_files = len(file_list)
