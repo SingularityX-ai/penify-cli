@@ -2,9 +2,9 @@ import os
 import requests
 
 class APIClient:
-    def __init__(self, api_url):
+    def __init__(self, api_url, api_token):
         self.api_url = api_url
-        self.AUTH_TOKEN = os.getenv("PENIFY_AUTH_TOKEN")
+        self.AUTH_TOKEN = api_token
 
     def send_file_for_docstring_generation(self, file_name, content, line_numbers):
         """Send file content and modified lines to the API and return modified content."""

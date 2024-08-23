@@ -1,25 +1,27 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='doc_gen_hook',
-    version='0.1.0',
+    name="penify-hook",
+    version="0.1.0",
     packages=find_packages(),
     install_requires=[
-        'GitPython',
-        'requests'
+        "requests",
     ],
     entry_points={
-        'console_scripts': [
-            'doc_gen_hook=doc_gen_hook.main:main',  # This forces the name to use underscores
+        "console_scripts": [
+            "penify-hook=penify_hook.main:main",
         ],
     },
-    author='Suman Saurabh',
-    description='A post-commit hook that analyzes modified files via an API and commits changes automatically.',
-    url='https://github.com/SingualrityX-ai/doc_gen_hook',
+    author="Popin Bose Roy",
+    author_email="your.email@example.com",
+    description="A post-commit hook that sends modified files and their contents to an API.",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/yourusername/penify-hook",
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
 )

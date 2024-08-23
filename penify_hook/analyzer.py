@@ -3,9 +3,9 @@ from git import Repo
 from .api_client import APIClient
 
 class DocGenHook:
-    def __init__(self, repo_path: str, api_url: str):
+    def __init__(self, repo_path: str, api_client: APIClient):
         self.repo_path = repo_path
-        self.api_client = APIClient(api_url)
+        self.api_client = api_client
         self.repo = Repo(repo_path)
 
     def get_modified_files_in_last_commit(self):

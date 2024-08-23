@@ -1,69 +1,74 @@
-# Post Commit Hook
+# penify-hook
 
-`post_commit_hook` is a Python library designed to be used as a post-commit hook for Git repositories. It checks the modified files in the last commit, sends their content and modified lines to a specified API, and replaces the file content with the response received from the API.
+`penify-hook` is a post-commit hook tool designed to help developers send modified files and their respective changes to a remote API for further processing.
 
 ## Features
 
-- Identifies files modified in the last commit.
-- Checks if the file type is supported by the API.
-- Sends the file content and modified lines to an API endpoint.
-- Replaces the file content with the API response.
+- **Automated File Handling**: Automatically detects and processes modified files in the latest commit.
+- **Modular API Interaction**: Interacts with a configurable API for handling file updates.
+- **File Type Support Check**: Verifies whether the file types are supported by the API before processing.
 
 ## Installation
 
-You can install `post_commit_hook` via pip:
+To install `penify-hook`, run:
 
 ```bash
-pip install post_commit_hook
+pip install penify-hook
 ```
 
 ## Usage
 
-1. **Setup Post-Commit Hook**: 
+`penify-hook` is designed to be used as a post-commit hook. It checks which files were modified in the latest commit, sends their content and modified line numbers to a configured API, and then replaces the existing files with the updated content returned by the API.
 
-   Add the following script to your `.git/hooks/post-commit`:
+### Example Usage
 
-   ```bash
-   #!/bin/bash
-   post-commit-hook /path/to/your/repo http://localhost:8000/api
-   ```
+Add `penify-hook` to your post-commit hook:
 
-   Make sure to replace `/path/to/your/repo` with the actual path to your Git repository.
+```bash
+#!/bin/sh
+penify-hook
+```
 
-2. **Run the Hook**:
+Make sure to make your hook script executable:
 
-   The hook will automatically run after each commit and process the modified files.
+```bash
+chmod +x .git/hooks/post-commit
+```
 
 ## Configuration
 
-- **API URL**: The API URL should be provided during initialization. It should support the following endpoints:
-  - `/supported_files`: To check supported file types.
-  - `/analyze`: To analyze the file content and return the modified content.
+The API endpoint can be configured in the `PenifyHook` initialization:
+
+```python
+from penify_hook.hook import PenifyHook
+from penify_hook.api import APIClient
+
+api_client = APIClient(base_url="http://localhost:8000")
+hook = PenifyHook(api_client)
+hook.run_hook()
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 ```
 
-### Step 5: Publish to PyPI
+### 5. Testing
 
-1. Ensure you have a `setup.py`, `README.md`, and `requirements.txt` in the project directory.
-2. Register on [PyPI](https://pypi.org/) if you haven't already.
-3. Build the package:
+To test the package, you can write tests in the `tests/` directory using `pytest` or any other testing framework.
 
-   ```bash
-   python setup.py sdist bdist_wheel
-   ```
+### 6. Publishing to PyPI
 
-4. Upload to PyPI:
+1. Build the package:
 
-   ```bash
-   pip install twine
-   twine upload dist/*
-   ```
+    ```bash
+    python setup.py sdist bdist_wheel
+    ```
 
-### Final Step: Set Up Post-Commit Hook
+2. Upload to PyPI:
 
-You can now install your package via pip and set it up as a post-commit hook for any repository.
+    ```bash
+    twine upload dist/*
+    ```
 
-This setup ensures that your library is modular, checks if file types are supported, and is packaged correctly for distribution on PyPI.
+This is the basic outline for creating the `penify-hook` package and publishing it on PyPI. Make sure to replace placeholders like `your.email@example.com` and `yourusername` with your actual details.
