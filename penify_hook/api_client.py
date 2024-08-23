@@ -10,7 +10,7 @@ class APIClient:
     def send_file_for_docstring_generation(self, file_name, content, line_numbers):
         """Send file content and modified lines to the API and return modified content."""
         payload = {
-            'file_name': file_name,
+            'file_path': file_name,
             'content': content,
             'modified_lines': line_numbers
         }
@@ -21,7 +21,7 @@ class APIClient:
         # print(f"Content: {content}")
         print(f"Modified lines: {line_numbers}")
         url = self.api_url+"/v1/file/generate/diff/doc"
-        response = requests.post(url, json=payload,headers={"api_key": f"{self.AUTH_TOKEN}"})
+        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"})
         print("status_code",response.status_code)
         if response.status_code == 200:
             return response.json().get('modified_content')
