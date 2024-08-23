@@ -3,6 +3,8 @@ import os
 import argparse
 from pathlib import Path
 
+from .folder_analyzer import FolderAnalyzerGenHook
+
 from .file_analyzer import FileAnalyzerGenHook
 
 from .api_client import APIClient
@@ -42,11 +44,11 @@ def main():
     parser = argparse.ArgumentParser(description="A Git post-commit hook that generates docstrings for modified functions and classes in the latest commit.")
 
     parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
-    parser.add_argument("-f", "--folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
+    parser.add_argument("-f", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
 
     parser.add_argument("-l", "--file_path", help="Path of the file to generate Documentation.")
 
-    parser.add_argument("-c", "--complete_folder", help="Generate Documentation for the entire folder")
+    parser.add_argument("-c", "--complete_folder_path", help="Generate Documentation for the entire folder. Defaults to the current folder.")
 
 
     # Add the install and uninstall options
@@ -72,7 +74,7 @@ def main():
         print("Error: API token must be provided either as an argument or via the 'PENIFY_API_TOKEN' environment variable.")
         sys.exit(1)
 
-    repo_path = args.folder_path
+    repo_path = args.git_folder_path
     api_token = args.token
     api_url = 'https://production-gateway.snorkell.ai/api'
     api_client = APIClient(api_url, api_token)
@@ -86,6 +88,15 @@ def main():
             print(f"Error: {e}")
             sys.exit(1)
         sys.exit(0)
+
+    complete_folder_path = args.complete_folder_path
+    if complete_folder_path:
+        try:
+            analyzer = FolderAnalyzerGenHook(complete_folder_path, api_client)
+            analyzer.run()
+        except Exception as e:
+            print(f"Error: {e}")
+            sys.exit(1)
 
     try:
         analyzer = GitDocGenHook(repo_path, api_client)

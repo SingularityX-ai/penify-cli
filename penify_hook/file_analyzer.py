@@ -7,7 +7,6 @@ class FileAnalyzerGenHook:
         self.file_path = file_path
         self.api_client = api_client
         self.supported_file_types = set(self.api_client.get_supported_file_types())
-        print(f"Supported file types: {self.supported_file_types}")
 
     def process_file(self, file_path):
         """Read the file, check if it's supported, and send it to the API."""

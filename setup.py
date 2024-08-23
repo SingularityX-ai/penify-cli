@@ -6,6 +6,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests",
+        "tqdm",
+        "GitPython"
     ],
     entry_points={
         "console_scripts": [

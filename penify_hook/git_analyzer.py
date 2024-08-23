@@ -1,5 +1,6 @@
 import os
 from git import Repo
+from tqdm import tqdm
 from .api_client import APIClient
 
 class GitDocGenHook:
@@ -101,12 +102,18 @@ class GitDocGenHook:
         """Run the post-commit hook."""
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
+        total_files = len(modified_files)
 
-        for file in modified_files:
-            if self.process_file(file):
-                # Stage the modified file
-                self.repo.git.add(file)
-                changes_made = True
+        with tqdm(total=total_files, desc="Processing files", unit="file", ncols=80, ascii=True) as pbar:
+            for file in modified_files:
+                try:
+                    if self.process_file(file):
+                        # Stage the modified file
+                        self.repo.git.add(file)
+                        changes_made = True
+                except Exception as file_error:
+                    print(f"Error processing file [{file}]: {file_error}")
+                pbar.update(1)  # Update the progress bar
 
         # If any file was modified, create a new commit
         if changes_made:
