@@ -2,12 +2,13 @@ import json
 import os
 import requests
 
+
 class APIClient:
     def __init__(self, api_url, api_token):
         self.api_url = api_url
         self.AUTH_TOKEN = api_token
 
-    def send_file_for_docstring_generation(self, file_name, content, line_numbers):
+    def send_file_for_docstring_generation(self, file_name, content, line_numbers, repo_details = None):
         """Send file content and modified lines to the API and return modified
         content.
 
@@ -31,6 +32,9 @@ class APIClient:
             'content': content,
             'modified_lines': line_numbers
         }
+        if repo_details:
+            payload['git_repo'] = repo_details
+
         url = self.api_url+"/v1/file/generate/diff/doc"
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
         if response.status_code == 200:

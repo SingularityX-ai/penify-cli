@@ -1,4 +1,5 @@
 import os
+import re
 from git import Repo
 from tqdm import tqdm
 from .api_client import APIClient
@@ -9,6 +10,66 @@ class GitDocGenHook:
         self.api_client = api_client
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
+        self.repo_details = self.get_repo_details()
+
+    def get_repo_details(self):
+        """
+        Get the details of the repository, including the hosting service (e.g., GitHub, Azure DevOps),
+        organization name, and repository name.
+
+        This method checks the remote URL of the repository to determine whether it is hosted on
+        GitHub, Azure DevOps, or another service. It also extracts the organization (or user) name
+        and the repository name from the URL.
+
+        Returns:
+            dict: A dictionary containing the hosting service, organization name, repository name, and remote URL.
+        """
+        remote_url = None
+        hosting_service = "Unknown"
+        org_name = None
+        repo_name = None
+
+        try:
+            # Get the remote URL
+            remote = self.repo.remotes.origin.url
+            remote_url = remote
+
+            # Determine the hosting service based on the URL
+            if "github.com" in remote:
+                hosting_service = "GITHUB"
+                match = re.match(r".*github\.com[:/](.*?)/(.*?)(\.git)?$", remote)
+            elif "dev.azure.com" in remote:
+                hosting_service = "AZUREDEVOPS"
+                match = re.match(r".*dev\.azure\.com/(.*?)/(.*?)/_git/(.*?)(\.git)?$", remote)
+            elif "visualstudio.com" in remote:
+                hosting_service = "AZUREDEVOPS"
+                match = re.match(r".*@(.*?)\.visualstudio\.com/(.*?)/_git/(.*?)(\.git)?$", remote)
+            elif "bitbucket.org" in remote:
+                hosting_service = "BITBUCKET"
+                match = re.match(r".*bitbucket\.org[:/](.*?)/(.*?)(\.git)?$", remote)
+            elif "gitlab.com" in remote:
+                hosting_service = "GITLAB"
+                match = re.match(r".*gitlab\.com[:/](.*?)/(.*?)(\.git)?$", remote)
+            else:
+                hosting_service = "Unknown Hosting Service"
+                match = None
+
+            if match:
+                org_name = match.group(1)
+                repo_name = match.group(2)
+                
+                # For Azure DevOps, adjust the group indices
+                if hosting_service == "AZUREDEVOPS":
+                    repo_name = match.group(3)
+
+        except Exception as e:
+            print(f"Error determining repo details: {e}")
+
+        return {
+            "organization_name": org_name,
+            "repo_name": repo_name,
+            "vendor": hosting_service
+        }
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit.
@@ -126,7 +187,7 @@ class GitDocGenHook:
 
         modified_lines = self.get_modified_lines(diff_text)
         # Send data to API
-        response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
+        response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines, self.repo_details)
         if response is None:
             return False
         
