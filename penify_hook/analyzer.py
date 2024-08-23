@@ -8,6 +8,7 @@ class DocGenHook:
         self.api_client = api_client
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
+        print(f"Supported file types: {self.supported_file_types}")
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit."""
@@ -66,17 +67,18 @@ class DocGenHook:
 
         # Get the diff of the file in the last commit
         last_commit = self.repo.head.commit
-        diffs = last_commit.diff('HEAD~1', paths=file_path)
+        prev_commit = last_commit.parents[0] if last_commit.parents else last_commit
 
-        modified_lines = []
-        for diff in diffs:
-            print(f"Processing diff for {file_path}")
-            print(diff)
-            print("@@@@@@@@")
-            diff_text = diff.diff.decode('utf-8') if isinstance(diff.diff, bytes) else diff.diff
-            print(diff_text)
-            print("#############")
-            modified_lines.extend(self.get_modified_lines(diff_text))
+        # Use git command to get the diff
+        diff_text = self.repo.git.diff(prev_commit.hexsha, last_commit.hexsha, '--', file_path)
+
+        if not diff_text:
+            print(f"No changes detected for {file_path}")
+            return False
+
+        modified_lines = self.get_modified_lines(diff_text)
+
+        print(f"Modified lines: {modified_lines}")
 
         # Send data to API
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
