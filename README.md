@@ -1,66 +1,111 @@
-# penify-hook
+# Penify-Hook
 
-`penify-hook` is a post-commit hook tool designed to help developers send modified files and their respective changes to a remote API for further processing.
+Penify-Hook is a Git post-commit hook that automatically generates docstrings for modified functions and classes in your codebase. It integrates with a remote API to analyze the changes and generate documentation, helping developers maintain high-quality, consistent documentation across their projects.
 
-## Features
+## 1. Installing Penify-Hook
 
-- **Automated File Handling**: Automatically detects and processes modified files in the latest commit.
-- **Modular API Interaction**: Interacts with a configurable API for handling file updates.
-- **File Type Support Check**: Verifies whether the file types are supported by the API before processing.
+To install the `penify-hook` package, follow these steps:
 
-## Installation
+1. **Install the Penify-Hook Package:**
 
-To install `penify-hook`, run:
+   First, make sure to install the `penify-hook` package via pip (replace `penify-hook` with the correct package name):
+
+   ```bash
+   pip install penify-hook
+   ```
+
+## 2. Adding Environment Variable PENIFY_API_TOKEN
+
+To use Penify-Hook, you need an API token. This token can be obtained from the Penify dashboard.
+
+1. **Obtain Your API Token:**
+
+   Go to [dashboard.penify.dev](https://dashboard.penify.dev) and log in. Navigate to the API section and generate your API token.
+
+2. **Set Your API Token as an Environment Variable:**
+
+   Add the token to your environment variables for easier usage:
+
+   ```bash
+   export PENIFY_API_TOKEN=<YOUR_API_TOKEN>
+   ```
+
+   Replace `<YOUR_API_TOKEN>` with your actual API token. This environment variable will be used automatically if you do not provide a token as a command-line argument.
+
+## 3. Help
+
+To see the help options for Penify-Hook, you can use the following command:
 
 ```bash
-pip install penify-hook
+penify-hook --help
 ```
 
-## Usage
+This will display all available commands and options for using Penify-Hook.
 
-`penify-hook` is designed to be used as a post-commit hook. It checks which files were modified in the latest commit, sends their content and modified line numbers to a configured API, and then replaces the existing files with the updated content returned by the API.
+## 4. Usage
 
-### Example Usage
+### 4.1 Using Simple Command
 
-Add `penify-hook` to your post-commit hook:
+You can use Penify-Hook to track Git changes and generate documentation for only the modified lines:
 
 ```bash
-#!/bin/sh
-penify-hook
+penify-hook -l <FILE_PATH>
 ```
 
-Make sure to make your hook script executable:
+This command will analyze the specified file, generate docstrings for the modified functions and classes, and update the file.
+
+### 4.2 Git Hook
+
+Penify-Hook can be configured as a Git post-commit hook. Once set up, it will automatically generate documentation for any modifications made in your repository after each commit.
+
+#### **Configuring the Post-Commit Hook:**
+
+1. **Install the Post-Commit Hook:**
+
+   Navigate to the root directory of your Git repository and run:
+
+   ```bash
+   penify-hook --install -f <YOUR_FOLDER_PATH>
+   ```
+
+   Replace `<YOUR_FOLDER_PATH>` with the path to the folder containing your Git repository. This command will install the post-commit hook.
+
+2. **How It Works:**
+
+   After installation, every time you make a commit, the post-commit hook will trigger and automatically generate and update docstrings for any modified functions and classes in the latest commit.
+
+3. **Example:**
+
+   ```bash
+   git commit -m "Updated some functions"
+   ```
+
+   After this commit, Penify-Hook will run, analyze the modified files, generate the necessary docstrings, and update the files automatically.
+
+4. **Uninstalling the Post-Commit Hook:**
+
+   To remove the post-commit hook, use:
+
+   ```bash
+   penify-hook --uninstall -f <YOUR_FOLDER_PATH>
+   ```
+
+### 4.3 Generating Documentation for a Full Repository
+
+Penify-Hook can generate documentation for all files in a repository, regardless of whether Git is installed or not:
 
 ```bash
-chmod +x .git/hooks/post-commit
+penify-hook -cf <COMPLETE_FOLDER_PATH>
 ```
 
-## Configuration
+This command will scan the specified folder and generate docstrings for all files within it.
 
-The API endpoint can be configured in the `PenifyHook` initialization:
+### 4.4 Generating Documentation for a Single File
 
+If you want to generate docstrings for a specific file, you can use:
 
-## License
-
-This project is licensed under the MIT License.
+```bash
+penify-hook -l <FILE_PATH>
 ```
 
-### 5. Testing
-
-To test the package, you can write tests in the `tests/` directory using `pytest` or any other testing framework.
-
-### 6. Publishing to PyPI
-
-1. Build the package:
-
-    ```bash
-    python setup.py sdist bdist_wheel
-    ```
-
-2. Upload to PyPI:
-
-    ```bash
-    twine upload dist/*
-    ```
-
-This is the basic outline for creating the `penify-hook` package and publishing it on PyPI. Make sure to replace placeholders like `your.email@example.com` and `yourusername` with your actual details.
+This will analyze the file, generate the required docstrings for all functions and classes, and update the file.
