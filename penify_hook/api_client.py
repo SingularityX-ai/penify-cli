@@ -14,8 +14,13 @@ class APIClient:
             'line_numbers': line_numbers
         }
 
-        response = requests.post(self.api_url, json=payload)
+        print(f"Sending file {file_name} to API for processing.")
+        # print(f"Content: {content}")
+        print(f"Modified lines: {line_numbers}")
 
+        response = requests.post(self.api_url, json=payload)
+        print("status_code",response.status_code)
+        return content
         if response.status_code == 200:
             return response.json().get('modified_content')
         else:

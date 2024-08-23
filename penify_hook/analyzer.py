@@ -21,18 +21,28 @@ class DocGenHook:
     def get_modified_lines(self, diff):
         """Extract modified line numbers from a diff object."""
         modified_lines = []
-        diff_data = diff.diff.decode('utf-8')  # Decode the diff data to a string
+        
+        # Handle both string and bytes objects
+        if isinstance(diff, bytes):
+            diff_data = diff.decode('utf-8')
+        elif isinstance(diff, str):
+            diff_data = diff
+        else:
+            diff_data = str(diff)
 
+        current_line = 0
         for line in diff_data.splitlines():
             if line.startswith('@@'):
-                # The hunk header looks like: @@ -12,7 +12,7 @@
-                parts = line.split(' ')
-                new_line_info = parts[2]  # The new file line info is the third part
-                line_start = int(new_line_info[1:].split(',')[0])
-                num_lines = int(new_line_info.split(',')[1]) if ',' in new_line_info else 1
-
-                # Add the range of modified line numbers
-                modified_lines.extend(range(line_start, line_start + num_lines))
+                # Parse the hunk header
+                _, old, new, _ = line.split(' ', 3)
+                current_line = int(new.split(',')[0].strip('+'))
+            elif line.startswith('+'):
+                # This is an added or modified line
+                modified_lines.append(current_line)
+                current_line += 1
+            elif not line.startswith('-'):
+                # This is an unchanged line
+                current_line += 1
 
         return modified_lines
 
@@ -61,18 +71,20 @@ class DocGenHook:
         modified_lines = []
         for diff in diffs:
             print(f"Processing diff for {file_path}")
-            modified_lines.extend(self.get_modified_lines(diff))
+            print(diff)
+            print("@@@@@@@@")
+            diff_text = diff.diff.decode('utf-8') if isinstance(diff.diff, bytes) else diff.diff
+            print(diff_text)
+            print("#############")
+            modified_lines.extend(self.get_modified_lines(diff_text))
 
         # Send data to API
-        response = self.api_client.send_to_api(file_path, content, modified_lines)
+        response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
         
         # If the response is successful, replace the file content
-        if response.status_code == 200:
-            with open(file_abs_path, 'w') as file:
-                file.write(response.text)
-            return True
-
-        return False
+        with open(file_abs_path, 'w') as file:
+            file.write(response)
+        return True
 
     def run(self):
         """Run the post-commit hook."""
@@ -87,8 +99,7 @@ class DocGenHook:
 
         # If any file was modified, create a new commit
         if changes_made:
-            self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
+            # self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
             print("Auto-commit created with changes.")
         else:
             print("doc_gen_hook complete. No changes made.")
-
