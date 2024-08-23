@@ -25,7 +25,7 @@ def main():
     # Use the provided arguments
     repo_path = args.folder_path
     api_token = args.token
-    api_url = 'http://localhost:8000/api'
+    api_url = 'https://production-gateway.snorkell.ai/api'
     api_client = APIClient(api_url, api_token)
     analyzer = DocGenHook(repo_path, api_client)
     analyzer.run()
