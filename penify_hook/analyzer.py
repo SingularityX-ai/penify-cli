@@ -21,10 +21,19 @@ class DocGenHook:
     def get_modified_lines(self, diff):
         """Extract modified line numbers from a diff object."""
         modified_lines = []
-        for hunk in diff.hunks:
-            for line in hunk:
-                if line.startswith('+') and not line.startswith('+++'):
-                    modified_lines.append(line)
+        diff_data = diff.diff.decode('utf-8')  # Decode the diff data to a string
+
+        for line in diff_data.splitlines():
+            if line.startswith('@@'):
+                # The hunk header looks like: @@ -12,7 +12,7 @@
+                parts = line.split(' ')
+                new_line_info = parts[2]  # The new file line info is the third part
+                line_start = int(new_line_info[1:].split(',')[0])
+                num_lines = int(new_line_info.split(',')[1]) if ',' in new_line_info else 1
+
+                # Add the range of modified line numbers
+                modified_lines.extend(range(line_start, line_start + num_lines))
+
         return modified_lines
 
     def process_file(self, file_path):
@@ -32,7 +41,13 @@ class DocGenHook:
         file_abs_path = os.path.join(self.repo_path, file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
 
-        if file_extension in self.supported_file_types:
+        if not file_extension:
+            print(f"File {file_path} has no extension. Skipping.")
+            return False
+        
+        file_extension = file_extension[1:]  # Remove the leading dot
+
+        if file_extension not in self.supported_file_types:
             print(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
@@ -46,9 +61,6 @@ class DocGenHook:
         modified_lines = []
         for diff in diffs:
             print(f"Processing diff for {file_path}")
-            print("$$$$$$$$$$$$$$$$$$$$")
-            print(diff)
-            print("$$$$$$$$$$$$$$$$$$$$")
             modified_lines.extend(self.get_modified_lines(diff))
 
         # Send data to API
@@ -77,5 +89,6 @@ class DocGenHook:
         if changes_made:
             self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
             print("Auto-commit created with changes.")
+        else:
+            print("doc_gen_hook complete. No changes made.")
 
-        print("doc_gen_hook complete. No changes made." if not changes_made else "Post-commit changes committed.")
