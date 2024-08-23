@@ -82,13 +82,13 @@ class GitDocGenHook:
         """Process a file by checking its type, reading its content, and sending it
         to an API.
 
-        This method first constructs the absolute path of the file and checks if
-        the file has a valid extension. If the file type is supported, it reads
-        the content of the file and retrieves the differences from the last
-        commit in the repository. If there are changes detected, it sends the
-        file content along with the modified lines to an API for further
-        processing. If the API response indicates no changes, it will not
-        overwrite the original file.
+        This method constructs the absolute path of the specified file and
+        verifies whether the file has a valid extension. If the file type is
+        supported, it reads the content of the file and retrieves the
+        differences from the last commit in the repository. If changes are
+        detected, it sends the file content along with the modified lines to an
+        API for further processing. If the API response indicates no changes,
+        the original file will not be overwritten.
 
         Args:
             file_path (str): The relative path to the file to be processed.
@@ -145,7 +145,11 @@ class GitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.
+        file.  This function is designed to automate the handling of files that
+        have been modified in the most recent commit. It ensures that any
+        necessary changes are staged and committed automatically, providing a
+        seamless workflow for developers. The use of a progress bar enhances
+        user experience by visually indicating the progress of file processing.
         """
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
