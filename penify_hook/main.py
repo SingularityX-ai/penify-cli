@@ -77,7 +77,17 @@ def main():
     as generating documentation for modified functions and classes in the
     latest commit. It manages the API token for authentication and
     determines whether to analyze a specific file, an entire folder, or the
-    Git repository itself.
+    Git repository itself.  The function supports the following command-line
+    arguments: - `-t` or `--token`: API token for authentication. If not
+    provided,   the environment variable 'PENIFY_API_TOKEN' will be used. -
+    `-f` or `--git_folder_path`: Path to the folder with git to scan   for
+    modified files. Defaults to the current folder. - `-l` or `--file_path`:
+    Path of the file to generate documentation. - `-cf` or
+    `--complete_folder_path`: Generate documentation for the   entire
+    folder. Defaults to the current folder. - `--install`: Install the post-
+    commit hook. - `--uninstall`: Uninstall the post-commit hook.  The
+    function also handles errors related to missing API tokens and
+    exceptions that may arise during the analysis of files or folders.
     """
 
     parser = argparse.ArgumentParser(description="A Git post-commit hook that generates docstrings for modified functions and classes in the latest commit.")
