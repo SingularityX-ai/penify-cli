@@ -24,6 +24,7 @@ class FolderAnalyzerGenHook:
         try:
             file_list = self.list_all_files_in_dir(self.dir_path)
             total_files = len(file_list)
+            print(f"Processing {total_files} files in folder [{self.dir_path}]")
             
             with tqdm(total=total_files, desc="Processing files", unit="file", ncols=80, ascii=True) as pbar:
                 for file_path in file_list:

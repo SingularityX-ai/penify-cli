@@ -48,7 +48,7 @@ def main():
 
     parser.add_argument("-l", "--file_path", help="Path of the file to generate Documentation.")
 
-    parser.add_argument("-c", "--complete_folder_path", help="Generate Documentation for the entire folder. Defaults to the current folder.")
+    parser.add_argument("-cf", "--complete_folder_path", help="Generate Documentation for the entire folder. Defaults to the current folder.")
 
 
     # Add the install and uninstall options
