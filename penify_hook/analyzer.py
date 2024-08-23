@@ -19,33 +19,41 @@ class DocGenHook:
                 modified_files.append(diff.a_path)
         return modified_files
 
-    def get_modified_lines(self, diff):
-        """Extract modified line numbers from a diff object."""
+    def get_modified_lines(self, diff_text):
+        """Extract modified line numbers from a diff text."""
         modified_lines = []
-        
-        # Handle both string and bytes objects
-        if isinstance(diff, bytes):
-            diff_data = diff.decode('utf-8')
-        elif isinstance(diff, str):
-            diff_data = diff
-        else:
-            diff_data = str(diff)
-
         current_line = 0
-        for line in diff_data.splitlines():
+        deletion_start = None
+
+        for line in diff_text.splitlines():
             if line.startswith('@@'):
                 # Parse the hunk header
                 _, old, new, _ = line.split(' ', 3)
                 current_line = int(new.split(',')[0].strip('+'))
+                deletion_start = None
+            elif line.startswith('-'):
+                # This is a deleted line
+                if deletion_start is None:
+                    deletion_start = current_line
             elif line.startswith('+'):
-                # This is an added or modified line
+                # This is an added line
                 modified_lines.append(current_line)
                 current_line += 1
-            elif not line.startswith('-'):
+                if deletion_start is not None:
+                    modified_lines.append(deletion_start)
+                    deletion_start = None
+            else:
                 # This is an unchanged line
                 current_line += 1
+                if deletion_start is not None:
+                    modified_lines.append(deletion_start)
+                    deletion_start = None
 
-        return modified_lines
+        # Handle case where deletion is at the end of the file
+        if deletion_start is not None:
+            modified_lines.append(deletion_start)
+
+        return sorted(set(modified_lines))  # Remove duplicates and sort
 
     def process_file(self, file_path):
         """Read the file, check if it's supported, and send it to the API."""
@@ -71,6 +79,10 @@ class DocGenHook:
 
         # Use git command to get the diff
         diff_text = self.repo.git.diff(prev_commit.hexsha, last_commit.hexsha, '--', file_path)
+        print("$$$$$$$$$$$$")
+        print(diff_text)
+        print("$$$$$$$$$$$$")
+
 
         if not diff_text:
             print(f"No changes detected for {file_path}")
