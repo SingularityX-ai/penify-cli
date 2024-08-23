@@ -1,6 +1,0 @@
--   id: doc-gen-hook
-    name: Generate Docstrings
-    description: This hook generates docstrings for modified Python files.
-    entry: python3 hooks/pre_commit_hook.py
-    language: python
-    files: .*
