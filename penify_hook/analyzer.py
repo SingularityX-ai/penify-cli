@@ -7,6 +7,7 @@ class DocGenHook:
         self.repo_path = repo_path
         self.api_client = api_client
         self.repo = Repo(repo_path)
+        self.supported_file_types = set(self.api_client.get_supported_file_types())
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit."""
@@ -31,7 +32,7 @@ class DocGenHook:
         file_abs_path = os.path.join(self.repo_path, file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
 
-        if not self.api_client.is_file_supported(file_extension):
+        if file_extension in self.supported_file_types:
             print(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
@@ -44,6 +45,10 @@ class DocGenHook:
 
         modified_lines = []
         for diff in diffs:
+            print(f"Processing diff for {file_path}")
+            print("$$$$$$$$$$$$$$$$$$$$")
+            print(diff)
+            print("$$$$$$$$$$$$$$$$$$$$")
             modified_lines.extend(self.get_modified_lines(diff))
 
         # Send data to API
