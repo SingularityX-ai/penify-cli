@@ -14,13 +14,11 @@ class APIClient:
             'content': content,
             'modified_lines': line_numbers
         }
-        print(f"Sending file {file_name} to API for processing.")
         url = self.api_url+"/v1/file/generate/diff/doc"
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
-        print("status_code",response.status_code)
         if response.status_code == 200:
             response = response.json()
-            print(f"is Modified: {not response.get('status')}")
+            # print(f"is Modified: {not response.get('status')}")
             return response.get('modified_content')
         else:
             return content
@@ -29,15 +27,9 @@ class APIClient:
         """Send file content and modified lines to the API and return modified content."""
 
         url = self.api_url+"/v1/file/supported_languages"
-        print(f"Sending request to {url}")
         response = requests.get(url)
-        
-        print("status_code",response.status_code)
-        print("response",response)
-
         if response.status_code == 200:
             response = response.json()
-            print(f"supported languages: {response}")
             return response
         else:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]

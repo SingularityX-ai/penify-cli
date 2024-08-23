@@ -79,19 +79,12 @@ class DocGenHook:
 
         # Use git command to get the diff
         diff_text = self.repo.git.diff(prev_commit.hexsha, last_commit.hexsha, '--', file_path)
-        print("$$$$$$$$$$$$")
-        print(diff_text)
-        print("$$$$$$$$$$$$")
-
 
         if not diff_text:
             print(f"No changes detected for {file_path}")
             return False
 
         modified_lines = self.get_modified_lines(diff_text)
-
-        print(f"Modified lines: {modified_lines}")
-
         # Send data to API
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
         
