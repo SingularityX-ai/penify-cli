@@ -3,8 +3,10 @@ import os
 import argparse
 from pathlib import Path
 
+from .file_analyzer import FileAnalyzerGenHook
+
 from .api_client import APIClient
-from .analyzer import DocGenHook
+from .git_analyzer import GitDocGenHook
 
 HOOK_FILENAME = "post-commit"
 HOOK_TEMPLATE = """#!/bin/sh
@@ -42,6 +44,9 @@ def main():
     parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
     parser.add_argument("-f", "--folder_path", help="Path to the folder to scan for modified files. Defaults to the current folder.", default=os.getcwd())
 
+    parser.add_argument("-l", "--file_path", help="Path of the file to generate Documentation.")
+
+
     # Add the install and uninstall options
     parser.add_argument("--install", action="store_true", help="Install the post-commit hook.")
     parser.add_argument("--uninstall", action="store_true", help="Uninstall the post-commit hook.")
@@ -69,8 +74,23 @@ def main():
     api_token = args.token
     api_url = 'https://production-gateway.snorkell.ai/api'
     api_client = APIClient(api_url, api_token)
-    analyzer = DocGenHook(repo_path, api_client)
-    analyzer.run()
+
+    file_path = args.file_path
+    if file_path:
+        try:
+            analyzer = FileAnalyzerGenHook(file_path, api_client)
+            analyzer.run()
+        except Exception as e:
+            print(f"Error: {e}")
+            sys.exit(1)
+        sys.exit(0)
+
+    try:
+        analyzer = GitDocGenHook(repo_path, api_client)
+        analyzer.run()
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

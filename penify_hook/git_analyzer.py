@@ -2,7 +2,7 @@ import os
 from git import Repo
 from .api_client import APIClient
 
-class DocGenHook:
+class GitDocGenHook:
     def __init__(self, repo_path: str, api_client: APIClient):
         self.repo_path = repo_path
         self.api_client = api_client

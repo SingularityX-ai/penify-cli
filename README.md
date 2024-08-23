@@ -39,14 +39,6 @@ chmod +x .git/hooks/post-commit
 
 The API endpoint can be configured in the `PenifyHook` initialization:
 
-```python
-from penify_hook.hook import PenifyHook
-from penify_hook.api import APIClient
-
-api_client = APIClient(base_url="http://localhost:8000")
-hook = PenifyHook(api_client)
-hook.run_hook()
-```
 
 ## License
 
