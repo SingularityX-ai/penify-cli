@@ -42,9 +42,11 @@ def main():
     parser = argparse.ArgumentParser(description="A Git post-commit hook that generates docstrings for modified functions and classes in the latest commit.")
 
     parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
-    parser.add_argument("-f", "--folder_path", help="Path to the folder to scan for modified files. Defaults to the current folder.", default=os.getcwd())
+    parser.add_argument("-f", "--folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
 
     parser.add_argument("-l", "--file_path", help="Path of the file to generate Documentation.")
+
+    parser.add_argument("-c", "--complete_folder", help="Generate Documentation for the entire folder")
 
 
     # Add the install and uninstall options

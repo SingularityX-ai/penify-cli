@@ -8,7 +8,6 @@ class GitDocGenHook:
         self.api_client = api_client
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
-        print(f"Supported file types: {self.supported_file_types}")
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit."""
@@ -87,7 +86,12 @@ class GitDocGenHook:
         modified_lines = self.get_modified_lines(diff_text)
         # Send data to API
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
+        if response is None:
+            return False
         
+        if response == content:
+            print(f"No changes detected for {file_path}")
+            return False
         # If the response is successful, replace the file content
         with open(file_abs_path, 'w') as file:
             file.write(response)

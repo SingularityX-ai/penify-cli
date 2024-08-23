@@ -18,9 +18,10 @@ class APIClient:
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
         if response.status_code == 200:
             response = response.json()
-            # print(f"is Modified: {not response.get('status')}")
             return response.get('modified_content')
         else:
+            print(f"Response: {response.status_code}")
+            print(f"Error: {response.text}")
             return content
 
     def get_supported_file_types(self) -> list[str]:
