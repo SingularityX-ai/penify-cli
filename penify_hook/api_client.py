@@ -24,7 +24,9 @@ class APIClient:
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"})
         print("status_code",response.status_code)
         if response.status_code == 200:
-            return response.json().get('modified_content')
+            response = response.json()
+            print(f"is Modified: {not response.get('status')}")
+            return response.get('modified_content')
         else:
             return content
 
