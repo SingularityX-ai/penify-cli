@@ -14,12 +14,7 @@ class APIClient:
             'content': content,
             'modified_lines': line_numbers
         }
-
-        print(json.dumps(payload))
-
         print(f"Sending file {file_name} to API for processing.")
-        # print(f"Content: {content}")
-        print(f"Modified lines: {line_numbers}")
         url = self.api_url+"/v1/file/generate/diff/doc"
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"})
         print("status_code",response.status_code)
