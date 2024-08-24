@@ -64,7 +64,7 @@ penify-cli commit -gf /path/to/git/repo -t your_api_token [-m "Optional message"
 
 ## Environment Variables
 
-- `PENIFY_API_TOKEN`: You can set this environment variable with your API token to avoid passing it as an argument each time. Here is the tutorial on setting env variables.
+- `PENIFY_API_TOKEN`: You can set this environment variable with your API token to avoid passing it as an argument each time. Here is the [tutorial](https://docs.penify.dev/docs/Creating-API-Keys-in-Penify.html) on setting env variables
 
 ## Development
 
