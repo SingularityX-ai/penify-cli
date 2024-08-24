@@ -88,7 +88,16 @@ class CommitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.
+        file. If there is an error generating the commit summary, an exception
+        is raised.
+
+        Args:
+            msg (Optional[str]): An optional message to include in the commit.
+            edit_commit_message (bool): A flag indicating whether to open the
+                git commit edit terminal after committing.
+
+        Raises:
+            Exception: If there is an error generating the commit summary.
         """
         summary: dict = self.get_summary(msg)
         if not summary:
@@ -106,11 +115,12 @@ class CommitDocGenHook:
         
 
     def _amend_commit(self):
-        """
-        Open the default git editor for editing the commit message.
-        
-        Args:
-            initial_message (str): The initial commit message to populate the editor with.
+        """Open the default git editor for editing the commit message.
+
+        This function changes the current working directory to the repository
+        path, runs the git command to amend the last commit, and opens the
+        default editor for the user to modify the commit message. After the
+        operation, it returns to the original directory.
         """
         try:
             # Change to the repository directory
