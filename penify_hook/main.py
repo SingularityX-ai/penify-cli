@@ -68,6 +68,20 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
             sys.exit(1)
     
 def commit_code(gf_path: str, token: str, message: str):
+    """Commit code changes with a specified message.
+
+    This function performs a commit operation using the provided GitHub
+    path, authentication token, and commit message. It initializes an API
+    client and uses a commit document generation hook to execute the commit.
+    If an error occurs during the commit process, it prints the error
+    message and exits the program with a non-zero status.
+
+    Args:
+        gf_path (str): The path to the GitHub repository where the commit will be made.
+        token (str): The authentication token for accessing the GitHub API.
+        message (str): The commit message describing the changes.
+    """
+
     # Implement the logic to perform a commit with a message
     api_client = APIClient(api_url, token)
     try:
@@ -79,6 +93,17 @@ def commit_code(gf_path: str, token: str, message: str):
     # You can add actual Git commit logic here using subprocess or GitPython, etc.
 
 def main():
+    """Main entry point for the Penify CLI tool.
+
+    This function sets up the command-line interface (CLI) for managing Git
+    hooks and generating documentation. It utilizes the argparse library to
+    define subcommands for installing and uninstalling Git hooks, generating
+    documentation, and committing changes with a message. Each subcommand
+    has its own set of arguments that allow users to specify options such as
+    the location for the Git hook, API tokens for authentication, and paths
+    for files or folders.
+    """
+
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
