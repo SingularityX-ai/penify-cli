@@ -21,6 +21,7 @@ class APIClient:
             file_name (str): The path to the file being sent.
             content (str): The content of the file to be processed.
             line_numbers (list): A list of line numbers that have been modified.
+            repo_details (str?): Additional repository details, if applicable.
 
         Returns:
             str: The modified content returned by the API, or the original content if the
@@ -47,20 +48,23 @@ class APIClient:
         """Send file content and modified lines to the API and return modified
         content.
 
-        This function constructs a payload containing the file path, content,
-        and modified line numbers, and sends it to a specified API endpoint for
-        processing. It handles the response from the API, returning the modified
-        content if the request is successful. If the request fails, it logs the
-        error details and returns the original content.
+        This function constructs a payload containing the git diff, any
+        additional instructions, and optional repository details. It sends this
+        payload to a specified API endpoint for processing. Upon receiving a
+        response from the API, it checks the status code to determine if the
+        request was successful. If the request is successful, it returns the
+        modified content provided by the API. If the request fails, it logs the
+        error details and returns None.
 
         Args:
-            file_name (str): The path to the file being sent.
-            content (str): The content of the file to be processed.
-            line_numbers (list): A list of line numbers that have been modified.
+            git_diff (str): The git diff information representing changes made.
+            instruction (str?): Additional instructions for processing the diff.
+                Defaults to an empty string.
+            repo_details (optional): Details about the repository. Defaults to None.
 
         Returns:
-            str: The modified content returned by the API, or the original content if the
-                request fails.
+            dict or None: The modified content returned by the API as a dictionary,
+                or None if the request fails.
         """
         payload = {
             'git_diff': git_diff,
