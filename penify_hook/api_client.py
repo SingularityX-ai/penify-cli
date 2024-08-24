@@ -98,3 +98,21 @@ class APIClient:
             return response
         else:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]
+        
+    def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None):
+        payload = {
+            'git_diff': git_diff,
+            'additional_instruction': instruction
+        }
+        if repo_details:
+            payload['git_repo'] = repo_details
+
+        url = self.api_url+"/v1/hook/commit/summary"
+        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
+        if response.status_code == 200:
+            response = response.json()
+            return response
+        else:
+            print(f"Response: {response.status_code}")
+            print(f"Error: {response.text}")
+            return None
