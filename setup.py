@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="penify-hook",
+    name="penify-cli",
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
@@ -11,7 +11,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "penify-hook=penify_hook.main:main",
+            "penify-cli=penify_hook.main:main",
         ],
     },
     author="Suman Saurabh",
@@ -19,7 +19,7 @@ setup(
     description="A post-commit hook that sends modified files and their contents to an API.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/SingularityX-ai/penify-hook",
+    url="https://github.com/SingularityX-ai/penify-cli",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
