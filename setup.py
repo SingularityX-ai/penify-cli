@@ -16,7 +16,7 @@ setup(
     },
     author="Suman Saurabh",
     author_email="ss.sumansaurabh92@gmail.com",
-    description="A post-commit hook that sends modified files and their contents to an API.",
+    description="A penify cli tool to generate Documentation, Commit-summary and  Hooks to automate git workflows.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/SingularityX-ai/penify-cli",
