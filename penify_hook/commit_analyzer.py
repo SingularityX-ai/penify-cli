@@ -1,5 +1,7 @@
 import os
 import re
+import subprocess
+import tempfile
 from typing import Optional
 from git import Repo
 from tqdm import tqdm
@@ -96,12 +98,31 @@ class CommitDocGenHook:
 
         # commit the changes to the repository with above details
         commit_msg = f"{title}\n\n{description}"
+        self.repo.git.commit('-m', commit_msg)
         if edit_commit_message:
             # Open the git commit edit terminal
             print("Opening git commit edit terminal...")
-            self.repo.git.commit('-e', '-m', commit_msg)
-        else:
-            # Commit the changes to the repository with the generated message
-            print(f"Committing changes with message:\n{commit_msg}")
-            self.repo.git.commit('-m', commit_msg)
+            self._amend_commit()
+        
+
+    def _amend_commit(self):
+        """
+        Open the default git editor for editing the commit message.
+        
+        Args:
+            initial_message (str): The initial commit message to populate the editor with.
+        """
+        try:
+            # Change to the repository directory
+            os.chdir(self.repo_path)
+            
+            # Run git commit --amend
+            subprocess.run(['git', 'commit', '--amend'], check=True)
+            
+            print("Commit message amended successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error amending commit message: {e}")
+        finally:
+            # Change back to the original directory
+            os.chdir(os.path.dirname(os.path.abspath(__file__)))
         
