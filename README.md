@@ -49,6 +49,8 @@ Options:
 - `-cf, --complete_folder_path`: Path to a folder for which to generate documentation for all files.
 - `-gf, --git_folder_path`: Path to a Git repository to generate documentation for modified files. Defaults to the current directory.
 
+Note: If you want to automate API Documentation, Architecture Documentation, Code Documentation, Pull Request Documentation and need a demo. Send message in our support channel [Discord](https://discord.gg/wqrc8JeV)
+
 ### Commit Code
 
 To commit code with an automatically generated commit message:
