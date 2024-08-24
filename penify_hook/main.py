@@ -16,7 +16,7 @@ HOOK_TEMPLATE = """#!/bin/sh
 
 penify-cli -t {token} -gf {git_folder_path}
 """
-api_url = 'http://localhost:8000/api'
+api_url = 'https://production-gateway.snorkell.ai/api'
 
 def install_git_hook(location, token):
     hooks_dir = Path(location) / ".git/hooks"
