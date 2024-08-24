@@ -3,6 +3,8 @@ import os
 import argparse
 from pathlib import Path
 
+from .commit_analyzer import CommitDocGenHook
+
 from .folder_analyzer import FolderAnalyzerGenHook
 from .file_analyzer import FileAnalyzerGenHook
 from .api_client import APIClient
@@ -14,7 +16,7 @@ HOOK_TEMPLATE = """#!/bin/sh
 
 penify-cli -t {token} -gf {git_folder_path}
 """
-api_url = 'https://localhost:8000/api'
+api_url = 'http://localhost:8000/api'
 
 def install_git_hook(location, token):
     hooks_dir = Path(location) / ".git/hooks"
@@ -65,9 +67,15 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
             print(f"Error: {e}")
             sys.exit(1)
     
-def commit_code(message):
+def commit_code(gf_path: str, token: str, message: str):
     # Implement the logic to perform a commit with a message
-    print(f"Committing with message: {message}")
+    api_client = APIClient(api_url, token)
+    try:
+        analyzer = CommitDocGenHook(gf_path, api_client)
+        analyzer.run(message)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
     # You can add actual Git commit logic here using subprocess or GitPython, etc.
 
 def main():
@@ -93,7 +101,9 @@ def main():
 
     # Subcommand: commit
     commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
-    commit_parser.add_argument("-m", "--message", required=True, help="Commit message.")
+    commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
+    commit_parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
+    commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
 
     args = parser.parse_args()
 
@@ -104,7 +114,7 @@ def main():
     elif args.subcommand == "doc-gen":
         generate_doc(args.token, args.file_path, args.complete_folder_path, args.git_folder_path)
     elif args.subcommand == "commit":
-        commit_code(args.message)
+        commit_code(args.git_folder_path, args.token, args.message)
     else:
         parser.print_help()
         sys.exit(1)

@@ -33,9 +33,6 @@ class APIClient:
         }
         if repo_details:
             payload['git_repo'] = repo_details
-
-        print(repo_details)
-
         url = self.api_url+"/v1/hook/file/generate/doc"
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
         if response.status_code == 200:
@@ -71,8 +68,6 @@ class APIClient:
         }
         if repo_details:
             payload['git_repo'] = repo_details
-
-        print(repo_details)
 
         url = self.api_url+"/v1/hook/commit/summary"
         response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)

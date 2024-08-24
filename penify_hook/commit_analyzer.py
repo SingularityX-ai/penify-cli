@@ -95,5 +95,7 @@ class CommitDocGenHook:
         description = summary.get('description', "")
 
         # commit the changes to the repository with above details
-        self.repo.git.commit('-m', f"{title}\n\n{description}")
+        commit_msg = f"{title}\n\n{description}"
+        print(f"Committing changes with message:\n {commit_msg}")
+        self.repo.git.commit('-m', commit_msg)
         
