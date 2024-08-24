@@ -67,12 +67,12 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
             print(f"Error: {e}")
             sys.exit(1)
     
-def commit_code(gf_path: str, token: str, message: str):
+def commit_code(gf_path: str, token: str, message: str, open_terminal: bool):
     # Implement the logic to perform a commit with a message
     api_client = APIClient(api_url, token)
     try:
         analyzer = CommitDocGenHook(gf_path, api_client)
-        analyzer.run(message)
+        analyzer.run(message, open_terminal)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
@@ -104,6 +104,7 @@ def main():
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
     commit_parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
     commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
+    commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
 
     args = parser.parse_args()
 
@@ -114,7 +115,8 @@ def main():
     elif args.subcommand == "doc-gen":
         generate_doc(args.token, args.file_path, args.complete_folder_path, args.git_folder_path)
     elif args.subcommand == "commit":
-        commit_code(args.git_folder_path, args.token, args.message)
+        open_terminal = args.terminal.lower() == "true"
+        commit_code(args.git_folder_path, args.token, args.message, open_terminal)
     else:
         parser.print_help()
         sys.exit(1)

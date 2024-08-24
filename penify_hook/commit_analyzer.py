@@ -79,7 +79,7 @@ class CommitDocGenHook:
         return self.api_client.generate_commit_summary(diff, instruction, self.repo_details)
     
    
-    def run(self, msg: Optional[str]):
+    def run(self, msg: Optional[str], edit_commit_message: bool):
         """Run the post-commit hook.
 
         This method retrieves the list of modified files from the last commit
@@ -96,6 +96,12 @@ class CommitDocGenHook:
 
         # commit the changes to the repository with above details
         commit_msg = f"{title}\n\n{description}"
-        print(f"Committing changes with message:\n {commit_msg}")
-        self.repo.git.commit('-m', commit_msg)
+        if edit_commit_message:
+            # Open the git commit edit terminal
+            print("Opening git commit edit terminal...")
+            self.repo.git.commit('-e', '-m', commit_msg)
+        else:
+            # Commit the changes to the repository with the generated message
+            print(f"Committing changes with message:\n{commit_msg}")
+            self.repo.git.commit('-m', commit_msg)
         
