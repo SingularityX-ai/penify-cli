@@ -1,111 +1,97 @@
-# Penify-cli
+# Penify CLI
 
-Penify-cli is a Git post-commit hook that automatically generates docstrings for modified functions and classes in your codebase. It integrates with a remote API to analyze the changes and generate documentation, helping developers maintain high-quality, consistent documentation across their projects.
+Penify CLI is a command-line tool for managing Git hooks and generating documentation. It provides functionality to install and uninstall Git post-commit hooks, generate documentation for files or folders, and perform Git commits with automated message generation.
 
-## 1. Installing Penify-cli
+## Installation
 
-To install the `penify-cli` package, follow these steps:
-
-1. **Install the Penify-cli Package:**
-
-   First, make sure to install the `penify-cli` package via pip (replace `penify-cli` with the correct package name):
-
-   ```bash
-   pip install penify-cli
-   ```
-
-## 2. Adding Environment Variable PENIFY_API_TOKEN
-
-To use Penify-cli, you need an API token. This token can be obtained from the Penify dashboard.
-
-1. **Obtain Your API Token:**
-
-   Go to [dashboard.penify.dev](https://dashboard.penify.dev) and log in. Navigate to the API section and generate your API token.
-
-2. **Set Your API Token as an Environment Variable:**
-
-   Add the token to your environment variables for easier usage:
-
-   ```bash
-   export PENIFY_API_TOKEN=<YOUR_API_TOKEN>
-   ```
-
-   Replace `<YOUR_API_TOKEN>` with your actual API token. This environment variable will be used automatically if you do not provide a token as a command-line argument.
-
-## 3. Help
-
-To see the help options for Penify-cli, you can use the following command:
+You can install Penify CLI using pip:
 
 ```bash
-penify-cli --help
+pip install penify-cli
 ```
 
-This will display all available commands and options for using Penify-cli.
+## Usage
 
-## 4. Usage
+Penify CLI provides several subcommands for different functionalities:
 
-### 4.1 Using Simple Command (in a GIT enabled Repo)
+### Install Git Hook
 
-You can use Penify-cli to track Git changes and generate documentation for only the modified lines:
+To install the Git post-commit hook:
 
 ```bash
-penify-cli -gf <GIT_FOLDER_PATH>
+penify-cli install-hook -l /path/to/git/repo -t your_api_token
 ```
 
-This command will analyze the specified file, generate docstrings for the modified functions and classes, and update the files. If nothing is provided, it will take the default directory.
+- `-l, --location`: The path to the Git repository where you want to install the hook.
+- `-t, --token`: Your API token for authentication. If not provided, the tool will look for the `PENIFY_API_TOKEN` environment variable.
 
-### 4.2 Git Hook
+### Uninstall Git Hook
 
-Penify-cli can be configured as a Git post-commit hook. Once set up, it will automatically generate documentation for any modifications made in your repository after each commit.
-
-#### **Configuring the Post-Commit Hook:**
-
-1. **Install the Post-Commit Hook:**
-
-   Navigate to the root directory of your Git repository and run:
-
-   ```bash
-   penify-cli --install -gf <GIT_FOLDER_PATH>
-   ```
-
-   Replace `<GIT_FOLDER_PATH>` with the path to the folder containing your Git repository. This command will install the post-commit hook.
-
-2. **How It Works:**
-
-   After installation, every time you make a commit, the post-commit hook will trigger and automatically generate and update docstrings for any modified functions and classes in the latest commit.
-
-3. **Example:**
-
-   ```bash
-   git commit -m "Updated some functions"
-   ```
-
-   After this commit, Penify-cli will run, analyze the modified files, generate the necessary docstrings, and update the files automatically.
-
-4. **Uninstalling the Post-Commit Hook:**
-
-   To remove the post-commit hook, use:
-
-   ```bash
-   penify-cli --uninstall -f <GIT_FOLDER_PATH>
-   ```
-
-### 4.3 Generating Documentation for a Full Repository
-
-Penify-cli can generate documentation for all files in a repository, regardless of whether Git is installed or not:
+To uninstall the Git post-commit hook:
 
 ```bash
-penify-cli -cf <COMPLETE_FOLDER_PATH>
+penify-cli uninstall-hook -l /path/to/git/repo
 ```
 
-This command will scan the specified folder and generate docstrings for all files within it.
+- `-l, --location`: The path to the Git repository from which you want to uninstall the hook.
 
-### 4.4 Generating Documentation for a Single File
+### Generate Documentation
 
-If you want to generate docstrings for a specific file, you can use:
+To generate documentation for files or folders:
 
 ```bash
-penify-cli -l <FILE_PATH>
+penify-cli doc-gen -t your_api_token [options]
 ```
 
-This will analyze the file, generate the required docstrings for all functions and classes, and update the file.
+Options:
+- `-t, --token`: Your API token for authentication. If not provided, the tool will look for the `PENIFY_API_TOKEN` environment variable.
+- `-fl, --file_path`: Path to a specific file for which to generate documentation.
+- `-cf, --complete_folder_path`: Path to a folder for which to generate documentation for all files.
+- `-gf, --git_folder_path`: Path to a Git repository to generate documentation for modified files. Defaults to the current directory.
+
+### Commit Code
+
+To commit code with an automatically generated commit message:
+
+```bash
+penify-cli commit -gf /path/to/git/repo -t your_api_token [-m "Optional message"] [-e True/False]
+```
+
+- `-gf, --git_folder_path`: Path to the Git repository. Defaults to the current directory.
+- `-t, --token`: Your API token for authentication. If not provided, the tool will look for the `PENIFY_API_TOKEN` environment variable.
+- `-m, --message`: Optional commit message. If not provided, a default message will be used.
+- `-e, --terminal`: Set to "True" to open the terminal for editing the commit message. Defaults to "False".
+
+## Environment Variables
+
+- `PENIFY_API_TOKEN`: You can set this environment variable with your API token to avoid passing it as an argument each time. Here is the tutorial on setting env variables.
+
+## Development
+
+To set up the development environment:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SingularityX-ai/penify-cli.git
+   ```
+
+2. Install the package in editable mode:
+   ```bash
+   pip install -e .
+   ```
+
+## License
+
+This project is licensed under the MIT License.
+
+## Author
+
+Suman Saurabh (ss.sumansaurabh92@gmail.com)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Issues
+
+If you encounter any problems or have suggestions, please file an issue on the [GitHub repository](https://github.com/SingularityX-ai/penify-cli/issues).
