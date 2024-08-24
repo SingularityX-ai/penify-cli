@@ -86,7 +86,14 @@ class CommitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.
+        file. If there is an error generating the commit summary, an exception
+        is raised.
+
+        Args:
+            msg (Optional[str]): An optional message to include in the commit.
+
+        Raises:
+            Exception: If there is an error generating the commit summary.
         """
         summary: dict = self.get_summary(msg)
         if not summary:
