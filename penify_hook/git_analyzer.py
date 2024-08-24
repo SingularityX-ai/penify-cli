@@ -13,16 +13,18 @@ class GitDocGenHook:
         self.repo_details = self.get_repo_details()
 
     def get_repo_details(self):
-        """
-        Get the details of the repository, including the hosting service (e.g., GitHub, Azure DevOps),
+        """Get the details of the repository, including the hosting service,
         organization name, and repository name.
 
-        This method checks the remote URL of the repository to determine whether it is hosted on
-        GitHub, Azure DevOps, or another service. It also extracts the organization (or user) name
-        and the repository name from the URL.
+        This method checks the remote URL of the repository to determine whether
+        it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
+        service. It extracts the organization (or user) name and the repository
+        name from the URL. If the hosting service cannot be determined, it will
+        return "Unknown Hosting Service".
 
         Returns:
-            dict: A dictionary containing the hosting service, organization name, repository name, and remote URL.
+            dict: A dictionary containing the organization name, repository name, and
+                hosting service.
         """
         remote_url = None
         hosting_service = "Unknown"
@@ -143,13 +145,13 @@ class GitDocGenHook:
         """Process a file by checking its type, reading its content, and sending it
         to an API.
 
-        This method first constructs the absolute path of the file and checks if
-        the file has a valid extension. If the file type is supported, it reads
-        the content of the file and retrieves the differences from the last
-        commit in the repository. If there are changes detected, it sends the
-        file content along with the modified lines to an API for further
-        processing. If the API response indicates no changes, it will not
-        overwrite the original file.
+        This method constructs the absolute path of the specified file and
+        verifies if the file has a valid extension. If the file type is
+        supported, it reads the content of the file and retrieves the
+        differences from the last commit in the repository. If changes are
+        detected, it sends the file content along with the modified lines to an
+        API for further processing. If the API response indicates no changes,
+        the original file will not be overwritten.
 
         Args:
             file_path (str): The relative path to the file to be processed.
@@ -206,7 +208,10 @@ class GitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.
+        file.  The method handles any exceptions that occur during file
+        processing, printing an error message for each file that fails to
+        process. If any modifications are made to the files, an auto-commit is
+        created to save those changes.
         """
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False

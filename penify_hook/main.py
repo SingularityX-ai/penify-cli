@@ -19,6 +19,16 @@ penify-cli -t {token} -gf {git_folder_path}
 api_url = 'https://production-gateway.snorkell.ai/api'
 
 def install_git_hook(location, token):
+    """
+    Install a post-commit hook in the specified location.
+    Args:
+        location (str): The path to the Git repository.
+        token (str): The token to be used in the hook.
+    Raises:
+        SystemExit: If the hooks directory does not exist.
+    Returns:
+        None
+    """
     hooks_dir = Path(location) / ".git/hooks"
     hook_path = hooks_dir / HOOK_FILENAME
     
@@ -33,6 +43,13 @@ def install_git_hook(location, token):
     print(f"Post-commit hook installed in {hook_path}")
 
 def uninstall_git_hook(location):
+    """
+    Uninstalls the post-commit hook from the specified location.
+    Parameters:
+    - location (str): The path to the directory containing the Git repository.
+    Returns:
+    None
+    """
     hook_path = Path(location) / ".git/hooks" / HOOK_FILENAME
     
     if hook_path.exists():
@@ -42,6 +59,14 @@ def uninstall_git_hook(location):
         print(f"No post-commit hook found in {hook_path}")
 
 def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_path=None):
+    """
+    Generates documentation based on the given parameters.
+    Parameters:
+    - token (str): The API token for authentication.
+    - file_path (str, optional): The path to a specific file to generate documentation for.
+    - complete_folder_path (str, optional): The path to a complete folder to generate documentation for.
+    - git_folder_path (str, optional): The path to a Git repository folder to generate documentation for.
+    """
     
     api_client = APIClient(api_url, token)
 

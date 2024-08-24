@@ -16,16 +16,20 @@ class CommitDocGenHook:
         self.repo_details = self.get_repo_details()
 
     def get_repo_details(self):
-        """
-        Get the details of the repository, including the hosting service (e.g., GitHub, Azure DevOps),
+        """Get the details of the repository, including the hosting service,
         organization name, and repository name.
 
-        This method checks the remote URL of the repository to determine whether it is hosted on
-        GitHub, Azure DevOps, or another service. It also extracts the organization (or user) name
-        and the repository name from the URL.
+        This method checks the remote URL of the repository to determine whether
+        it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
+        service. It extracts the organization (or user) name and the repository
+        name from the URL. If the hosting service is not recognized, it will
+        return "Unknown Hosting Service". The method handles potential errors
+        during the extraction process and returns a dictionary with the relevant
+        details.
 
         Returns:
-            dict: A dictionary containing the hosting service, organization name, repository name, and remote URL.
+            dict: A dictionary containing the organization name, repository name, and
+                hosting service.
         """
         remote_url = None
         hosting_service = "Unknown"
@@ -75,6 +79,24 @@ class CommitDocGenHook:
         }
 
     def get_summary(self, instruction: str):
+        """Generate a summary for the commit based on the staged changes.
+
+        This function retrieves the differences of the staged changes in the
+        repository and generates a commit summary using the provided
+        instruction. If there are no changes staged for commit, an exception is
+        raised.
+
+        Args:
+            instruction (str): A string containing instructions for generating the commit summary.
+
+        Returns:
+            str: The generated commit summary based on the staged changes and provided
+                instruction.
+
+        Raises:
+            Exception: If there are no changes staged for commit.
+        """
+
         diff = self.repo.git.diff('--cached')
         if not diff:
             raise Exception("No changes to commit")
@@ -88,7 +110,16 @@ class CommitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.
+        file. If there is an error generating the commit summary, an exception
+        is raised.
+
+        Args:
+            msg (Optional[str]): An optional message to include in the commit.
+            edit_commit_message (bool): A flag indicating whether to open the
+                git commit edit terminal after committing.
+
+        Raises:
+            Exception: If there is an error generating the commit summary.
         """
         summary: dict = self.get_summary(msg)
         if not summary:
@@ -106,11 +137,12 @@ class CommitDocGenHook:
         
 
     def _amend_commit(self):
-        """
-        Open the default git editor for editing the commit message.
-        
-        Args:
-            initial_message (str): The initial commit message to populate the editor with.
+        """Open the default git editor for editing the commit message.
+
+        This function changes the current working directory to the repository
+        path, runs the git command to amend the last commit, and opens the
+        default editor for the user to modify the commit message. After the
+        operation, it returns to the original directory.
         """
         try:
             # Change to the repository directory
