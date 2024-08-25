@@ -100,6 +100,17 @@ class APIClient:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]
         
     def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None):
+        """
+        Generates a commit summary by sending a POST request to the API endpoint.
+
+        Args:
+            git_diff (str): The git diff of the commit.
+            instruction (str, optional): Additional instruction for the commit. Defaults to "".
+            repo_details (dict, optional): Details of the git repository. Defaults to None.
+
+        Returns:
+            dict: The response from the API if the request is successful, None otherwise.
+        """
         payload = {
             'git_diff': git_diff,
             'additional_instruction': instruction

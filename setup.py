@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name="penify-cli",
-    version="0.1.0",
-    packages=find_packages(),
+    version="0.1.1",  # Increment the version number
+    packages=['penify_hook'],  # Explicitly include the penify_hook package
     install_requires=[
         "requests",
         "tqdm",
