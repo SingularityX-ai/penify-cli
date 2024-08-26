@@ -125,7 +125,6 @@ def save_credentials(api_key):
     try:
         with open(penify_file, 'w') as f:
             json.dump(credentials, f)
-        print(f"Credentials saved successfully in {penify_file}")
     except Exception as e:
         print(f"Error saving credentials: {str(e)}")
 
@@ -155,18 +154,27 @@ def login():
                 self.end_headers()
                 response = """
                 <html>
+                <head>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = 'https://dashboard.penify.dev';
+                        }, 5000);
+                    </script>
+                </head>
                 <body>
-                <h1>Login Successful!</h1>
-                <p>You can now close this window and return to the CLI.</p>
+                    <h1>Login Successful!</h1>
+                    <p>You will be redirected to the Penify dashboard in 5 seconds. You can also close this window and return to the CLI.</p>
                 </body>
                 </html>
                 """
                 self.wfile.write(response.encode())
+                
                 print(f"\nLogin successful! Fetching API keys...")
-                api_key = APIClient(api_url,None, token).get_api_key()
+                api_key = APIClient(api_url, None, token).get_api_key()
                 if api_key:
                     save_credentials(api_key)
                     print("API keys fetched and saved successfully.")
+                    print("You'll be redirected to the Penify dashboard. You can continue using the CLI.")
                 else:
                     print("Failed to fetch API keys.")
             else:

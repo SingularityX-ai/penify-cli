@@ -132,12 +132,9 @@ class APIClient:
     def get_api_key(self):
 
         url = self.api_url+"/v1/apiToken/get"
-        print(url)
         response = requests.get(url, headers={"Authorization": f"Bearer {self.BEARER_TOKEN}"}, timeout=60*10)
-        print(response)
         if response.status_code == 200:
             response = response.json()
-            print(response)
             return response.get('key')
         else:
             print(f"Response: {response.status_code}")
