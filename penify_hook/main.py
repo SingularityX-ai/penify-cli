@@ -1,10 +1,16 @@
+import json
+import random
 import sys
 import os
 import argparse
 from pathlib import Path
+import webbrowser
+import http.server
+import socketserver
+import urllib.parse
+from threading import Thread
 
 from .commit_analyzer import CommitDocGenHook
-
 from .folder_analyzer import FolderAnalyzerGenHook
 from .file_analyzer import FileAnalyzerGenHook
 from .api_client import APIClient
@@ -17,6 +23,8 @@ HOOK_TEMPLATE = """#!/bin/sh
 penify-cli -t {token} -gf {git_folder_path}
 """
 api_url = 'https://production-gateway.snorkell.ai/api'
+dashboard_url = "https://dashboard.penify.dev/auth/localhost/login"
+# api_url = 'http://localhost:8000/api'
 
 def install_git_hook(location, token):
     """
@@ -103,6 +111,94 @@ def commit_code(gf_path: str, token: str, message: str, open_terminal: bool):
         sys.exit(1)
     # You can add actual Git commit logic here using subprocess or GitPython, etc.
 
+def save_credentials(api_key):
+    """
+    Save the token and API keys in the .penify file in the user's home directory.
+    """
+    home_dir = Path.home()
+    penify_file = home_dir / '.penify'
+
+    credentials = {
+        'api_keys': api_key
+    }
+
+    try:
+        with open(penify_file, 'w') as f:
+            json.dump(credentials, f)
+        print(f"Credentials saved successfully in {penify_file}")
+    except Exception as e:
+        print(f"Error saving credentials: {str(e)}")
+
+def login():
+    """
+    Open the login page in a web browser and listen for the redirect URL to capture the token.
+    """
+    
+    # dashboard_url = "http://localhost:8000/auth/localhost/login"
+    redirect_port = random.randint(30000, 50000)
+    redirect_url = f"http://localhost:{redirect_port}/callback"
+    
+    full_login_url = f"{dashboard_url}?redirectUri={urllib.parse.quote(redirect_url)}"
+    
+    print(f"Opening login page in your default web browser: {full_login_url}")
+    webbrowser.open(full_login_url)
+    
+    class TokenHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            query = urllib.parse.urlparse(self.path).query
+            query_components = urllib.parse.parse_qs(query)
+            token = query_components.get("token", [None])[0]
+            
+            if token:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                response = """
+                <html>
+                <body>
+                <h1>Login Successful!</h1>
+                <p>You can now close this window and return to the CLI.</p>
+                </body>
+                </html>
+                """
+                self.wfile.write(response.encode())
+                print(f"\nLogin successful! Fetching API keys...")
+                api_key = APIClient(api_url,None, token).get_api_key()
+                if api_key:
+                    save_credentials(api_key)
+                    print("API keys fetched and saved successfully.")
+                else:
+                    print("Failed to fetch API keys.")
+            else:
+                self.send_response(400)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                response = """
+                <html>
+                <body>
+                <h1>Login Failed</h1>
+                <p>Please try again.</p>
+                </body>
+                </html>
+                """
+                self.wfile.write(response.encode())
+                print("\nLogin failed. Please try again.")
+            
+            # Schedule the server shutdown
+            thread = Thread(target=self.server.shutdown)
+            thread.daemon = True
+            thread.start()
+
+        def log_message(self, format, *args):
+            # Suppress log messages
+            return
+    
+    with socketserver.TCPServer(("", redirect_port), TokenHandler) as httpd:
+        print(f"Listening on port {redirect_port} for the redirect...")
+        httpd.serve_forever()
+    
+    print("Login process completed. You can now use other commands with your API token.")
+
 def main():
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
@@ -131,6 +227,9 @@ def main():
     commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
 
+    login_parser = subparsers.add_parser("login", help="Log in to Penify and automatically obtain an API token.")
+
+
     args = parser.parse_args()
 
     if args.subcommand == "install-hook":
@@ -142,6 +241,8 @@ def main():
     elif args.subcommand == "commit":
         open_terminal = args.terminal.lower() == "true"
         commit_code(args.git_folder_path, args.token, args.message, open_terminal)
+    elif args.subcommand == "login":
+        login()
     else:
         parser.print_help()
         sys.exit(1)

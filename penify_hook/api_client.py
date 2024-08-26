@@ -3,9 +3,10 @@ import os
 import requests
 
 class APIClient:
-    def __init__(self, api_url, api_token):
+    def __init__(self, api_url, api_token: str = None, bearer_token: str = None):
         self.api_url = api_url
         self.AUTH_TOKEN = api_token
+        self.BEARER_TOKEN = bearer_token
 
     def send_file_for_docstring_generation(self, file_name, content, line_numbers, repo_details = None):
         """Send file content and modified lines to the API and return modified
@@ -127,3 +128,20 @@ class APIClient:
             print(f"Response: {response.status_code}")
             print(f"Error: {response.text}")
             return None
+
+    def get_api_key(self):
+
+        url = self.api_url+"/v1/apiToken/get"
+        print(url)
+        response = requests.get(url, headers={"Authorization": f"Bearer {self.BEARER_TOKEN}"}, timeout=60*10)
+        print(response)
+        if response.status_code == 200:
+            response = response.json()
+            print(response)
+            return response.get('key')
+        else:
+            print(f"Response: {response.status_code}")
+            print(f"Error: {response.text}")
+            return None
+
+        
