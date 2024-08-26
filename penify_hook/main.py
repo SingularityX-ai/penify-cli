@@ -199,15 +199,44 @@ def login():
     
     print("Login process completed. You can now use other commands with your API token.")
 
+
+def get_token(passed_token):
+    """
+    Get the token based on priority:
+    1. Passed parameter
+    2. Environment variable
+    3. Config file
+    """
+    if passed_token:
+        return passed_token
+    
+    env_token = os.getenv('PENIFY_API_TOKEN')
+    if env_token:
+        return env_token
+    
+    config_file = Path.home() / '.penify'
+    if config_file.exists():
+        try:
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                return config.get('api_keys')
+        except json.JSONDecodeError:
+            print("Error reading .penify config file. File may be corrupted.")
+        except Exception as e:
+            print(f"Error reading .penify config file: {str(e)}")
+    
+    return None
+
 def main():
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
+    parser.add_argument("-t", "--token", help="API token for authentication. If not provided, will check PENIFY_API_TOKEN environment variable, then .penify config file.")
+
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
     # Subcommand: install-hook
     install_parser = subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
     install_parser.add_argument("-l", "--location", required=True, help="Location in which to install the Git hook.")
-    install_parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
 
     # Subcommand: uninstall-hook
     uninstall_parser = subparsers.add_parser("uninstall-hook", help="Uninstall the Git post-commit hook.")
@@ -215,7 +244,6 @@ def main():
 
     # Subcommand: doc-gen
     doc_gen_parser = subparsers.add_parser("doc-gen", help="Generate documentation for specified files or folders.")
-    doc_gen_parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
     doc_gen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
     doc_gen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
     doc_gen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
@@ -223,24 +251,35 @@ def main():
     # Subcommand: commit
     commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
-    commit_parser.add_argument("-t", "--token", help="API token for authentication. If not provided, the environment variable 'PENIFY_API_TOKEN' will be used.", default=os.getenv('PENIFY_API_TOKEN'))
     commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
 
-    login_parser = subparsers.add_parser("login", help="Log in to Penify and automatically obtain an API token.")
-
+    # Subcommand: login
+    login_parser = subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
 
     args = parser.parse_args()
 
+    # Get the token based on priority
+    token = get_token(args.token)
+
     if args.subcommand == "install-hook":
-        install_git_hook(args.location, args.token)
+        if not token:
+            print("Error: API token is required. Please provide it using -t option, PENIFY_API_TOKEN environment variable, or log in first.")
+            sys.exit(1)
+        install_git_hook(args.location, token)
     elif args.subcommand == "uninstall-hook":
         uninstall_git_hook(args.location)
     elif args.subcommand == "doc-gen":
-        generate_doc(args.token, args.file_path, args.complete_folder_path, args.git_folder_path)
+        if not token:
+            print("Error: API token is required. Please provide it using -t option, PENIFY_API_TOKEN environment variable, or log in first.")
+            sys.exit(1)
+        generate_doc(token, args.file_path, args.complete_folder_path, args.git_folder_path)
     elif args.subcommand == "commit":
+        if not token:
+            print("Error: API token is required. Please provide it using -t option, PENIFY_API_TOKEN environment variable, or log in first.")
+            sys.exit(1)
         open_terminal = args.terminal.lower() == "true"
-        commit_code(args.git_folder_path, args.token, args.message, open_terminal)
+        commit_code(args.git_folder_path, token, args.message, open_terminal)
     elif args.subcommand == "login":
         login()
     else:
