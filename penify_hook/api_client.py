@@ -22,6 +22,7 @@ class APIClient:
             file_name (str): The path to the file being sent.
             content (str): The content of the file to be processed.
             line_numbers (list): A list of line numbers that have been modified.
+            repo_details (str?): Additional repository details if applicable.
 
         Returns:
             str: The modified content returned by the API, or the original content if the
