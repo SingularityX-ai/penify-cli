@@ -17,15 +17,13 @@ class CommitDocGenHook:
 
     def get_repo_details(self):
         """Get the details of the repository, including the hosting service,
-        organization name, and repository name.
-
-        This method checks the remote URL of the repository to determine whether
-        it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
-        service. It extracts the organization (or user) name and the repository
-        name from the URL. If the hosting service is not recognized, it will
-        return "Unknown Hosting Service". The method handles potential errors
-        during the extraction process and returns a dictionary with the relevant
-        details.
+        organization name, and repository name.  This method checks the remote
+        URL of the repository to determine whether it is hosted on GitHub, Azure
+        DevOps, Bitbucket, GitLab, or another service. It extracts the
+        organization (or user) name and the repository name from the URL. If the
+        hosting service is not recognized, it will return "Unknown Hosting
+        Service". The method handles potential errors during the extraction
+        process and returns a dictionary with the relevant details.
 
         Returns:
             dict: A dictionary containing the organization name, repository name, and
