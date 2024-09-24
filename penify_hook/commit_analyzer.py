@@ -72,6 +72,9 @@ class CommitDocGenHook:
         except Exception as e:
             print(f"Error determining repo details: {e}")
 
+        org_name = org_name if org_name else "UNKNOWN_ORG"
+        repo_name = repo_name if repo_name else "UNKNOWN_REPO"
+
         return {
             "organization_name": org_name,
             "repo_name": repo_name,
