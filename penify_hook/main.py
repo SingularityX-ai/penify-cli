@@ -10,6 +10,8 @@ import socketserver
 import urllib.parse
 from threading import Thread
 
+from penify_hook.utils import find_git_parent
+
 from .commit_analyzer import CommitDocGenHook
 from .folder_analyzer import FolderAnalyzerGenHook
 from .file_analyzer import FileAnalyzerGenHook
@@ -287,6 +289,7 @@ def main():
             print("Error: API token is required. Please provide it using -t option, PENIFY_API_TOKEN environment variable, or log in first.")
             sys.exit(1)
         open_terminal = args.terminal.lower() == "true"
+        args.git_folder_path = find_git_parent(args.git_folder_path)
         commit_code(args.git_folder_path, token, args.message, open_terminal)
     elif args.subcommand == "login":
         login()
