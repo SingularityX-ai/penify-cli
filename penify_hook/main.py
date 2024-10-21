@@ -238,6 +238,17 @@ def get_token(passed_token):
     return None
 
 def main():
+    """Main entry point for the Penify CLI tool.
+
+    This function sets up the command-line interface (CLI) for managing Git
+    hooks and generating documentation. It utilizes the argparse library to
+    define various subcommands, including installing and uninstalling Git
+    hooks, generating documentation, committing changes, and logging in to
+    obtain an API token. The function also handles the retrieval of the API
+    token based on user input or environment variables and executes the
+    appropriate subcommand based on user selection.
+    """
+
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
     parser.add_argument("-t", "--token", help="API token for authentication. If not provided, will check PENIFY_API_TOKEN environment variable, then .penify config file.")
