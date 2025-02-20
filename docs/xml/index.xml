@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="classapi__client_1_1APIClient" kind="class"><name>api_client::APIClient</name>
+    <member refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" kind="variable"><name>api_url</name></member>
+    <member refid="classapi__client_1_1APIClient_1a402deea2690b546cfc36ab1cdb80fce2" kind="variable"><name>AUTH_TOKEN</name></member>
+    <member refid="classapi__client_1_1APIClient_1a95e6969fdb8818337c44db2e390db2c2" kind="variable"><name>BEARER_TOKEN</name></member>
+    <member refid="classapi__client_1_1APIClient_1a04c8c9411350cba1b9b34807c8d59f88" kind="function"><name>__init__</name></member>
+    <member refid="classapi__client_1_1APIClient_1a9d60b6b945998acba45dc1c944dcbb83" kind="function"><name>send_file_for_docstring_generation</name></member>
+    <member refid="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" kind="function"><name>generate_commit_summary</name></member>
+    <member refid="classapi__client_1_1APIClient_1a1f82edb016c419dc04c0c0f591b74869" kind="function"><name>get_supported_file_types</name></member>
+    <member refid="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" kind="function"><name>generate_commit_summary</name></member>
+    <member refid="classapi__client_1_1APIClient_1a928f54c90180881e60b393206575ef18" kind="function"><name>get_api_key</name></member>
+  </compound>
+  <compound refid="classcommit__analyzer_1_1CommitDocGenHook" kind="class"><name>commit_analyzer::CommitDocGenHook</name>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1a9c0f97f01a967edd3c8a5492cb9e8237" kind="variable"><name>repo_path</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1abcb9ff0e33b723efae1851f6252daddd" kind="variable"><name>api_client</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1ad5297f68e5d4df58ffcc7c2c0556e1e6" kind="variable"><name>repo</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1a8814e69d03a2ca9fe897acc8ae02535c" kind="variable"><name>supported_file_types</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1adaa6d37ea3f0f2096220099f132c5f53" kind="variable"><name>repo_details</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1a268ed00104309144d07466f611054256" kind="function"><name>__init__</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1a37039dc91ec22f6eb93fa4f7d8a3ac46" kind="function"><name>get_repo_details</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1ab9c936e89244a1aec6e7f5d493ffd4c3" kind="function"><name>get_summary</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1abca6ddee46bf3b0d40019b677443a2f6" kind="function"><name>run</name></member>
+    <member refid="classcommit__analyzer_1_1CommitDocGenHook_1ad902038e7e23d85c1284774fb3175e98" kind="function"><name>_amend_commit</name></member>
+  </compound>
+  <compound refid="classException" kind="class"><name>Exception</name>
+  </compound>
+  <compound refid="classfile__analyzer_1_1FileAnalyzerGenHook" kind="class"><name>file_analyzer::FileAnalyzerGenHook</name>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790" kind="variable"><name>file_path</name></member>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8" kind="variable"><name>api_client</name></member>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6" kind="variable"><name>supported_file_types</name></member>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5626d6e274ca3701f6e948c8154654ba" kind="function"><name>__init__</name></member>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" kind="function"><name>process_file</name></member>
+    <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6" kind="function"><name>run</name></member>
+  </compound>
+  <compound refid="classfolder__analyzer_1_1FolderAnalyzerGenHook" kind="class"><name>folder_analyzer::FolderAnalyzerGenHook</name>
+    <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6" kind="variable"><name>dir_path</name></member>
+    <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a" kind="variable"><name>api_client</name></member>
+    <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ac43cf6db313d8fbfe96d8c3e16856765" kind="function"><name>__init__</name></member>
+    <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234" kind="function"><name>list_all_files_in_dir</name></member>
+    <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" kind="function"><name>run</name></member>
+  </compound>
+  <compound refid="classgit__analyzer_1_1GitDocGenHook" kind="class"><name>git_analyzer::GitDocGenHook</name>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1ae5f012a7a552d15f848b6e1903e4fd97" kind="variable"><name>repo_path</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8" kind="variable"><name>api_client</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a998e21d2ecb776f7b8702a29f5816061" kind="variable"><name>repo</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a41712029c362fca7f765017e1ef83334" kind="variable"><name>supported_file_types</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a72b9a0308edf639335073b065b2f294c" kind="variable"><name>repo_details</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1aa6596887082be0f55d8c311dc0f11f73" kind="function"><name>__init__</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a1960dd51f91b4f7ea2a80cbffba466fd" kind="function"><name>get_repo_details</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1ae35cebb17e35aed63db274f08cf29580" kind="function"><name>get_modified_files_in_last_commit</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a13faab2b0ee4469567eee52a68bab858" kind="function"><name>get_modified_lines</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0" kind="function"><name>process_file</name></member>
+    <member refid="classgit__analyzer_1_1GitDocGenHook_1ad596fef66f3edbf433f959620346ca26" kind="function"><name>run</name></member>
+  </compound>
+  <compound refid="classutils_1_1GitRepoNotFoundError" kind="class"><name>utils::GitRepoNotFoundError</name>
+  </compound>
+  <compound refid="namespaceapi__client" kind="namespace"><name>api_client</name>
+  </compound>
+  <compound refid="namespacecommit__analyzer" kind="namespace"><name>commit_analyzer</name>
+  </compound>
+  <compound refid="namespacefile__analyzer" kind="namespace"><name>file_analyzer</name>
+  </compound>
+  <compound refid="namespacefolder__analyzer" kind="namespace"><name>folder_analyzer</name>
+  </compound>
+  <compound refid="namespacegit__analyzer" kind="namespace"><name>git_analyzer</name>
+  </compound>
+  <compound refid="namespacemain" kind="namespace"><name>main</name>
+    <member refid="namespacemain_1ac715999c10e838574d30a343243bc54a" kind="variable"><name>HOOK_FILENAME</name></member>
+    <member refid="namespacemain_1ac6a9c57b7ff6db3365956d489a2ddcd7" kind="variable"><name>HOOK_TEMPLATE</name></member>
+    <member refid="namespacemain_1a5cda5552714bcfd2511cb8e0a5c8a785" kind="variable"><name>api_url</name></member>
+    <member refid="namespacemain_1a1fb31e86e65fca9941931147cf5e18d8" kind="variable"><name>dashboard_url</name></member>
+    <member refid="namespacemain_1a3e494c4723342a16da721b682c2ad95d" kind="function"><name>install_git_hook</name></member>
+    <member refid="namespacemain_1a1dd4c4eb546efac3d25779ebb7e23d8c" kind="function"><name>uninstall_git_hook</name></member>
+    <member refid="namespacemain_1a6568610bf9f969e7129f30417d1ec212" kind="function"><name>generate_doc</name></member>
+    <member refid="namespacemain_1a5754b28669981f6ed6b3d5c62aef259f" kind="function"><name>commit_code</name></member>
+    <member refid="namespacemain_1a8cf2a5becaa2433301d49eed685f49a6" kind="function"><name>save_credentials</name></member>
+    <member refid="namespacemain_1a325d966924c7c2622fcc50c3626bc8ed" kind="function"><name>login</name></member>
+    <member refid="namespacemain_1af6cd733a1e7a34da9a58510285b63bc7" kind="function"><name>get_token</name></member>
+    <member refid="namespacemain_1af613cea4cba4fb7de8e40896b3368945" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="namespacesetup" kind="namespace"><name>setup</name>
+    <member refid="namespacesetup_1ab3a7a0638d76a01367c5bc3cc699447f" kind="variable"><name>name</name></member>
+    <member refid="namespacesetup_1a2aa722b36a933088812b50ea79b97a5c" kind="variable"><name>version</name></member>
+    <member refid="namespacesetup_1aff2375a361fd5865c77bd9aa093be747" kind="variable"><name>packages</name></member>
+    <member refid="namespacesetup_1abead4f26b530856f858f0d44c7cf2588" kind="variable"><name>install_requires</name></member>
+    <member refid="namespacesetup_1ada7058afc98897f073d3f3b8b9157059" kind="variable"><name>entry_points</name></member>
+    <member refid="namespacesetup_1a3a57a4772d418a06835249cbade0d86a" kind="variable"><name>author</name></member>
+    <member refid="namespacesetup_1a5b08034343aa2be607722a8b315f3625" kind="variable"><name>author_email</name></member>
+    <member refid="namespacesetup_1aedf461ec52a946bda975938ba0b93ec0" kind="variable"><name>description</name></member>
+    <member refid="namespacesetup_1a4cda9dbfb952875376a0749fe08a5bde" kind="variable"><name>long_description</name></member>
+    <member refid="namespacesetup_1a3796ea10c998699d07d391414ff5d720" kind="variable"><name>long_description_content_type</name></member>
+    <member refid="namespacesetup_1afc13124aa5c0124e84e1d965e3f4b0fb" kind="variable"><name>url</name></member>
+    <member refid="namespacesetup_1abe96a9c38c1c61f9f0fdb002c482f785" kind="variable"><name>classifiers</name></member>
+    <member refid="namespacesetup_1aa7ca7bc9391b217e81efeb03689d8dbf" kind="variable"><name>python_requires</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="namespaceutils" kind="namespace"><name>utils</name>
+    <member refid="namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8" kind="function"><name>find_git_parent</name></member>
+  </compound>
+  <compound refid="api__client_8py" kind="file"><name>api_client.py</name>
+  </compound>
+  <compound refid="commit__analyzer_8py" kind="file"><name>commit_analyzer.py</name>
+  </compound>
+  <compound refid="file__analyzer_8py" kind="file"><name>file_analyzer.py</name>
+  </compound>
+  <compound refid="folder__analyzer_8py" kind="file"><name>folder_analyzer.py</name>
+  </compound>
+  <compound refid="git__analyzer_8py" kind="file"><name>git_analyzer.py</name>
+  </compound>
+  <compound refid="main_8py" kind="file"><name>main.py</name>
+  </compound>
+  <compound refid="utils_8py" kind="file"><name>utils.py</name>
+  </compound>
+  <compound refid="README_8md" kind="file"><name>README.md</name>
+  </compound>
+  <compound refid="setup_8py" kind="file"><name>setup.py</name>
+  </compound>
+  <compound refid="md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README" kind="page"><name>md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README</name>
+  </compound>
+  <compound refid="dir_b3b22d2ab7966b65f6b237e3231b41be" kind="dir"><name>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli</name>
+  </compound>
+  <compound refid="dir_f88c3381c1861b3f7ca1f3d63cf244b5" kind="dir"><name>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook</name>
+  </compound>
+</doxygenindex>

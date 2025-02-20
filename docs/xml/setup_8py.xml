@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="setup_8py" kind="file" language="Python">
+    <compoundname>setup.py</compoundname>
+    <innernamespace refid="namespacesetup">setup</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesetup" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>setuptools<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>setup,<sp/>find_packages</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><ref refid="namespacesetup" kindref="compound">setup</ref>(</highlight></codeline>
+<codeline lineno="4" refid="namespacesetup_1ab3a7a0638d76a01367c5bc3cc699447f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>name=</highlight><highlight class="stringliteral">&quot;penify-cli&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="5" refid="namespacesetup_1a2aa722b36a933088812b50ea79b97a5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>version=</highlight><highlight class="stringliteral">&quot;0.1.5&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>Increment<sp/>the<sp/>version<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="namespacesetup_1aff2375a361fd5865c77bd9aa093be747" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>packages=[</highlight><highlight class="stringliteral">&apos;penify_hook&apos;</highlight><highlight class="normal">],<sp/><sp/></highlight><highlight class="comment">#<sp/>Explicitly<sp/>include<sp/>the<sp/>penify_hook<sp/>package</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7" refid="namespacesetup_1abead4f26b530856f858f0d44c7cf2588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>install_requires=[</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;requests&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;tqdm&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GitPython&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="12" refid="namespacesetup_1ada7058afc98897f073d3f3b8b9157059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>entry_points={</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;console_scripts&quot;</highlight><highlight class="normal">:<sp/>[</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;penify-cli=penify_hook.main:main&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="17" refid="namespacesetup_1a3a57a4772d418a06835249cbade0d86a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>author=</highlight><highlight class="stringliteral">&quot;Suman<sp/>Saurabh&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="18" refid="namespacesetup_1a5b08034343aa2be607722a8b315f3625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>author_email=</highlight><highlight class="stringliteral">&quot;ss.sumansaurabh92@gmail.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="19" refid="namespacesetup_1aedf461ec52a946bda975938ba0b93ec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>description=</highlight><highlight class="stringliteral">&quot;A<sp/>penify<sp/>cli<sp/>tool<sp/>to<sp/>generate<sp/>Documentation,<sp/>Commit-summary<sp/>and<sp/><sp/>Hooks<sp/>to<sp/>automate<sp/>git<sp/>workflows.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="20" refid="namespacesetup_1a4cda9dbfb952875376a0749fe08a5bde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>long_description=open(</highlight><highlight class="stringliteral">&quot;README.md&quot;</highlight><highlight class="normal">).read(),</highlight></codeline>
+<codeline lineno="21" refid="namespacesetup_1a3796ea10c998699d07d391414ff5d720" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>long_description_content_type=</highlight><highlight class="stringliteral">&quot;text/markdown&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22" refid="namespacesetup_1afc13124aa5c0124e84e1d965e3f4b0fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>url=</highlight><highlight class="stringliteral">&quot;https://github.com/SingularityX-ai/penify-cli&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23" refid="namespacesetup_1abe96a9c38c1c61f9f0fdb002c482f785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>classifiers=[</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Programming<sp/>Language<sp/>::<sp/>Python<sp/>::<sp/>3&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;License<sp/>::<sp/>OSI<sp/>Approved<sp/>::<sp/>MIT<sp/>License&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Operating<sp/>System<sp/>::<sp/>OS<sp/>Independent&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>],</highlight></codeline>
+<codeline lineno="28" refid="namespacesetup_1aa7ca7bc9391b217e81efeb03689d8dbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>python_requires=</highlight><highlight class="stringliteral">&apos;&gt;=3.6&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py"/>
+  </compounddef>
+</doxygen>

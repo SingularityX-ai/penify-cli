@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_b3b22d2ab7966b65f6b237e3231b41be" kind="dir">
+    <compoundname>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli</compoundname>
+    <innerdir refid="dir_f88c3381c1861b3f7ca1f3d63cf244b5">/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook</innerdir>
+    <innerfile refid="setup_8py">setup.py</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/"/>
+  </compounddef>
+</doxygen>

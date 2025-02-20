@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="utils_8py" kind="file" language="Python">
+    <compoundname>utils.py</compoundname>
+    <innerclass refid="classutils_1_1GitRepoNotFoundError" prot="public">utils::GitRepoNotFoundError</innerclass>
+    <innernamespace refid="namespaceutils">utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceutils" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3" refid="classutils_1_1GitRepoNotFoundError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classutils_1_1GitRepoNotFoundError" kindref="compound">GitRepoNotFoundError</ref>(<ref refid="classException" kindref="compound">Exception</ref>):</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8" kindref="member">find_git_parent</ref>(path):</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Find<sp/>the<sp/>parent<sp/>directory<sp/>of<sp/>a<sp/>Git<sp/>repository.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>function<sp/>traverses<sp/>up<sp/>the<sp/>directory<sp/>structure<sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>the<sp/>given<sp/>path</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>to<sp/>locate<sp/>the<sp/>nearest<sp/>parent<sp/>directory<sp/>that<sp/>contains<sp/>a<sp/>`.git`<sp/>folder.<sp/>If</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>such<sp/>a<sp/>directory<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>found,<sp/>it<sp/>returns<sp/>the<sp/>path<sp/>to<sp/>that<sp/>directory.<sp/>If<sp/>no</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>Git<sp/>repository<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>found<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>the<sp/>specified<sp/>path<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>any<sp/>of<sp/>its<sp/>parent</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>directories,<sp/>it<sp/>raises<sp/>a<sp/>custom<sp/>exception.</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path<sp/>(str):<sp/>The<sp/>path<sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>which<sp/>to<sp/>start<sp/>searching<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>the<sp/>Git<sp/>repository.</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>str:<sp/>The<sp/>absolute<sp/>path<sp/>to<sp/>the<sp/>parent<sp/>directory<sp/>containing<sp/>the<sp/>`.git`<sp/>folder.</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>Raises:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GitRepoNotFoundError:<sp/>If<sp/>no<sp/>Git<sp/>repository<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>found<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>the<sp/>specified<sp/>path<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>any</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>current_dir<sp/>=<sp/>os.path.abspath(path)</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>current_dir<sp/>!=<sp/>os.path.dirname(current_dir):<sp/><sp/></highlight><highlight class="comment">#<sp/>Traverse<sp/>up<sp/>to<sp/>the<sp/>root<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.path.isdir(os.path.join(current_dir,<sp/></highlight><highlight class="stringliteral">&quot;.git&quot;</highlight><highlight class="normal">)):</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_dir<sp/><sp/></highlight><highlight class="comment">#<sp/>Return<sp/>the<sp/>parent<sp/>folder<sp/>containing<sp/>the<sp/>.git<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_dir<sp/>=<sp/>os.path.dirname(current_dir)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>GitRepoNotFoundError(f</highlight><highlight class="stringliteral">&quot;No<sp/>Git<sp/>repository<sp/>found<sp/>in<sp/>the<sp/>path<sp/>or<sp/>any<sp/>of<sp/>its<sp/>parent<sp/>directories:<sp/>{path}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py"/>
+  </compounddef>
+</doxygen>

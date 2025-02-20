@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespaceutils" xml:lang="en-US">
+<title>utils Namespace Reference</title>
+<indexterm><primary>utils</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_classutils_1_1GitRepoNotFoundError">GitRepoNotFoundError</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8">find_git_parent</link> (path)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8"/><section>
+    <title>find_git_parent()</title>
+<indexterm><primary>find_git_parent</primary><secondary>utils</secondary></indexterm>
+<indexterm><primary>utils</primary><secondary>find_git_parent</secondary></indexterm>
+<para><computeroutput>def utils.find_git_parent ( path)</computeroutput></para>
+<para><literallayout><computeroutput>Find the parent directory of a Git repository.
+
+This function traverses up the directory structure from the given path
+to locate the nearest parent directory that contains a `.git` folder. If
+such a directory is found, it returns the path to that directory. If no
+Git repository is found in the specified path or any of its parent
+directories, it raises a custom exception.
+
+Args:
+    path (str): The path from which to start searching for the Git repository.
+
+Returns:
+    str: The absolute path to the parent directory containing the `.git` folder.
+
+Raises:
+    GitRepoNotFoundError: If no Git repository is found in the specified path or any
+</computeroutput></literallayout> </para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="namespaceutils_ad9e472f4893cc6ba4b57b97fd5d8d7c8_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+</section>
+</section>

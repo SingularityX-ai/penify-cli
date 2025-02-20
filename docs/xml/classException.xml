@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="classException" kind="class" language="Python" prot="public">
+    <compoundname>Exception</compoundname>
+    <derivedcompoundref refid="classutils_1_1GitRepoNotFoundError" prot="public" virt="non-virtual">utils.GitRepoNotFoundError</derivedcompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Exception</label>
+        <link refid="classException"/>
+      </node>
+      <node id="2">
+        <label>utils.GitRepoNotFoundError</label>
+        <link refid="classutils_1_1GitRepoNotFoundError"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Exception</label>
+        <link refid="classException"/>
+      </node>
+    </collaborationgraph>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py" line="3" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

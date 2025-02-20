@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_index" xml:lang="en-US">
+    <info>
+    <title>penify-cli</title>
+    </info>
+<chapter>
+    <title>Penify CLI</title>
+    <xi:include href="md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Namespace Documentation</title>
+<xi:include href="namespaceapi__client.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacecommit__analyzer.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacefile__analyzer.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacefolder__analyzer.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacegit__analyzer.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacemain.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespacesetup.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+<xi:include href="namespaceutils.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>Class Documentation</title>
+    <xi:include href="classapi__client_1_1APIClient.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classcommit__analyzer_1_1CommitDocGenHook.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classException.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classfile__analyzer_1_1FileAnalyzerGenHook.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classfolder__analyzer_1_1FolderAnalyzerGenHook.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classgit__analyzer_1_1GitDocGenHook.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="classutils_1_1GitRepoNotFoundError.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<chapter>
+    <title>File Documentation</title>
+    <xi:include href="api__client_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="commit__analyzer_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="file__analyzer_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="folder__analyzer_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="git__analyzer_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="main_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="utils_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="README_8md.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    <xi:include href="setup_8py.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+</chapter>
+<index/>
+</book>

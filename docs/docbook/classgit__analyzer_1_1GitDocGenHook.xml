@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_classgit__analyzer_1_1GitDocGenHook" xml:lang="en-US">
+<title>git_analyzer.GitDocGenHook Class Reference</title>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary></indexterm>
+Collaboration diagram for git_analyzer.GitDocGenHook:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1aa6596887082be0f55d8c311dc0f11f73">__init__</link> (self, str <link linkend="_classgit__analyzer_1_1GitDocGenHook_1ae5f012a7a552d15f848b6e1903e4fd97">repo_path</link>, <link linkend="_classapi__client_1_1APIClient">APIClient</link> <link linkend="_classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8">api_client</link>)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1a1960dd51f91b4f7ea2a80cbffba466fd">get_repo_details</link> (self)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1ae35cebb17e35aed63db274f08cf29580">get_modified_files_in_last_commit</link> (self)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1a13faab2b0ee4469567eee52a68bab858">get_modified_lines</link> (self, diff_text)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0">process_file</link> (self, file_path)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classgit__analyzer_1_1GitDocGenHook_1ad596fef66f3edbf433f959620346ca26">run</link> (self)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_classgit__analyzer_1_1GitDocGenHook_1ae5f012a7a552d15f848b6e1903e4fd97">repo_path</link></para>
+</listitem>
+            <listitem><para><link linkend="_classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8">api_client</link></para>
+</listitem>
+            <listitem><para><link linkend="_classgit__analyzer_1_1GitDocGenHook_1a998e21d2ecb776f7b8702a29f5816061">repo</link></para>
+</listitem>
+            <listitem><para><link linkend="_classgit__analyzer_1_1GitDocGenHook_1a41712029c362fca7f765017e1ef83334">supported_file_types</link></para>
+</listitem>
+            <listitem><para><link linkend="_classgit__analyzer_1_1GitDocGenHook_1a72b9a0308edf639335073b065b2f294c">repo_details</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1aa6596887082be0f55d8c311dc0f11f73"/><section>
+    <title>__init__()</title>
+<indexterm><primary>__init__</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>__init__</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.__init__ ( self, str repo_path, <link linkend="_classapi__client_1_1APIClient">APIClient</link> api_client)</computeroutput></para></section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1ae35cebb17e35aed63db274f08cf29580"/><section>
+    <title>get_modified_files_in_last_commit()</title>
+<indexterm><primary>get_modified_files_in_last_commit</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>get_modified_files_in_last_commit</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.get_modified_files_in_last_commit ( self)</computeroutput></para>
+<para><literallayout><computeroutput>Get the list of files modified in the last commit.
+
+This function retrieves the files that were modified in the most recent
+commit of the repository. It accesses the last commit and iterates
+through the differences to compile a list of unique file paths that were
+changed. The function returns this list for further processing or
+analysis.
+
+Returns:
+    list: A list of file paths that were modified in the last commit.
+</computeroutput></literallayout> </para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook_ae35cebb17e35aed63db274f08cf29580_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a13faab2b0ee4469567eee52a68bab858"/><section>
+    <title>get_modified_lines()</title>
+<indexterm><primary>get_modified_lines</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>get_modified_lines</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.get_modified_lines ( self,  diff_text)</computeroutput></para>
+<para><literallayout><computeroutput>Extract modified line numbers from a diff text.
+
+This function processes a diff text to identify and extract the line
+numbers that have been modified. It distinguishes between added and
+deleted lines and keeps track of the current line number as it parses
+through the diff. The function handles hunk headers and ensures that any
+deletions at the end of the file are also captured.
+
+Args:
+    diff_text (str): A string containing the diff text to be processed.
+
+Returns:
+    list: A sorted list of unique line numbers that have been modified.
+</computeroutput></literallayout> </para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook_a13faab2b0ee4469567eee52a68bab858_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a1960dd51f91b4f7ea2a80cbffba466fd"/><section>
+    <title>get_repo_details()</title>
+<indexterm><primary>get_repo_details</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>get_repo_details</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.get_repo_details ( self)</computeroutput></para>
+<para><literallayout><computeroutput>Get the details of the repository, including the hosting service,
+organization name, and repository name.
+
+This method checks the remote URL of the repository to determine whether
+it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
+service. It extracts the organization (or user) name and the repository
+name from the URL. If the hosting service cannot be determined, it will
+return &quot;Unknown Hosting Service&quot;.
+
+Returns:
+    dict: A dictionary containing the organization name, repository name, and
+        hosting service.
+</computeroutput></literallayout> </para>
+</section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0"/><section>
+    <title>process_file()</title>
+<indexterm><primary>process_file</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>process_file</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.process_file ( self,  file_path)</computeroutput></para>
+<para><literallayout><computeroutput>Process a file by checking its type, reading its content, and sending it
+to an API.
+
+This method constructs the absolute path of the specified file and
+verifies if the file has a valid extension. If the file type is
+supported, it reads the content of the file and retrieves the
+differences from the last commit in the repository. If changes are
+detected, it sends the file content along with the modified lines to an
+API for further processing. If the API response indicates no changes,
+the original file will not be overwritten.
+
+Args:
+    file_path (str): The relative path to the file to be processed.
+
+Returns:
+    bool: True if the file was successfully processed and updated, False
+        otherwise.
+</computeroutput></literallayout> </para>
+Here is the call graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook_a4524f438ea3fc33abebd667f0d2e28a0_cgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook_a4524f438ea3fc33abebd667f0d2e28a0_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1ad596fef66f3edbf433f959620346ca26"/><section>
+    <title>run()</title>
+<indexterm><primary>run</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>run</secondary></indexterm>
+<para><computeroutput>def git_analyzer.GitDocGenHook.run ( self)</computeroutput></para>
+<para><literallayout><computeroutput>Run the post-commit hook.
+
+This method retrieves the list of modified files from the last commit
+and processes each file. It stages any files that have been modified
+during processing and creates an auto-commit if changes were made. A
+progress bar is displayed to indicate the processing status of each
+file.  The method handles any exceptions that occur during file
+processing, printing an error message for each file that fails to
+process. If any modifications are made to the files, an auto-commit is
+created to save those changes.
+</computeroutput></literallayout> </para>
+Here is the call graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classgit__analyzer_1_1GitDocGenHook_ad596fef66f3edbf433f959620346ca26_cgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8"/><section>
+    <title>api_client</title>
+<indexterm><primary>api_client</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>api_client</secondary></indexterm>
+<para><computeroutput>git_analyzer.GitDocGenHook.api_client</computeroutput></para></section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a998e21d2ecb776f7b8702a29f5816061"/><section>
+    <title>repo</title>
+<indexterm><primary>repo</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>repo</secondary></indexterm>
+<para><computeroutput>git_analyzer.GitDocGenHook.repo</computeroutput></para></section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a72b9a0308edf639335073b065b2f294c"/><section>
+    <title>repo_details</title>
+<indexterm><primary>repo_details</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>repo_details</secondary></indexterm>
+<para><computeroutput>git_analyzer.GitDocGenHook.repo_details</computeroutput></para></section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1ae5f012a7a552d15f848b6e1903e4fd97"/><section>
+    <title>repo_path</title>
+<indexterm><primary>repo_path</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>repo_path</secondary></indexterm>
+<para><computeroutput>git_analyzer.GitDocGenHook.repo_path</computeroutput></para></section>
+<anchor xml:id="_classgit__analyzer_1_1GitDocGenHook_1a41712029c362fca7f765017e1ef83334"/><section>
+    <title>supported_file_types</title>
+<indexterm><primary>supported_file_types</primary><secondary>git_analyzer.GitDocGenHook</secondary></indexterm>
+<indexterm><primary>git_analyzer.GitDocGenHook</primary><secondary>supported_file_types</secondary></indexterm>
+<para><computeroutput>git_analyzer.GitDocGenHook.supported_file_types</computeroutput></para></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/<link linkend="_git__analyzer_8py">git_analyzer.py</link></section>
+</section>

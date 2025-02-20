@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="classapi__client_1_1APIClient" kind="class" language="Python" prot="public">
+    <compoundname>api_client::APIClient</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>api_client.APIClient::api_url</definition>
+        <argsstring></argsstring>
+        <name>api_url</name>
+        <qualifiedname>api_client.APIClient.api_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="7" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="7" bodyend="-1"/>
+        <referencedby refid="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" compoundref="api__client_8py" startline="48" endline="83">api_client.APIClient.generate_commit_summary</referencedby>
+        <referencedby refid="classapi__client_1_1APIClient_1a928f54c90180881e60b393206575ef18" compoundref="api__client_8py" startline="138" endline="151">api_client.APIClient.get_api_key</referencedby>
+        <referencedby refid="classapi__client_1_1APIClient_1a1f82edb016c419dc04c0c0f591b74869" compoundref="api__client_8py" startline="84" endline="103">api_client.APIClient.get_supported_file_types</referencedby>
+        <referencedby refid="classapi__client_1_1APIClient_1a9d60b6b945998acba45dc1c944dcbb83" compoundref="api__client_8py" startline="11" endline="47">api_client.APIClient.send_file_for_docstring_generation</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classapi__client_1_1APIClient_1a402deea2690b546cfc36ab1cdb80fce2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>api_client.APIClient::AUTH_TOKEN</definition>
+        <argsstring></argsstring>
+        <name>AUTH_TOKEN</name>
+        <qualifiedname>api_client.APIClient.AUTH_TOKEN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="8" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classapi__client_1_1APIClient_1a95e6969fdb8818337c44db2e390db2c2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>api_client.APIClient::BEARER_TOKEN</definition>
+        <argsstring></argsstring>
+        <name>BEARER_TOKEN</name>
+        <qualifiedname>api_client.APIClient.BEARER_TOKEN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="9" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1a04c8c9411350cba1b9b34807c8d59f88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def api_client.APIClient.__init__</definition>
+        <argsstring>(self, api_url, str api_token=None, str bearer_token=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>api_client.APIClient.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" kindref="member">api_url</ref></type>
+          <defname>api_url</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>api_token</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>bearer_token</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="6" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="6" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1a9d60b6b945998acba45dc1c944dcbb83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def api_client.APIClient.send_file_for_docstring_generation</definition>
+        <argsstring>(self, file_name, content, line_numbers, repo_details=None)</argsstring>
+        <name>send_file_for_docstring_generation</name>
+        <qualifiedname>api_client.APIClient.send_file_for_docstring_generation</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>file_name</type>
+          <defname>file_name</defname>
+        </param>
+        <param>
+          <type>content</type>
+          <defname>content</defname>
+        </param>
+        <param>
+          <type>line_numbers</type>
+          <defname>line_numbers</defname>
+        </param>
+        <param>
+          <type>repo_details</type>
+          <defname>repo_details</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Send file content and modified lines to the API and return modified
+content.
+
+This function constructs a payload containing the file path, content,
+and modified line numbers, and sends it to a specified API endpoint for
+processing. It handles the response from the API, returning the modified
+content if the request is successful. If the request fails, it logs the
+error details and returns the original content.
+
+Args:
+    file_name (str): The path to the file being sent.
+    content (str): The content of the file to be processed.
+    line_numbers (list): A list of line numbers that have been modified.
+    repo_details (str?): Additional repository details if applicable.
+
+Returns:
+    str: The modified content returned by the API, or the original content if the
+        request fails.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="11" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="11" bodyend="47"/>
+        <references refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" compoundref="api__client_8py" startline="7">api_client.APIClient.api_url</references>
+      </memberdef>
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def api_client.APIClient.generate_commit_summary</definition>
+        <argsstring>(self, git_diff, str instruction=&quot;&quot;, repo_details=None)</argsstring>
+        <name>generate_commit_summary</name>
+        <qualifiedname>api_client.APIClient.generate_commit_summary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>git_diff</type>
+          <defname>git_diff</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>instruction</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>repo_details</type>
+          <defname>repo_details</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Send file content and modified lines to the API and return modified
+content.
+
+This function constructs a payload containing the file path, content,
+and modified line numbers, and sends it to a specified API endpoint for
+processing. It handles the response from the API, returning the modified
+content if the request is successful. If the request fails, it logs the
+error details and returns the original content.
+
+Args:
+    file_name (str): The path to the file being sent.
+    content (str): The content of the file to be processed.
+    line_numbers (list): A list of line numbers that have been modified.
+
+Returns:
+    str: The modified content returned by the API, or the original content if the
+        request fails.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="48" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="48" bodyend="83"/>
+        <references refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" compoundref="api__client_8py" startline="7">api_client.APIClient.api_url</references>
+      </memberdef>
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1a1f82edb016c419dc04c0c0f591b74869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] api_client.APIClient.get_supported_file_types</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_supported_file_types</name>
+        <qualifiedname>api_client.APIClient.get_supported_file_types</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Retrieve the supported file types from the API.
+
+This function sends a request to the API to obtain a list of supported
+file types. If the API responds successfully, it returns the list of
+supported file types. If the API call fails, it returns a default list
+of common file types.
+
+Returns:
+    list[str]: A list of supported file types, either from the API or a default set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="84" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="84" bodyend="103"/>
+        <references refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" compoundref="api__client_8py" startline="7">api_client.APIClient.api_url</references>
+      </memberdef>
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def api_client.APIClient.generate_commit_summary</definition>
+        <argsstring>(self, git_diff, str instruction=&quot;&quot;, repo_details=None)</argsstring>
+        <name>generate_commit_summary</name>
+        <qualifiedname>api_client.APIClient.generate_commit_summary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>git_diff</type>
+          <defname>git_diff</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>instruction</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>repo_details</type>
+          <defname>repo_details</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate a commit summary by sending a POST request to the API endpoint.
+
+This function constructs a payload containing the git diff and any
+additional instructions provided. It then sends this payload to a
+specified API endpoint to generate a summary of the commit. If the
+request is successful, it returns the response from the API; otherwise,
+it returns None.
+
+Args:
+    git_diff (str): The git diff of the commit.
+    instruction (str?): Additional instruction for the commit. Defaults to &quot;&quot;.
+    repo_details (dict?): Details of the git repository. Defaults to None.
+
+Returns:
+    dict: The response from the API if the request is successful, None otherwise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="104" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="104" bodyend="137"/>
+        <references refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" compoundref="api__client_8py" startline="7">api_client.APIClient.api_url</references>
+      </memberdef>
+      <memberdef kind="function" id="classapi__client_1_1APIClient_1a928f54c90180881e60b393206575ef18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def api_client.APIClient.get_api_key</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_api_key</name>
+        <qualifiedname>api_client.APIClient.get_api_key</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="138" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="138" bodyend="151"/>
+        <references refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" compoundref="api__client_8py" startline="7">api_client.APIClient.api_url</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>api_client.APIClient</label>
+        <link refid="classapi__client_1_1APIClient"/>
+      </node>
+    </collaborationgraph>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" line="5" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py" bodystart="5" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classapi__client_1_1APIClient_1a04c8c9411350cba1b9b34807c8d59f88" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>__init__</name></member>
+      <member refid="classapi__client_1_1APIClient_1a271ca62ab5b3e1f1673b284293d046e7" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>api_url</name></member>
+      <member refid="classapi__client_1_1APIClient_1a402deea2690b546cfc36ab1cdb80fce2" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>AUTH_TOKEN</name></member>
+      <member refid="classapi__client_1_1APIClient_1a95e6969fdb8818337c44db2e390db2c2" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>BEARER_TOKEN</name></member>
+      <member refid="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>generate_commit_summary</name></member>
+      <member refid="classapi__client_1_1APIClient_1ab4793ce354a0fd1c778262080a840f4e" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>generate_commit_summary</name></member>
+      <member refid="classapi__client_1_1APIClient_1a928f54c90180881e60b393206575ef18" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>get_api_key</name></member>
+      <member refid="classapi__client_1_1APIClient_1a1f82edb016c419dc04c0c0f591b74869" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>get_supported_file_types</name></member>
+      <member refid="classapi__client_1_1APIClient_1a9d60b6b945998acba45dc1c944dcbb83" prot="public" virt="non-virtual"><scope>api_client::APIClient</scope><name>send_file_for_docstring_generation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
