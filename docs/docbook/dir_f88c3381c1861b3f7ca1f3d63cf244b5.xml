@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_dir_f88c3381c1861b3f7ca1f3d63cf244b5" xml:lang="en-US">
+<title>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook Directory Reference</title>
+<indexterm><primary>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook Directory Reference</primary></indexterm>
+Directory dependency graph for penify_hook:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="dir_f88c3381c1861b3f7ca1f3d63cf244b5_dep.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Files    </title>
+        <itemizedlist>
+            <listitem><para>file <link linkend="_api__client_8py">api_client.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_commit__analyzer_8py">commit_analyzer.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_file__analyzer_8py">file_analyzer.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_folder__analyzer_8py">folder_analyzer.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_git__analyzer_8py">git_analyzer.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_main_8py">main.py</link></para>
+</listitem>
+            <listitem><para>file <link linkend="_utils_8py">utils.py</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook" xml:lang="en-US">
+<title>folder_analyzer.FolderAnalyzerGenHook Class Reference</title>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary></indexterm>
+Collaboration diagram for folder_analyzer.FolderAnalyzerGenHook:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfolder__analyzer_1_1FolderAnalyzerGenHook__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ac43cf6db313d8fbfe96d8c3e16856765">__init__</link> (self, str <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6">dir_path</link>, <link linkend="_classapi__client_1_1APIClient">APIClient</link> <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a">api_client</link>)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234">list_all_files_in_dir</link> (self, str <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6">dir_path</link>)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1">run</link> (self)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6">dir_path</link></para>
+</listitem>
+            <listitem><para><link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a">api_client</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ac43cf6db313d8fbfe96d8c3e16856765"/><section>
+    <title>__init__()</title>
+<indexterm><primary>__init__</primary><secondary>folder_analyzer.FolderAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary><secondary>__init__</secondary></indexterm>
+<para><computeroutput>def folder_analyzer.FolderAnalyzerGenHook.__init__ ( self, str dir_path, <link linkend="_classapi__client_1_1APIClient">APIClient</link> api_client)</computeroutput></para></section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234"/><section>
+    <title>list_all_files_in_dir()</title>
+<indexterm><primary>list_all_files_in_dir</primary><secondary>folder_analyzer.FolderAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary><secondary>list_all_files_in_dir</secondary></indexterm>
+<para><computeroutput>def folder_analyzer.FolderAnalyzerGenHook.list_all_files_in_dir ( self, str dir_path)</computeroutput></para>
+<para><literallayout><computeroutput>List all files in a directory and its subdirectories.
+
+This function traverses the specified directory and its subdirectories,
+collecting the full paths of all files found. It ignores any directories
+that start with a dot (.), which are typically hidden directories in
+Unix-like operating systems. The resulting list contains the full paths
+of the files, making it useful for file management tasks.
+
+Args:
+    dir_path (str): The path to the directory to search for files.
+
+Returns:
+    list: A list of full file paths found in the specified directory and its
+    subdirectories.
+</computeroutput></literallayout> </para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfolder__analyzer_1_1FolderAnalyzerGenHook_af77cc2a8651f08e01a88fc23b8b95234_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+<anchor xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1"/><section>
+    <title>run()</title>
+<indexterm><primary>run</primary><secondary>folder_analyzer.FolderAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary><secondary>run</secondary></indexterm>
+<para><computeroutput>def folder_analyzer.FolderAnalyzerGenHook.run ( self)</computeroutput></para>
+<para><literallayout><computeroutput>Run the post-commit hook.
+
+This method processes all files in the specified directory by listing
+them and running a file analyzer on each one. It provides feedback on
+the number of files being processed and handles any errors that occur
+during the analysis of individual files, ensuring that the progress bar
+updates appropriately even in the event of an error.  It first retrieves
+a list of all files in the specified directory and prints the total
+number of files to be processed. Then, it initializes a progress bar to
+visually indicate the processing status. For each file, it attempts to
+create an instance of `FileAnalyzerGenHook` and run its analysis method.
+If an error occurs while processing a file, it catches the exception,
+prints an error message, and continues with the next file, ensuring that
+the progress bar reflects the ongoing processing.
+</computeroutput></literallayout> </para>
+Here is the call graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfolder__analyzer_1_1FolderAnalyzerGenHook_a5b1d8febc0dae3dd824e1fcd832f2ab1_cgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a"/><section>
+    <title>api_client</title>
+<indexterm><primary>api_client</primary><secondary>folder_analyzer.FolderAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary><secondary>api_client</secondary></indexterm>
+<para><computeroutput>folder_analyzer.FolderAnalyzerGenHook.api_client</computeroutput></para></section>
+<anchor xml:id="_classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6"/><section>
+    <title>dir_path</title>
+<indexterm><primary>dir_path</primary><secondary>folder_analyzer.FolderAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>folder_analyzer.FolderAnalyzerGenHook</primary><secondary>dir_path</secondary></indexterm>
+<para><computeroutput>folder_analyzer.FolderAnalyzerGenHook.dir_path</computeroutput></para></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/<link linkend="_folder__analyzer_8py">folder_analyzer.py</link></section>
+</section>

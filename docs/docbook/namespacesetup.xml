@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_namespacesetup" xml:lang="en-US">
+<title>setup Namespace Reference</title>
+<indexterm><primary>setup</primary></indexterm>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_namespacesetup_1ab3a7a0638d76a01367c5bc3cc699447f">name</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1a2aa722b36a933088812b50ea79b97a5c">version</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1aff2375a361fd5865c77bd9aa093be747">packages</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1abead4f26b530856f858f0d44c7cf2588">install_requires</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1ada7058afc98897f073d3f3b8b9157059">entry_points</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1a3a57a4772d418a06835249cbade0d86a">author</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1a5b08034343aa2be607722a8b315f3625">author_email</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1aedf461ec52a946bda975938ba0b93ec0">description</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1a4cda9dbfb952875376a0749fe08a5bde">long_description</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1a3796ea10c998699d07d391414ff5d720">long_description_content_type</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1afc13124aa5c0124e84e1d965e3f4b0fb">url</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1abe96a9c38c1c61f9f0fdb002c482f785">classifiers</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacesetup_1aa7ca7bc9391b217e81efeb03689d8dbf">python_requires</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Variable Documentation</title>
+<anchor xml:id="_namespacesetup_1a3a57a4772d418a06835249cbade0d86a"/><section>
+    <title>author</title>
+<indexterm><primary>author</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>author</secondary></indexterm>
+<para><computeroutput>setup.author</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1a5b08034343aa2be607722a8b315f3625"/><section>
+    <title>author_email</title>
+<indexterm><primary>author_email</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>author_email</secondary></indexterm>
+<para><computeroutput>setup.author_email</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1abe96a9c38c1c61f9f0fdb002c482f785"/><section>
+    <title>classifiers</title>
+<indexterm><primary>classifiers</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>classifiers</secondary></indexterm>
+<para><computeroutput>setup.classifiers</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1aedf461ec52a946bda975938ba0b93ec0"/><section>
+    <title>description</title>
+<indexterm><primary>description</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>description</secondary></indexterm>
+<para><computeroutput>setup.description</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1ada7058afc98897f073d3f3b8b9157059"/><section>
+    <title>entry_points</title>
+<indexterm><primary>entry_points</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>entry_points</secondary></indexterm>
+<para><computeroutput>setup.entry_points</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1abead4f26b530856f858f0d44c7cf2588"/><section>
+    <title>install_requires</title>
+<indexterm><primary>install_requires</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>install_requires</secondary></indexterm>
+<para><computeroutput>setup.install_requires</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1a4cda9dbfb952875376a0749fe08a5bde"/><section>
+    <title>long_description</title>
+<indexterm><primary>long_description</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>long_description</secondary></indexterm>
+<para><computeroutput>setup.long_description</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1a3796ea10c998699d07d391414ff5d720"/><section>
+    <title>long_description_content_type</title>
+<indexterm><primary>long_description_content_type</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>long_description_content_type</secondary></indexterm>
+<para><computeroutput>setup.long_description_content_type</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1ab3a7a0638d76a01367c5bc3cc699447f"/><section>
+    <title>name</title>
+<indexterm><primary>name</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>name</secondary></indexterm>
+<para><computeroutput>setup.name</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1aff2375a361fd5865c77bd9aa093be747"/><section>
+    <title>packages</title>
+<indexterm><primary>packages</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>packages</secondary></indexterm>
+<para><computeroutput>setup.packages</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1aa7ca7bc9391b217e81efeb03689d8dbf"/><section>
+    <title>python_requires</title>
+<indexterm><primary>python_requires</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>python_requires</secondary></indexterm>
+<para><computeroutput>setup.python_requires</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1afc13124aa5c0124e84e1d965e3f4b0fb"/><section>
+    <title>url</title>
+<indexterm><primary>url</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>url</secondary></indexterm>
+<para><computeroutput>setup.url</computeroutput></para></section>
+<anchor xml:id="_namespacesetup_1a2aa722b36a933088812b50ea79b97a5c"/><section>
+    <title>version</title>
+<indexterm><primary>version</primary><secondary>setup</secondary></indexterm>
+<indexterm><primary>setup</primary><secondary>version</secondary></indexterm>
+<para><computeroutput>setup.version</computeroutput></para></section>
+</section>
+</section>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="namespacesetup" kind="namespace" language="Python">
+    <compoundname>setup</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesetup_1ab3a7a0638d76a01367c5bc3cc699447f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>setup.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="4" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="4" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1a2aa722b36a933088812b50ea79b97a5c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>setup.version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="5" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1aff2375a361fd5865c77bd9aa093be747" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.packages</definition>
+        <argsstring></argsstring>
+        <name>packages</name>
+        <qualifiedname>setup.packages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="6" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1abead4f26b530856f858f0d44c7cf2588" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.install_requires</definition>
+        <argsstring></argsstring>
+        <name>install_requires</name>
+        <qualifiedname>setup.install_requires</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="7" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1ada7058afc98897f073d3f3b8b9157059" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.entry_points</definition>
+        <argsstring></argsstring>
+        <name>entry_points</name>
+        <qualifiedname>setup.entry_points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="12" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1a3a57a4772d418a06835249cbade0d86a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>setup.author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="17" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1a5b08034343aa2be607722a8b315f3625" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.author_email</definition>
+        <argsstring></argsstring>
+        <name>author_email</name>
+        <qualifiedname>setup.author_email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="18" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1aedf461ec52a946bda975938ba0b93ec0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>setup.description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="19" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1a4cda9dbfb952875376a0749fe08a5bde" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.long_description</definition>
+        <argsstring></argsstring>
+        <name>long_description</name>
+        <qualifiedname>setup.long_description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="20" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1a3796ea10c998699d07d391414ff5d720" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.long_description_content_type</definition>
+        <argsstring></argsstring>
+        <name>long_description_content_type</name>
+        <qualifiedname>setup.long_description_content_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="21" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1afc13124aa5c0124e84e1d965e3f4b0fb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>setup.url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="22" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1abe96a9c38c1c61f9f0fdb002c482f785" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.classifiers</definition>
+        <argsstring></argsstring>
+        <name>classifiers</name>
+        <qualifiedname>setup.classifiers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="23" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesetup_1aa7ca7bc9391b217e81efeb03689d8dbf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>setup.python_requires</definition>
+        <argsstring></argsstring>
+        <name>python_requires</name>
+        <qualifiedname>setup.python_requires</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="28" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/setup.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

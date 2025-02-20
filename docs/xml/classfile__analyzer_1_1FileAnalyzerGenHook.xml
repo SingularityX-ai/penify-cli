@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="classfile__analyzer_1_1FileAnalyzerGenHook" kind="class" language="Python" prot="public">
+    <compoundname>file_analyzer::FileAnalyzerGenHook</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>file_analyzer.FileAnalyzerGenHook::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="7" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="7" bodyend="-1"/>
+        <referencedby refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6" compoundref="file__analyzer_8py" startline="53" endline="68">file_analyzer.FileAnalyzerGenHook.run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>file_analyzer.FileAnalyzerGenHook::api_client</definition>
+        <argsstring></argsstring>
+        <name>api_client</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.api_client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="8" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="8" bodyend="-1"/>
+        <referencedby refid="classcommit__analyzer_1_1CommitDocGenHook_1ab9c936e89244a1aec6e7f5d493ffd4c3" compoundref="commit__analyzer_8py" startline="84" endline="108">commit_analyzer.CommitDocGenHook.get_summary</referencedby>
+        <referencedby refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" compoundref="file__analyzer_8py" startline="11" endline="52">file_analyzer.FileAnalyzerGenHook.process_file</referencedby>
+        <referencedby refid="classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0" compoundref="git__analyzer_8py" startline="144" endline="203">git_analyzer.GitDocGenHook.process_file</referencedby>
+        <referencedby refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" compoundref="folder__analyzer_8py" startline="38" endline="69">folder_analyzer.FolderAnalyzerGenHook.run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>file_analyzer.FileAnalyzerGenHook::supported_file_types</definition>
+        <argsstring></argsstring>
+        <name>supported_file_types</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.supported_file_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="9" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="9" bodyend="-1"/>
+        <referencedby refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" compoundref="file__analyzer_8py" startline="11" endline="52">file_analyzer.FileAnalyzerGenHook.process_file</referencedby>
+        <referencedby refid="classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0" compoundref="git__analyzer_8py" startline="144" endline="203">git_analyzer.GitDocGenHook.process_file</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a5626d6e274ca3701f6e948c8154654ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def file_analyzer.FileAnalyzerGenHook.__init__</definition>
+        <argsstring>(self, str file_path, APIClient api_client)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classapi__client_1_1APIClient" kindref="compound">APIClient</ref></type>
+          <declname>api_client</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="6" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="6" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def file_analyzer.FileAnalyzerGenHook.process_file</definition>
+        <argsstring>(self, file_path)</argsstring>
+        <name>process_file</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.process_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790" kindref="member">file_path</ref></type>
+          <defname>file_path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process a file by reading its content and sending it to an API for
+processing.
+
+This function checks if the provided file has a supported extension. If
+the file is valid, it reads the content of the file and sends it to an
+API client for further processing. If the API responds successfully, the
+original file content is replaced with the response.
+
+Args:
+    file_path (str): The relative path to the file that needs to be processed.
+
+Returns:
+    bool: True if the file was processed successfully, False otherwise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="11" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="11" bodyend="52"/>
+        <references refid="classcommit__analyzer_1_1CommitDocGenHook_1abcb9ff0e33b723efae1851f6252daddd" compoundref="commit__analyzer_8py" startline="13">commit_analyzer.CommitDocGenHook.api_client</references>
+        <references refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8" compoundref="file__analyzer_8py" startline="8">file_analyzer.FileAnalyzerGenHook.api_client</references>
+        <references refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a" compoundref="folder__analyzer_8py" startline="10">folder_analyzer.FolderAnalyzerGenHook.api_client</references>
+        <references refid="classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8" compoundref="git__analyzer_8py" startline="10">git_analyzer.GitDocGenHook.api_client</references>
+        <references refid="classcommit__analyzer_1_1CommitDocGenHook_1a8814e69d03a2ca9fe897acc8ae02535c" compoundref="commit__analyzer_8py" startline="15">commit_analyzer.CommitDocGenHook.supported_file_types</references>
+        <references refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6" compoundref="file__analyzer_8py" startline="9">file_analyzer.FileAnalyzerGenHook.supported_file_types</references>
+        <references refid="classgit__analyzer_1_1GitDocGenHook_1a41712029c362fca7f765017e1ef83334" compoundref="git__analyzer_8py" startline="12">git_analyzer.GitDocGenHook.supported_file_types</references>
+        <referencedby refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6" compoundref="file__analyzer_8py" startline="53" endline="68">file_analyzer.FileAnalyzerGenHook.run</referencedby>
+        <referencedby refid="classgit__analyzer_1_1GitDocGenHook_1ad596fef66f3edbf433f959620346ca26" compoundref="git__analyzer_8py" startline="204" endline="237">git_analyzer.GitDocGenHook.run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def file_analyzer.FileAnalyzerGenHook.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>file_analyzer.FileAnalyzerGenHook.run</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Run the post-commit hook.
+
+This method executes the post-commit hook by processing a specified
+file. It attempts to process the file located at `self.file_path`. If an
+error occurs during the processing, it catches the exception and prints
+an error message indicating that the file was not processed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="53" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="53" bodyend="68"/>
+        <references refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790" compoundref="file__analyzer_8py" startline="7">file_analyzer.FileAnalyzerGenHook.file_path</references>
+        <references refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" compoundref="file__analyzer_8py" startline="11" endline="52">file_analyzer.FileAnalyzerGenHook.process_file</references>
+        <references refid="classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0" compoundref="git__analyzer_8py" startline="144" endline="203">git_analyzer.GitDocGenHook.process_file</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>file_analyzer.FileAnalyzerGenHook</label>
+        <link refid="classfile__analyzer_1_1FileAnalyzerGenHook"/>
+      </node>
+    </collaborationgraph>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" line="5" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/file_analyzer.py" bodystart="5" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5626d6e274ca3701f6e948c8154654ba" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>__init__</name></member>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>api_client</name></member>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>file_path</name></member>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>process_file</name></member>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>run</name></member>
+      <member refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6" prot="public" virt="non-virtual"><scope>file_analyzer::FileAnalyzerGenHook</scope><name>supported_file_types</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

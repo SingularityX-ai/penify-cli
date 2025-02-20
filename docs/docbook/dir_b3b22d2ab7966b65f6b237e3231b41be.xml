@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_dir_b3b22d2ab7966b65f6b237e3231b41be" xml:lang="en-US">
+<title>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli Directory Reference</title>
+<indexterm><primary>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli Directory Reference</primary></indexterm>
+<simplesect>
+    <title>Directories    </title>
+        <itemizedlist>
+            <listitem><para>directory <link linkend="_dir_f88c3381c1861b3f7ca1f3d63cf244b5">penify_hook</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Files    </title>
+        <itemizedlist>
+            <listitem><para>file <link linkend="_setup_8py">setup.py</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="classfolder__analyzer_1_1FolderAnalyzerGenHook" kind="class" language="Python" prot="public">
+    <compoundname>folder_analyzer::FolderAnalyzerGenHook</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>folder_analyzer.FolderAnalyzerGenHook::dir_path</definition>
+        <argsstring></argsstring>
+        <name>dir_path</name>
+        <qualifiedname>folder_analyzer.FolderAnalyzerGenHook.dir_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="9" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="9" bodyend="-1"/>
+        <referencedby refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" compoundref="folder__analyzer_8py" startline="38" endline="69">folder_analyzer.FolderAnalyzerGenHook.run</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>folder_analyzer.FolderAnalyzerGenHook::api_client</definition>
+        <argsstring></argsstring>
+        <name>api_client</name>
+        <qualifiedname>folder_analyzer.FolderAnalyzerGenHook.api_client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="10" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="10" bodyend="-1"/>
+        <referencedby refid="classcommit__analyzer_1_1CommitDocGenHook_1ab9c936e89244a1aec6e7f5d493ffd4c3" compoundref="commit__analyzer_8py" startline="84" endline="108">commit_analyzer.CommitDocGenHook.get_summary</referencedby>
+        <referencedby refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263" compoundref="file__analyzer_8py" startline="11" endline="52">file_analyzer.FileAnalyzerGenHook.process_file</referencedby>
+        <referencedby refid="classgit__analyzer_1_1GitDocGenHook_1a4524f438ea3fc33abebd667f0d2e28a0" compoundref="git__analyzer_8py" startline="144" endline="203">git_analyzer.GitDocGenHook.process_file</referencedby>
+        <referencedby refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" compoundref="folder__analyzer_8py" startline="38" endline="69">folder_analyzer.FolderAnalyzerGenHook.run</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ac43cf6db313d8fbfe96d8c3e16856765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def folder_analyzer.FolderAnalyzerGenHook.__init__</definition>
+        <argsstring>(self, str dir_path, APIClient api_client)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>folder_analyzer.FolderAnalyzerGenHook.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>dir_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classapi__client_1_1APIClient" kindref="compound">APIClient</ref></type>
+          <declname>api_client</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="8" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def folder_analyzer.FolderAnalyzerGenHook.list_all_files_in_dir</definition>
+        <argsstring>(self, str dir_path)</argsstring>
+        <name>list_all_files_in_dir</name>
+        <qualifiedname>folder_analyzer.FolderAnalyzerGenHook.list_all_files_in_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>dir_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>List all files in a directory and its subdirectories.
+
+This function traverses the specified directory and its subdirectories,
+collecting the full paths of all files found. It ignores any directories
+that start with a dot (.), which are typically hidden directories in
+Unix-like operating systems. The resulting list contains the full paths
+of the files, making it useful for file management tasks.
+
+Args:
+    dir_path (str): The path to the directory to search for files.
+
+Returns:
+    list: A list of full file paths found in the specified directory and its
+    subdirectories.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="12" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="12" bodyend="37"/>
+        <referencedby refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" compoundref="folder__analyzer_8py" startline="38" endline="69">folder_analyzer.FolderAnalyzerGenHook.run</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def folder_analyzer.FolderAnalyzerGenHook.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>folder_analyzer.FolderAnalyzerGenHook.run</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Run the post-commit hook.
+
+This method processes all files in the specified directory by listing
+them and running a file analyzer on each one. It provides feedback on
+the number of files being processed and handles any errors that occur
+during the analysis of individual files, ensuring that the progress bar
+updates appropriately even in the event of an error.  It first retrieves
+a list of all files in the specified directory and prints the total
+number of files to be processed. Then, it initializes a progress bar to
+visually indicate the processing status. For each file, it attempts to
+create an instance of `FileAnalyzerGenHook` and run its analysis method.
+If an error occurs while processing a file, it catches the exception,
+prints an error message, and continues with the next file, ensuring that
+the progress bar reflects the ongoing processing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="38" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="38" bodyend="69"/>
+        <references refid="classcommit__analyzer_1_1CommitDocGenHook_1abcb9ff0e33b723efae1851f6252daddd" compoundref="commit__analyzer_8py" startline="13">commit_analyzer.CommitDocGenHook.api_client</references>
+        <references refid="classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8" compoundref="file__analyzer_8py" startline="8">file_analyzer.FileAnalyzerGenHook.api_client</references>
+        <references refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a" compoundref="folder__analyzer_8py" startline="10">folder_analyzer.FolderAnalyzerGenHook.api_client</references>
+        <references refid="classgit__analyzer_1_1GitDocGenHook_1a322d3b5c86f1c93f502d3fcd3ed84df8" compoundref="git__analyzer_8py" startline="10">git_analyzer.GitDocGenHook.api_client</references>
+        <references refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6" compoundref="folder__analyzer_8py" startline="9">folder_analyzer.FolderAnalyzerGenHook.dir_path</references>
+        <references refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234" compoundref="folder__analyzer_8py" startline="12" endline="37">folder_analyzer.FolderAnalyzerGenHook.list_all_files_in_dir</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>folder_analyzer.FolderAnalyzerGenHook</label>
+        <link refid="classfolder__analyzer_1_1FolderAnalyzerGenHook"/>
+      </node>
+    </collaborationgraph>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" line="7" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/folder_analyzer.py" bodystart="7" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ac43cf6db313d8fbfe96d8c3e16856765" prot="public" virt="non-virtual"><scope>folder_analyzer::FolderAnalyzerGenHook</scope><name>__init__</name></member>
+      <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a587708984f08172a823ab6aaf417134a" prot="public" virt="non-virtual"><scope>folder_analyzer::FolderAnalyzerGenHook</scope><name>api_client</name></member>
+      <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1ad2d3dca4dd0fd12340ff6b339b02a9f6" prot="public" virt="non-virtual"><scope>folder_analyzer::FolderAnalyzerGenHook</scope><name>dir_path</name></member>
+      <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1af77cc2a8651f08e01a88fc23b8b95234" prot="public" virt="non-virtual"><scope>folder_analyzer::FolderAnalyzerGenHook</scope><name>list_all_files_in_dir</name></member>
+      <member refid="classfolder__analyzer_1_1FolderAnalyzerGenHook_1a5b1d8febc0dae3dd824e1fcd832f2ab1" prot="public" virt="non-virtual"><scope>folder_analyzer::FolderAnalyzerGenHook</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

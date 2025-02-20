@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README" xml:lang="en-US">
+
+<para>Penify CLI is a command-line tool for managing Git hooks, generating documentation, and streamlining the development workflow. It provides functionality to install and uninstall Git post-commit hooks, generate documentation for files or folders, perform Git commits with automated message generation, and manage authentication.</para>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md1">
+<title>Installation</title>
+
+<para>You can install Penify CLI using pip:</para>
+
+<para><literallayout><computeroutput>pip&#32;install&#32;penify-cli
+</computeroutput></literallayout></para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md2">
+<title>Usage</title>
+
+<para>Penify CLI provides several subcommands for different functionalities:</para>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md3">
+<title>Login</title>
+
+<para>To log in and obtain an API token:</para>
+
+<para><literallayout><computeroutput>penify-cli&#32;login
+</computeroutput></literallayout></para>
+
+<para>This command will open a browser window for authentication. After successful login, the API key will be saved locally for future use.</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md4">
+<title>Install Git Hook</title>
+
+<para>To install the Git post-commit hook:</para>
+
+<para><literallayout><computeroutput>penify-cli&#32;install-hook&#32;-l&#32;/path/to/git/repo
+</computeroutput></literallayout></para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>-l, --location</computeroutput>: The path to the Git repository where you want to install the hook.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md5">
+<title>Uninstall Git Hook</title>
+
+<para>To uninstall the Git post-commit hook:</para>
+
+<para><literallayout><computeroutput>penify-cli&#32;uninstall-hook&#32;-l&#32;/path/to/git/repo
+</computeroutput></literallayout></para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>-l, --location</computeroutput>: The path to the Git repository from which you want to uninstall the hook.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md6">
+<title>Generate Documentation</title>
+
+<para>To generate documentation for files or folders:</para>
+
+<para><literallayout><computeroutput>penify-cli&#32;doc-gen&#32;[options]
+</computeroutput></literallayout></para>
+
+<para>Options:<itemizedlist>
+<listitem>
+<para><computeroutput>-fl, --file_path</computeroutput>: Path to a specific file for which to generate documentation.</para>
+</listitem><listitem>
+<para><computeroutput>-cf, --complete_folder_path</computeroutput>: Path to a folder for which to generate documentation for all files.</para>
+</listitem><listitem>
+<para><computeroutput>-gf, --git_folder_path</computeroutput>: Path to a Git repository to generate documentation for modified files. Defaults to the current directory.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md7">
+<title>Commit Code</title>
+
+<para>To commit code with an automatically generated commit message:</para>
+
+<para><literallayout><computeroutput>penify-cli&#32;commit&#32;-gf&#32;/path/to/git/repo&#32;[-m&#32;&quot;Optional&#32;message&quot;]&#32;[-e&#32;True/False]
+</computeroutput></literallayout></para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>-gf, --git_folder_path</computeroutput>: Path to the Git repository. Defaults to the current directory.</para>
+</listitem><listitem>
+<para><computeroutput>-m, --message</computeroutput>: Optional commit message. If not provided, a default message will be used.</para>
+</listitem><listitem>
+<para><computeroutput>-e, --terminal</computeroutput>: Set to &quot;True&quot; to open the terminal for editing the commit message. Defaults to &quot;False&quot;.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md8">
+<title>Authentication</title>
+
+<para>Penify CLI uses an API token for authentication. The token is obtained and used in the following priority:</para>
+
+<para><orderedlist>
+<listitem>
+<para>Command-line argument: <computeroutput>-t</computeroutput> or <computeroutput>--token</computeroutput></para>
+</listitem><listitem>
+<para>Environment variable: <computeroutput>PENIFY_API_TOKEN</computeroutput></para>
+</listitem><listitem>
+<para>Stored credentials: <computeroutput>~/.penify</computeroutput> file (created after successful login)</para>
+</listitem></orderedlist>
+</para>
+
+<para>If no token is available, you&apos;ll be prompted to log in or provide a token.</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md9">
+<title>Environment Variables</title>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>PENIFY_API_TOKEN</computeroutput>: You can set this environment variable with your API token to avoid passing it as an argument each time.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md10">
+<title>Development</title>
+
+<para>To set up the development environment:</para>
+
+<para><orderedlist>
+<listitem>
+<para>Clone the repository: <literallayout><computeroutput>git&#32;clone&#32;https://github.com/SingularityX-ai/penify-cli.git
+</computeroutput></literallayout></para>
+</listitem><listitem>
+<para>Install the package in editable mode: <literallayout><computeroutput>pip&#32;install&#32;-e&#32;.
+</computeroutput></literallayout></para>
+</listitem></orderedlist>
+</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md11">
+<title>License</title>
+
+<para>This project is licensed under the MIT License.</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md12">
+<title>Author</title>
+
+<para>Suman Saurabh (<link xlink:href="mailto:ss.sumansaurabh92@gmail.com">ss.sumansaurabh92@gmail.com</link>)</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md13">
+<title>Contributing</title>
+
+<para>Contributions are welcome! Please feel free to submit a Pull Request.</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md14">
+<title>Issues</title>
+
+<para>If you encounter any problems or have suggestions, please file an issue on the <link xlink:href="https://github.com/SingularityX-ai/penify-cli/issues">GitHub repository</link>.</para>
+</section>
+<section xml:id="_md__tmp_github_repos_arch_doc_gen_SingularityX_ai_penify_cli_README_1autotoc_md15">
+<title>Support</title>
+
+<para>For automated API Documentation, Architecture Documentation, Code Documentation, Pull Request Documentation, or if you need a demo, please join our <link xlink:href="https://discord.gg/wqrc8JeV">Discord support channel</link>. </para>
+</section>
+</section>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_main_8py" xml:lang="en-US">
+<title>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/main.py File Reference</title>
+<indexterm><primary>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/main.py</primary></indexterm>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacemain">main</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_namespacemain_1a3e494c4723342a16da721b682c2ad95d">main.install_git_hook</link> (location, token)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1a1dd4c4eb546efac3d25779ebb7e23d8c">main.uninstall_git_hook</link> (location)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1a6568610bf9f969e7129f30417d1ec212">main.generate_doc</link> (token, file_path=None, complete_folder_path=None, git_folder_path=None)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1a5754b28669981f6ed6b3d5c62aef259f">main.commit_code</link> (str gf_path, str token, str message, bool open_terminal)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1a8cf2a5becaa2433301d49eed685f49a6">main.save_credentials</link> (api_key)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1a325d966924c7c2622fcc50c3626bc8ed">main.login</link> ()</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1af6cd733a1e7a34da9a58510285b63bc7">main.get_token</link> (passed_token)</para>
+</listitem>
+            <listitem><para>def <link linkend="_namespacemain_1af613cea4cba4fb7de8e40896b3368945">main.main</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para>string <link linkend="_namespacemain_1ac715999c10e838574d30a343243bc54a">main.HOOK_FILENAME</link> = &quot;post-commit&quot;</para>
+</listitem>
+            <listitem><para>string <link linkend="_namespacemain_1ac6a9c57b7ff6db3365956d489a2ddcd7">main.HOOK_TEMPLATE</link></para>
+</listitem>
+            <listitem><para>string <link linkend="_namespacemain_1a5cda5552714bcfd2511cb8e0a5c8a785">main.api_url</link> = &apos;https://production-gateway.snorkell.ai/api&apos;</para>
+</listitem>
+            <listitem><para>string <link linkend="_namespacemain_1a1fb31e86e65fca9941931147cf5e18d8">main.dashboard_url</link> = &quot;https://dashboard.penify.dev/auth/localhost/login&quot;</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

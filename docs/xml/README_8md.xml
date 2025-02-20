@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Penify<sp/>CLI</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Penify<sp/>CLI<sp/>is<sp/>a<sp/>command-line<sp/>tool<sp/>for<sp/>managing<sp/>Git<sp/>hooks,<sp/>generating<sp/>documentation,<sp/>and<sp/>streamlining<sp/>the<sp/>development<sp/>workflow.<sp/>It<sp/>provides<sp/>functionality<sp/>to<sp/>install<sp/>and<sp/>uninstall<sp/>Git<sp/>post-commit<sp/>hooks,<sp/>generate<sp/>documentation<sp/>for<sp/>files<sp/>or<sp/>folders,<sp/>perform<sp/>Git<sp/>commits<sp/>with<sp/>automated<sp/>message<sp/>generation,<sp/>and<sp/>manage<sp/>authentication.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Installation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">You<sp/>can<sp/>install<sp/>Penify<sp/>CLI<sp/>using<sp/>pip:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">pip<sp/>install<sp/>penify-cli</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Usage</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Penify<sp/>CLI<sp/>provides<sp/>several<sp/>subcommands<sp/>for<sp/>different<sp/>functionalities:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Login</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>log<sp/>in<sp/>and<sp/>obtain<sp/>an<sp/>API<sp/>token:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">penify-cli<sp/>login</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>command<sp/>will<sp/>open<sp/>a<sp/>browser<sp/>window<sp/>for<sp/>authentication.<sp/>After<sp/>successful<sp/>login,<sp/>the<sp/>API<sp/>key<sp/>will<sp/>be<sp/>saved<sp/>locally<sp/>for<sp/>future<sp/>use.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Install<sp/>Git<sp/>Hook</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>install<sp/>the<sp/>Git<sp/>post-commit<sp/>hook:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">penify-cli<sp/>install-hook<sp/>-l<sp/>/path/to/git/repo</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>`-l,<sp/>--location`:<sp/>The<sp/>path<sp/>to<sp/>the<sp/>Git<sp/>repository<sp/>where<sp/>you<sp/>want<sp/>to<sp/>install<sp/>the<sp/>hook.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Uninstall<sp/>Git<sp/>Hook</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>uninstall<sp/>the<sp/>Git<sp/>post-commit<sp/>hook:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">penify-cli<sp/>uninstall-hook<sp/>-l<sp/>/path/to/git/repo</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>`-l,<sp/>--location`:<sp/>The<sp/>path<sp/>to<sp/>the<sp/>Git<sp/>repository<sp/>from<sp/>which<sp/>you<sp/>want<sp/>to<sp/>uninstall<sp/>the<sp/>hook.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Generate<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>generate<sp/>documentation<sp/>for<sp/>files<sp/>or<sp/>folders:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">penify-cli<sp/>doc-gen<sp/>[options]</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Options:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`-fl,<sp/>--file_path`:<sp/>Path<sp/>to<sp/>a<sp/>specific<sp/>file<sp/>for<sp/>which<sp/>to<sp/>generate<sp/>documentation.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`-cf,<sp/>--complete_folder_path`:<sp/>Path<sp/>to<sp/>a<sp/>folder<sp/>for<sp/>which<sp/>to<sp/>generate<sp/>documentation<sp/>for<sp/>all<sp/>files.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`-gf,<sp/>--git_folder_path`:<sp/>Path<sp/>to<sp/>a<sp/>Git<sp/>repository<sp/>to<sp/>generate<sp/>documentation<sp/>for<sp/>modified<sp/>files.<sp/>Defaults<sp/>to<sp/>the<sp/>current<sp/>directory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Commit<sp/>Code</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>commit<sp/>code<sp/>with<sp/>an<sp/>automatically<sp/>generated<sp/>commit<sp/>message:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```bash</highlight></codeline>
+<codeline><highlight class="normal">penify-cli<sp/>commit<sp/>-gf<sp/>/path/to/git/repo<sp/>[-m<sp/>&quot;Optional<sp/>message&quot;]<sp/>[-e<sp/>True/False]</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>`-gf,<sp/>--git_folder_path`:<sp/>Path<sp/>to<sp/>the<sp/>Git<sp/>repository.<sp/>Defaults<sp/>to<sp/>the<sp/>current<sp/>directory.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`-m,<sp/>--message`:<sp/>Optional<sp/>commit<sp/>message.<sp/>If<sp/>not<sp/>provided,<sp/>a<sp/>default<sp/>message<sp/>will<sp/>be<sp/>used.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`-e,<sp/>--terminal`:<sp/>Set<sp/>to<sp/>&quot;True&quot;<sp/>to<sp/>open<sp/>the<sp/>terminal<sp/>for<sp/>editing<sp/>the<sp/>commit<sp/>message.<sp/>Defaults<sp/>to<sp/>&quot;False&quot;.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Authentication</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Penify<sp/>CLI<sp/>uses<sp/>an<sp/>API<sp/>token<sp/>for<sp/>authentication.<sp/>The<sp/>token<sp/>is<sp/>obtained<sp/>and<sp/>used<sp/>in<sp/>the<sp/>following<sp/>priority:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/>Command-line<sp/>argument:<sp/>`-t`<sp/>or<sp/>`--token`</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Environment<sp/>variable:<sp/>`PENIFY_API_TOKEN`</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>Stored<sp/>credentials:<sp/>`~/.penify`<sp/>file<sp/>(created<sp/>after<sp/>successful<sp/>login)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>no<sp/>token<sp/>is<sp/>available,<sp/>you&apos;ll<sp/>be<sp/>prompted<sp/>to<sp/>log<sp/>in<sp/>or<sp/>provide<sp/>a<sp/>token.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Environment<sp/>Variables</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>`PENIFY_API_TOKEN`:<sp/>You<sp/>can<sp/>set<sp/>this<sp/>environment<sp/>variable<sp/>with<sp/>your<sp/>API<sp/>token<sp/>to<sp/>avoid<sp/>passing<sp/>it<sp/>as<sp/>an<sp/>argument<sp/>each<sp/>time.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Development</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>set<sp/>up<sp/>the<sp/>development<sp/>environment:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/>Clone<sp/>the<sp/>repository:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>git<sp/>clone<sp/>https://github.com/SingularityX-ai/penify-cli.git</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/>Install<sp/>the<sp/>package<sp/>in<sp/>editable<sp/>mode:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>```bash</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>pip<sp/>install<sp/>-e<sp/>.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>License</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>project<sp/>is<sp/>licensed<sp/>under<sp/>the<sp/>MIT<sp/>License.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Author</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Suman<sp/>Saurabh<sp/>(ss.sumansaurabh92@gmail.com)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Contributing</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Contributions<sp/>are<sp/>welcome!<sp/>Please<sp/>feel<sp/>free<sp/>to<sp/>submit<sp/>a<sp/>Pull<sp/>Request.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Issues</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">If<sp/>you<sp/>encounter<sp/>any<sp/>problems<sp/>or<sp/>have<sp/>suggestions,<sp/>please<sp/>file<sp/>an<sp/>issue<sp/>on<sp/>the<sp/>[GitHub<sp/>repository](https://github.com/SingularityX-ai/penify-cli/issues).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Support</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>automated<sp/>API<sp/>Documentation,<sp/>Architecture<sp/>Documentation,<sp/>Code<sp/>Documentation,<sp/>Pull<sp/>Request<sp/>Documentation,<sp/>or<sp/>if<sp/>you<sp/>need<sp/>a<sp/>demo,<sp/>please<sp/>join<sp/>our<sp/>[Discord<sp/>support<sp/>channel](https://discord.gg/wqrc8JeV).</highlight></codeline>
+    </programlisting>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/README.md"/>
+  </compounddef>
+</doxygen>

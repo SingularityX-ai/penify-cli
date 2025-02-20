@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_api__client_8py" xml:lang="en-US">
+<title>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py File Reference</title>
+<indexterm><primary>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/api_client.py</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_classapi__client_1_1APIClient">api_client.APIClient</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespaceapi__client">api_client</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

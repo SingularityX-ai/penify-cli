@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_annotated" xml:lang="en-US">
+<title>Class List</title>
+Here are the classes, structs, unions and interfaces with brief descriptions:<link linkend="_classapi__client_1_1APIClient">api_client.APIClient</link><link linkend="_classcommit__analyzer_1_1CommitDocGenHook">commit_analyzer.CommitDocGenHook</link><link linkend="_classException">Exception</link><link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook">file_analyzer.FileAnalyzerGenHook</link><link linkend="_classfolder__analyzer_1_1FolderAnalyzerGenHook">folder_analyzer.FolderAnalyzerGenHook</link><link linkend="_classgit__analyzer_1_1GitDocGenHook">git_analyzer.GitDocGenHook</link><link linkend="_classutils_1_1GitRepoNotFoundError">utils.GitRepoNotFoundError</link></section>

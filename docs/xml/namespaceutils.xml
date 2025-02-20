@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="namespaceutils" kind="namespace" language="Python">
+    <compoundname>utils</compoundname>
+    <innerclass refid="classutils_1_1GitRepoNotFoundError" prot="public">utils::GitRepoNotFoundError</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def utils.find_git_parent</definition>
+        <argsstring>(path)</argsstring>
+        <name>find_git_parent</name>
+        <qualifiedname>utils.find_git_parent</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find the parent directory of a Git repository.
+
+This function traverses up the directory structure from the given path
+to locate the nearest parent directory that contains a `.git` folder. If
+such a directory is found, it returns the path to that directory. If no
+Git repository is found in the specified path or any of its parent
+directories, it raises a custom exception.
+
+Args:
+    path (str): The path from which to start searching for the Git repository.
+
+Returns:
+    str: The absolute path to the parent directory containing the `.git` folder.
+
+Raises:
+    GitRepoNotFoundError: If no Git repository is found in the specified path or any
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py" line="6" column="1" bodyfile="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py" bodystart="6" bodyend="33"/>
+        <referencedby refid="namespacemain_1af613cea4cba4fb7de8e40896b3368945" compoundref="main_8py" startline="240" endline="310">main.main</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

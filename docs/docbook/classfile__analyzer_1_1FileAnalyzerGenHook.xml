@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook" xml:lang="en-US">
+<title>file_analyzer.FileAnalyzerGenHook Class Reference</title>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary></indexterm>
+Collaboration diagram for file_analyzer.FileAnalyzerGenHook:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfile__analyzer_1_1FileAnalyzerGenHook__coll__graph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a5626d6e274ca3701f6e948c8154654ba">__init__</link> (self, str <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790">file_path</link>, <link linkend="_classapi__client_1_1APIClient">APIClient</link> <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8">api_client</link>)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263">process_file</link> (self, <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790">file_path</link>)</para>
+</listitem>
+            <listitem><para>def <link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6">run</link> (self)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790">file_path</link></para>
+</listitem>
+            <listitem><para><link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8">api_client</link></para>
+</listitem>
+            <listitem><para><link linkend="_classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6">supported_file_types</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a5626d6e274ca3701f6e948c8154654ba"/><section>
+    <title>__init__()</title>
+<indexterm><primary>__init__</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>__init__</secondary></indexterm>
+<para><computeroutput>def file_analyzer.FileAnalyzerGenHook.__init__ ( self, str file_path, <link linkend="_classapi__client_1_1APIClient">APIClient</link> api_client)</computeroutput></para></section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a18a6bae101fd740b7e8ff588c2338263"/><section>
+    <title>process_file()</title>
+<indexterm><primary>process_file</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>process_file</secondary></indexterm>
+<para><computeroutput>def file_analyzer.FileAnalyzerGenHook.process_file ( self,  file_path)</computeroutput></para>
+<para><literallayout><computeroutput>Process a file by reading its content and sending it to an API for
+processing.
+
+This function checks if the provided file has a supported extension. If
+the file is valid, it reads the content of the file and sends it to an
+API client for further processing. If the API responds successfully, the
+original file content is replaced with the response.
+
+Args:
+    file_path (str): The relative path to the file that needs to be processed.
+
+Returns:
+    bool: True if the file was processed successfully, False otherwise.
+</computeroutput></literallayout> </para>
+Here is the caller graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfile__analyzer_1_1FileAnalyzerGenHook_a18a6bae101fd740b7e8ff588c2338263_icgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a5e7fdb6cbd90f4b742aa8940189308a6"/><section>
+    <title>run()</title>
+<indexterm><primary>run</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>run</secondary></indexterm>
+<para><computeroutput>def file_analyzer.FileAnalyzerGenHook.run ( self)</computeroutput></para>
+<para><literallayout><computeroutput>Run the post-commit hook.
+
+This method executes the post-commit hook by processing a specified
+file. It attempts to process the file located at `self.file_path`. If an
+error occurs during the processing, it catches the exception and prints
+an error message indicating that the file was not processed.
+</computeroutput></literallayout> </para>
+Here is the call graph for this function:<para>
+    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="classfile__analyzer_1_1FileAnalyzerGenHook_a5e7fdb6cbd90f4b742aa8940189308a6_cgraph.svg"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a60d097b386f85a5c2675e12c2b02aad8"/><section>
+    <title>api_client</title>
+<indexterm><primary>api_client</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>api_client</secondary></indexterm>
+<para><computeroutput>file_analyzer.FileAnalyzerGenHook.api_client</computeroutput></para></section>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a6995edfffb26bd4c4295477d06440790"/><section>
+    <title>file_path</title>
+<indexterm><primary>file_path</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>file_path</secondary></indexterm>
+<para><computeroutput>file_analyzer.FileAnalyzerGenHook.file_path</computeroutput></para></section>
+<anchor xml:id="_classfile__analyzer_1_1FileAnalyzerGenHook_1a60ac367a22436676404bb4566fc588f6"/><section>
+    <title>supported_file_types</title>
+<indexterm><primary>supported_file_types</primary><secondary>file_analyzer.FileAnalyzerGenHook</secondary></indexterm>
+<indexterm><primary>file_analyzer.FileAnalyzerGenHook</primary><secondary>supported_file_types</secondary></indexterm>
+<para><computeroutput>file_analyzer.FileAnalyzerGenHook.supported_file_types</computeroutput></para></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/<link linkend="_file__analyzer_8py">file_analyzer.py</link></section>
+</section>

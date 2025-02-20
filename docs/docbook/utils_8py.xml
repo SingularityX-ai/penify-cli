@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_utils_8py" xml:lang="en-US">
+<title>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py File Reference</title>
+<indexterm><primary>/tmp/github_repos_arch_doc_gen/SingularityX-ai/penify-cli/penify_hook/utils.py</primary></indexterm>
+<simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_classutils_1_1GitRepoNotFoundError">utils.GitRepoNotFoundError</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespaceutils">utils</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>def <link linkend="_namespaceutils_1ad9e472f4893cc6ba4b57b97fd5d8d7c8">utils.find_git_parent</link> (path)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>
