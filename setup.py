@@ -7,7 +7,8 @@ setup(
     install_requires=[
         "requests",
         "tqdm",
-        "GitPython"
+        "GitPython",
+        "litellm"  # Add litellm as a dependency
     ],
     entry_points={
         "console_scripts": [

@@ -135,6 +135,26 @@ class APIClient:
             print(f"Error: {response.text}")
             return None
 
+    def generate_commit_summary_with_llm(self, diff, message, repo_details, llm_client):
+        """
+        Generate a commit summary using a local LLM client instead of the API.
+        
+        Args:
+            diff: Git diff of changes
+            message: User-provided commit message or instructions
+            repo_details: Details about the repository
+            llm_client: Instance of LLMClient
+            
+        Returns:
+            Dict with title and description for the commit
+        """
+        try:
+            return llm_client.generate_commit_summary(diff, message, repo_details)
+        except Exception as e:
+            print(f"Error using local LLM: {e}")
+            # Fall back to API for commit summary
+            return self.generate_commit_summary(diff, message, repo_details)
+
     def get_api_key(self):
 
         url = self.api_url+"/v1/apiToken/get"
@@ -147,4 +167,3 @@ class APIClient:
             print(f"Error: {response.text}")
             return None
 
-        

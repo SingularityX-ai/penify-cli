@@ -8,9 +8,10 @@ from tqdm import tqdm
 from .api_client import APIClient
 
 class CommitDocGenHook:
-    def __init__(self, repo_path: str, api_client: APIClient):
+    def __init__(self, repo_path: str, api_client: APIClient, llm_client=None):
         self.repo_path = repo_path
         self.api_client = api_client
+        self.llm_client = llm_client  # Add LLM client as an optional parameter
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
         self.repo_details = self.get_repo_details()
@@ -87,7 +88,8 @@ class CommitDocGenHook:
         This function retrieves the differences of the staged changes in the
         repository and generates a commit summary using the provided
         instruction. If there are no changes staged for commit, an exception is
-        raised.
+        raised. If an LLM client is provided, it will use that for generating
+        the summary, otherwise it will use the API client.
 
         Args:
             instruction (str): A string containing instructions for generating the commit summary.
@@ -103,7 +105,14 @@ class CommitDocGenHook:
         diff = self.repo.git.diff('--cached')
         if not diff:
             raise Exception("No changes to commit")
-        return self.api_client.generate_commit_summary(diff, instruction, self.repo_details)
+        
+        # Use LLM client if provided, otherwise use API client
+        if self.llm_client:
+            return self.api_client.generate_commit_summary_with_llm(
+                diff, instruction, self.repo_details, self.llm_client
+            )
+        else:
+            return self.api_client.generate_commit_summary(diff, instruction, self.repo_details)
     
    
     def run(self, msg: Optional[str], edit_commit_message: bool):
@@ -160,4 +169,3 @@ class CommitDocGenHook:
         finally:
             # Change back to the original directory
             os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        

@@ -17,6 +17,11 @@ from .folder_analyzer import FolderAnalyzerGenHook
 from .file_analyzer import FileAnalyzerGenHook
 from .api_client import APIClient
 from .git_analyzer import GitDocGenHook
+try:
+    from .llm_client import LLMClient
+except ImportError:
+    # Handle case where litellm is not installed
+    LLMClient = None
 
 HOOK_FILENAME = "post-commit"
 HOOK_TEMPLATE = """#!/bin/sh
@@ -102,16 +107,31 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
             print(f"Error: {e}")
             sys.exit(1)
     
-def commit_code(gf_path: str, token: str, message: str, open_terminal: bool):
-    # Implement the logic to perform a commit with a message
+def commit_code(gf_path: str, token: str, message: str, open_terminal: bool, llm_model=None, llm_api_base=None, llm_api_key=None):
+    # Create API client
     api_client = APIClient(api_url, token)
+    
+    # Initialize LLM client if LLM parameters are provided and LLMClient is available
+    llm_client = None
+    if LLMClient is not None and llm_model:
+        try:
+            llm_client = LLMClient(
+                model=llm_model,
+                api_base=llm_api_base,
+                api_key=llm_api_key
+            )
+            print(f"Using LLM model: {llm_model}")
+        except Exception as e:
+            print(f"Error initializing LLM client: {e}")
+            print("Falling back to API for commit summary generation")
+    
     try:
-        analyzer = CommitDocGenHook(gf_path, api_client)
+        # Pass the LLM client to CommitDocGenHook
+        analyzer = CommitDocGenHook(gf_path, api_client, llm_client)
         analyzer.run(message, open_terminal)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
-    # You can add actual Git commit logic here using subprocess or GitPython, etc.
 
 def save_credentials(api_key):
     """
@@ -129,6 +149,52 @@ def save_credentials(api_key):
             json.dump(credentials, f)
     except Exception as e:
         print(f"Error saving credentials: {str(e)}")
+
+def save_llm_config(model, api_base, api_key):
+    """
+    Save LLM configuration settings in the .penify file in the user's home directory.
+    """
+    home_dir = Path.home()
+    penify_file = home_dir / '.penify'
+    
+    config = {}
+    if penify_file.exists():
+        try:
+            with open(penify_file, 'r') as f:
+                config = json.load(f)
+        except json.JSONDecodeError:
+            pass
+    
+    # Update or add LLM configuration
+    config['llm'] = {
+        'model': model,
+        'api_base': api_base,
+        'api_key': api_key
+    }
+    
+    try:
+        with open(penify_file, 'w') as f:
+            json.dump(config, f)
+        print(f"LLM configuration saved to {penify_file}")
+    except Exception as e:
+        print(f"Error saving LLM configuration: {str(e)}")
+
+def get_llm_config():
+    """
+    Get LLM configuration from the .penify file.
+    """
+    config_file = Path.home() / '.penify'
+    if config_file.exists():
+        try:
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                return config.get('llm', {})
+        except json.JSONDecodeError:
+            print("Error reading .penify config file. File may be corrupted.")
+        except Exception as e:
+            print(f"Error reading .penify config file: {str(e)}")
+    
+    return {}
 
 def login():
     """
@@ -274,6 +340,16 @@ def main():
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
     commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
+    # Add LLM options for the commit subcommand
+    commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use for commit message generation (e.g., ollama/llama2, gpt-3.5-turbo)")
+    commit_parser.add_argument("--llm-api-base", help="API base URL for the LLM service (e.g., http://localhost:11434 for Ollama)")
+    commit_parser.add_argument("--llm-api-key", help="API key for the LLM service")
+
+    # Add a new subcommand: config-llm
+    llm_config_parser = subparsers.add_parser("config-llm", help="Configure LLM settings for commit message generation")
+    llm_config_parser.add_argument("--model", required=True, help="LLM model to use (e.g., ollama/llama2, gpt-3.5-turbo)")
+    llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service (e.g., http://localhost:11434 for Ollama)")
+    llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
 
     # Subcommand: login
     login_parser = subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
@@ -299,9 +375,29 @@ def main():
         if not token:
             print("Error: API token is required. Please provide it using -t option, PENIFY_API_TOKEN environment variable, or log in first.")
             sys.exit(1)
+        
         open_terminal = args.terminal.lower() == "true"
-        args.git_folder_path = find_git_parent(args.git_folder_path)
-        commit_code(args.git_folder_path, token, args.message, open_terminal)
+        
+        # Get LLM configuration - first from command line args, then from config file
+        llm_model = args.llm_model
+        llm_api_base = args.llm_api_base
+        llm_api_key = args.llm_api_key
+        
+        if not llm_model:
+            # Try to get from config
+            llm_config = get_llm_config()
+            llm_model = llm_config.get('model')
+            llm_api_base = llm_config.get('api_base') if not llm_api_base else llm_api_base
+            llm_api_key = llm_config.get('api_key') if not llm_api_key else llm_api_key
+        
+        commit_code(args.git_folder_path, token, args.message, open_terminal, 
+                   llm_model, llm_api_base, llm_api_key)
+    
+    elif args.subcommand == "config-llm":
+        # Save LLM configuration
+        save_llm_config(args.model, args.api_base, args.api_key)
+        print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
+    
     elif args.subcommand == "login":
         login()
     else:
