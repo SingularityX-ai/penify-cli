@@ -69,6 +69,20 @@ penify-cli commit -gf /path/to/git/repo [-m "Optional message"] [-e True/False]
 - `-m, --message`: Optional commit message. If not provided, a default message will be used.
 - `-e, --terminal`: Set to "True" to open the terminal for editing the commit message. Defaults to "False".
 
+### JIRA Integration
+
+To integrate with JIRA and automate issue tracking:
+
+```bash
+penify-cli jira [options]
+```
+
+Options:
+- `-u, --url`: JIRA instance URL.
+- `-p, --project`: JIRA project key.
+- `-i, --issue`: JIRA issue key.
+- `-a, --assignee`: Assignee for the JIRA issue.
+
 ## Authentication
 
 Penify CLI uses an API token for authentication. The token is obtained and used in the following priority:

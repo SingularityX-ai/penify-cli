@@ -2,16 +2,17 @@ import os
 import re
 import subprocess
 import tempfile
-from typing import Optional
+from typing import Optional, List
 from git import Repo
 from tqdm import tqdm
 from .api_client import APIClient
 
 class CommitDocGenHook:
-    def __init__(self, repo_path: str, api_client: APIClient, llm_client=None):
+    def __init__(self, repo_path: str, api_client: APIClient, llm_client=None, jira_client=None):
         self.repo_path = repo_path
         self.api_client = api_client
         self.llm_client = llm_client  # Add LLM client as an optional parameter
+        self.jira_client = jira_client  # Add JIRA client as an optional parameter
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
         self.repo_details = self.get_repo_details()
@@ -136,17 +137,66 @@ class CommitDocGenHook:
         summary: dict = self.get_summary(msg)
         if not summary:
             raise Exception("Error generating commit summary")
+        
         title = summary.get('title', "")
         description = summary.get('description', "")
-
+        
+        # If JIRA client is available, integrate JIRA information
+        if self.jira_client and self.jira_client.is_connected():
+            # Add JIRA information to commit message
+            title, description = self.process_jira_integration(title, description, msg)
+            
         # commit the changes to the repository with above details
         commit_msg = f"{title}\n\n{description}"
         self.repo.git.commit('-m', commit_msg)
+        
         if edit_commit_message:
             # Open the git commit edit terminal
             print("Opening git commit edit terminal...")
             self._amend_commit()
+    
+    def process_jira_integration(self, title: str, description: str, msg: str) -> tuple:
+        """
+        Process JIRA integration for the commit message.
         
+        Args:
+            title: Generated commit title
+            description: Generated commit description 
+            msg: Original user message that might contain JIRA references
+            
+        Returns:
+            tuple: (updated_title, updated_description) with JIRA information
+        """
+        # Look for JIRA issue keys in commit message, title, description and user message
+        issue_keys = []
+        if self.jira_client:
+            issue_keys = self.jira_client.extract_issue_keys(f"{title} {description} {msg}")
+            
+            if issue_keys:
+                print(f"Found JIRA issues: {', '.join(issue_keys)}")
+                
+                # Format commit message with JIRA info
+                title, description = self.jira_client.format_commit_message_with_jira_info(
+                    title, description, issue_keys
+                )
+                
+                # Add comments to JIRA issues
+                for issue_key in issue_keys:
+                    comment = (
+                        f"Commit related to this issue:\n\n"
+                        f"**{title}**\n\n"
+                        f"{description}\n\n"
+                        f"Repository: {self.repo_details.get('organization_name')}/{self.repo_details.get('repo_name')}"
+                    )
+                    self.jira_client.add_comment(issue_key, comment)
+                    
+                    # Optionally update issue status (commented out by default)
+                    # Uncomment and customize the status if needed
+                    # self.jira_client.update_issue_status(issue_key, "In Progress")
+            else:
+                print("No JIRA issues found in commit message")
+                
+        return title, description
 
     def _amend_commit(self):
         """Open the default git editor for editing the commit message.

@@ -9,6 +9,7 @@ import http.server
 import socketserver
 import urllib.parse
 from threading import Thread
+import logging
 
 from penify_hook.utils import find_git_parent
 
@@ -22,6 +23,12 @@ try:
 except ImportError:
     # Handle case where litellm is not installed
     LLMClient = None
+
+try:
+    from .jira_client import JiraClient
+except ImportError:
+    # Handle case where jira is not installed
+    JiraClient = None
 
 HOOK_FILENAME = "post-commit"
 HOOK_TEMPLATE = """#!/bin/sh
@@ -107,7 +114,9 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
             print(f"Error: {e}")
             sys.exit(1)
     
-def commit_code(gf_path: str, token: str, message: str, open_terminal: bool, llm_model=None, llm_api_base=None, llm_api_key=None):
+def commit_code(gf_path: str, token: str, message: str, open_terminal: bool, 
+                llm_model=None, llm_api_base=None, llm_api_key=None,
+                jira_url=None, jira_user=None, jira_api_token=None):
     # Create API client
     api_client = APIClient(api_url, token)
     
@@ -125,9 +134,27 @@ def commit_code(gf_path: str, token: str, message: str, open_terminal: bool, llm
             print(f"Error initializing LLM client: {e}")
             print("Falling back to API for commit summary generation")
     
+    # Initialize JIRA client if parameters are provided and JiraClient is available
+    jira_client = None
+    if JiraClient is not None and jira_url and jira_user and jira_api_token:
+        try:
+            jira_client = JiraClient(
+                jira_url=jira_url,
+                jira_user=jira_user,
+                jira_api_token=jira_api_token
+            )
+            if jira_client.is_connected():
+                print(f"Connected to JIRA: {jira_url}")
+            else:
+                print(f"Failed to connect to JIRA: {jira_url}")
+                jira_client = None
+        except Exception as e:
+            print(f"Error initializing JIRA client: {e}")
+            jira_client = None
+    
     try:
-        # Pass the LLM client to CommitDocGenHook
-        analyzer = CommitDocGenHook(gf_path, api_client, llm_client)
+        # Pass the LLM client and JIRA client to CommitDocGenHook
+        analyzer = CommitDocGenHook(gf_path, api_client, llm_client, jira_client)
         analyzer.run(message, open_terminal)
     except Exception as e:
         print(f"Error: {e}")
@@ -179,6 +206,35 @@ def save_llm_config(model, api_base, api_key):
     except Exception as e:
         print(f"Error saving LLM configuration: {str(e)}")
 
+def save_jira_config(url, username, api_token):
+    """
+    Save JIRA configuration settings in the .penify file in the user's home directory.
+    """
+    home_dir = Path.home()
+    penify_file = home_dir / '.penify'
+    
+    config = {}
+    if penify_file.exists():
+        try:
+            with open(penify_file, 'r') as f:
+                config = json.load(f)
+        except json.JSONDecodeError:
+            pass
+    
+    # Update or add JIRA configuration
+    config['jira'] = {
+        'url': url,
+        'username': username,
+        'api_token': api_token
+    }
+    
+    try:
+        with open(penify_file, 'w') as f:
+            json.dump(config, f)
+        print(f"JIRA configuration saved to {penify_file}")
+    except Exception as e:
+        print(f"Error saving JIRA configuration: {str(e)}")
+
 def get_llm_config():
     """
     Get LLM configuration from the .penify file.
@@ -189,6 +245,23 @@ def get_llm_config():
             with open(config_file, 'r') as f:
                 config = json.load(f)
                 return config.get('llm', {})
+        except json.JSONDecodeError:
+            print("Error reading .penify config file. File may be corrupted.")
+        except Exception as e:
+            print(f"Error reading .penify config file: {str(e)}")
+    
+    return {}
+
+def get_jira_config():
+    """
+    Get JIRA configuration from the .penify file.
+    """
+    config_file = Path.home() / '.penify'
+    if config_file.exists():
+        try:
+            with open(config_file, 'r') as f:
+                config = json.load(f)
+                return config.get('jira', {})
         except json.JSONDecodeError:
             print("Error reading .penify config file. File may be corrupted.")
         except Exception as e:
@@ -314,6 +387,9 @@ def main():
     token based on user input or environment variables and executes the
     appropriate subcommand based on user selection.
     """
+    # Configure logging
+    logging.basicConfig(level=logging.WARNING, 
+                       format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
@@ -335,21 +411,32 @@ def main():
     doc_gen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
     doc_gen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
 
-    # Subcommand: commit
+    # Subcommand: commit - update with LLM and JIRA options
     commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder, with git, to scan for modified files. Defaults to the current folder.", default=os.getcwd())
     commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
-    # Add LLM options for the commit subcommand
+    # Add LLM options
     commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use for commit message generation (e.g., ollama/llama2, gpt-3.5-turbo)")
     commit_parser.add_argument("--llm-api-base", help="API base URL for the LLM service (e.g., http://localhost:11434 for Ollama)")
     commit_parser.add_argument("--llm-api-key", help="API key for the LLM service")
+    # Add JIRA options
+    commit_parser.add_argument("--jira-url", help="JIRA base URL (e.g., https://your-domain.atlassian.net)")
+    commit_parser.add_argument("--jira-user", help="JIRA username or email")
+    commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
     # Add a new subcommand: config-llm
     llm_config_parser = subparsers.add_parser("config-llm", help="Configure LLM settings for commit message generation")
     llm_config_parser.add_argument("--model", required=True, help="LLM model to use (e.g., ollama/llama2, gpt-3.5-turbo)")
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service (e.g., http://localhost:11434 for Ollama)")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
+
+    # Add a new subcommand: config-jira
+    jira_config_parser = subparsers.add_parser("config-jira", help="Configure JIRA settings for commit integration")
+    jira_config_parser.add_argument("--url", required=True, help="JIRA base URL (e.g., https://your-domain.atlassian.net)")
+    jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
+    jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
+    jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection after configuration")
 
     # Subcommand: login
     login_parser = subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
@@ -390,13 +477,46 @@ def main():
             llm_api_base = llm_config.get('api_base') if not llm_api_base else llm_api_base
             llm_api_key = llm_config.get('api_key') if not llm_api_key else llm_api_key
         
-        commit_code(args.git_folder_path, token, args.message, open_terminal, 
-                   llm_model, llm_api_base, llm_api_key)
+        # Get JIRA configuration - first from command line args, then from config file
+        jira_url = args.jira_url
+        jira_user = args.jira_user
+        jira_api_token = args.jira_api_token
+        
+        if not jira_url or not jira_user or not jira_api_token:
+            # Try to get from config
+            jira_config = get_jira_config()
+            jira_url = jira_url or jira_config.get('url')
+            jira_user = jira_user or jira_config.get('username')
+            jira_api_token = jira_api_token or jira_config.get('api_token')
+        
+        commit_code(args.git_folder_path, token, args.message, open_terminal,
+                   llm_model, llm_api_base, llm_api_key,
+                   jira_url, jira_user, jira_api_token)
     
     elif args.subcommand == "config-llm":
         # Save LLM configuration
         save_llm_config(args.model, args.api_base, args.api_key)
         print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
+    
+    elif args.subcommand == "config-jira":
+        # Save JIRA configuration
+        save_jira_config(args.url, args.username, args.api_token)
+        print(f"JIRA configuration set: URL={args.url}, Username={args.username}")
+        
+        # Verify connection if requested
+        if args.verify:
+            if JiraClient:
+                jira_client = JiraClient(
+                    jira_url=args.url,
+                    jira_user=args.username,
+                    jira_api_token=args.api_token
+                )
+                if jira_client.is_connected():
+                    print("JIRA connection verified successfully!")
+                else:
+                    print("Failed to connect to JIRA. Please check your credentials.")
+            else:
+                print("JIRA package not installed. Cannot verify connection.")
     
     elif args.subcommand == "login":
         login()

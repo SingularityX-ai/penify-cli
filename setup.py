@@ -8,7 +8,8 @@ setup(
         "requests",
         "tqdm",
         "GitPython",
-        "litellm"  # Add litellm as a dependency
+        "litellm",
+        "jira"  # Add JIRA as a dependency
     ],
     entry_points={
         "console_scripts": [
