@@ -16,8 +16,29 @@ except ImportError:
 def commit_code(api_url, gf_path, token, message, open_terminal, 
                llm_model=None, llm_api_base=None, llm_api_key=None,
                jira_url=None, jira_user=None, jira_api_token=None):
-    """
-    Enhance Git commits with AI-powered commit messages.
+    """Enhance Git commits with AI-powered commit messages.
+
+    This function integrates AI capabilities to generate meaningful commit
+    messages for Git commits. It utilizes an LLM (Large Language Model)
+    client if provided, and can also connect to a JIRA client for additional
+    context from JIRA issues. The function initializes the necessary clients
+    and then uses them to analyze the commit message and generate a suitable
+    summary. If any errors occur during the initialization of the clients or
+    while running the commit message generation, appropriate error messages
+    are printed, and the program exits.
+
+    Args:
+        api_url (str): The URL of the API to connect to.
+        gf_path (str): The path to the Git repository.
+        token (str): The authentication token for the API.
+        message (str): The commit message to enhance.
+        open_terminal (bool): Flag indicating whether to open a terminal.
+        llm_model (str?): The model name of the LLM to use. Defaults to None.
+        llm_api_base (str?): The base URL for the LLM API. Defaults to None.
+        llm_api_key (str?): The API key for accessing the LLM. Defaults to None.
+        jira_url (str?): The URL of the JIRA instance. Defaults to None.
+        jira_user (str?): The username for JIRA authentication. Defaults to None.
+        jira_api_token (str?): The API token for JIRA authentication. Defaults to None.
     """
     # Create API client
     api_client = APIClient(api_url, token)
