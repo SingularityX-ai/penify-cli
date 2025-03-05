@@ -118,6 +118,29 @@ def generate_doc(token, file_path=None, complete_folder_path=None, git_folder_pa
 def commit_code(gf_path: str, token: str, message: str, open_terminal: bool, 
                 llm_model=None, llm_api_base=None, llm_api_key=None,
                 jira_url=None, jira_user=None, jira_api_token=None):
+    """Commit code with optional LLM and JIRA integration.
+
+    This function facilitates the process of committing code by creating an
+    API client and optionally initializing a language model (LLM) client and
+    a JIRA client if the corresponding parameters are provided. It then uses
+    these clients to generate commit documentation and handle interactions
+    with JIRA for issue tracking. The function also manages errors that may
+    occur during the initialization of the clients or while running the
+    commit documentation generation.
+
+    Args:
+        gf_path (str): The path to the Git repository or project.
+        token (str): The API token for authentication.
+        message (str): The commit message to be used.
+        open_terminal (bool): Flag indicating whether to open a terminal after the commit.
+        llm_model (str?): The model name of the LLM to be used. Defaults to None.
+        llm_api_base (str?): The base URL for the LLM API. Defaults to None.
+        llm_api_key (str?): The API key for accessing the LLM. Defaults to None.
+        jira_url (str?): The URL of the JIRA instance. Defaults to None.
+        jira_user (str?): The username for JIRA authentication. Defaults to None.
+        jira_api_token (str?): The API token for JIRA authentication. Defaults to None.
+    """
+
     # Create API client
     api_client = APIClient(api_url, token)
     
@@ -179,8 +202,20 @@ def save_credentials(api_key):
         print(f"Error saving credentials: {str(e)}")
 
 def save_llm_config(model, api_base, api_key):
-    """
-    Save LLM configuration settings in the .penify file in the user's home directory.
+    """Save LLM configuration settings in the .penify file in the user's home
+    directory.
+
+    This function creates or updates a configuration file named '.penify'
+    located in the user's home directory. It stores the provided model, API
+    base URL, and API key in a structured format. If the configuration file
+    already exists, it attempts to read the existing settings and update
+    them with the new values. If any error occurs during reading or writing
+    the file, an error message is printed to the console.
+
+    Args:
+        model (str): The name of the model to be saved in the configuration.
+        api_base (str): The base URL for the API to be saved in the configuration.
+        api_key (str): The API key to be saved in the configuration.
     """
     home_dir = Path.home()
     penify_file = home_dir / '.penify'
@@ -208,8 +243,20 @@ def save_llm_config(model, api_base, api_key):
         print(f"Error saving LLM configuration: {str(e)}")
 
 def save_jira_config(url, username, api_token):
-    """
-    Save JIRA configuration settings in the .penify file in the user's home directory.
+    """Save JIRA configuration settings in the .penify file in the user's home
+    directory.
+
+    This function creates or updates a configuration file named '.penify'
+    located in the user's home directory. It stores the provided JIRA
+    configuration settings, including the URL, username, and API token. If
+    the configuration file already exists, it attempts to read the existing
+    settings and update them with the new values. In case of any errors
+    during file operations, an error message is printed to the console.
+
+    Args:
+        url (str): The URL of the JIRA instance.
+        username (str): The username for JIRA authentication.
+        api_token (str): The API token for JIRA authentication.
     """
     home_dir = Path.home()
     penify_file = home_dir / '.penify'
@@ -237,8 +284,18 @@ def save_jira_config(url, username, api_token):
         print(f"Error saving JIRA configuration: {str(e)}")
 
 def get_llm_config():
-    """
-    Get LLM configuration from the .penify file.
+    """Retrieve the LLM configuration from the .penify file.
+
+    This function checks for the existence of a configuration file named
+    '.penify' in the user's home directory. If the file exists, it attempts
+    to read and parse the JSON content. The function specifically looks for
+    the 'llm' key in the parsed configuration and returns its value as a
+    dictionary. If the file does not exist or if there is an error while
+    reading or parsing the file, an empty dictionary is returned.
+
+    Returns:
+        dict: The LLM configuration as a dictionary, or an empty dictionary
+        if the configuration file does not exist or cannot be read.
     """
     config_file = Path.home() / '.penify'
     if config_file.exists():
@@ -254,8 +311,17 @@ def get_llm_config():
     return {}
 
 def get_jira_config():
-    """
-    Get JIRA configuration from the .penify file.
+    """Retrieve JIRA configuration from the .penify file.
+
+    This function checks for the existence of the .penify configuration file
+    in the user's home directory. If the file exists, it attempts to read
+    and parse the JSON content. The function specifically looks for the
+    'jira' key in the configuration and returns its associated value. If the
+    file does not exist or cannot be read, an empty dictionary is returned.
+
+    Returns:
+        dict: A dictionary containing the JIRA configuration if found, otherwise an
+            empty dictionary.
     """
     config_file = Path.home() / '.penify'
     if config_file.exists():
@@ -350,8 +416,15 @@ def login():
     print("Login process completed. You can now use other commands with your API token.")
 
 def config_llm_web():
-    """
-    Open a web browser interface for configuring LLM settings.
+    """Open a web browser interface for configuring LLM settings.
+
+    This function starts a simple HTTP server that serves a configuration
+    page for LLM (Large Language Model) settings. It generates a random port
+    number for the server and opens the configuration page in the user's
+    default web browser. The server handles GET requests to serve the
+    configuration HTML and POST requests to save the configuration data.
+    Upon saving, it responds with a success message or an error message if
+    the saving process fails.
     """
     redirect_port = random.randint(30000, 50000)
     server_url = f"http://localhost:{redirect_port}"
@@ -360,6 +433,14 @@ def config_llm_web():
     
     class ConfigHandler(http.server.SimpleHTTPRequestHandler):
         def do_GET(self):
+            """Handle GET requests for the web server.
+
+            This method processes incoming GET requests. If the request path is the
+            root ("/"), it responds with a 200 status code and serves an HTML
+            template file. If the request path is anything else, it responds with a
+            404 status code indicating that the requested resource was not found.
+            """
+
             if self.path == "/":
                 self.send_response(200)
                 self.send_header("Content-type", "text/html")
@@ -381,6 +462,17 @@ def config_llm_web():
                 self.wfile.write(b"Not Found")
 
         def do_POST(self):
+            """Handle POST requests to save LLM configuration.
+
+            This method processes incoming POST requests to the "/save" endpoint. It
+            reads the request body to extract the model, API base, and API key from
+            the JSON payload. If the configuration is saved successfully, it sends a
+            success response and initiates a server shutdown in a separate thread.
+            If an error occurs during the saving process, it sends an error
+            response. If the request path is not recognized, it returns a 404 Not
+            Found response.
+            """
+
             if self.path == "/save":
                 content_length = int(self.headers['Content-Length'])
                 post_data = self.rfile.read(content_length)
@@ -432,8 +524,15 @@ def config_llm_web():
     print("Configuration completed.")
 
 def config_jira_web():
-    """
-    Open a web browser interface for configuring JIRA settings.
+    """Open a web browser interface for configuring JIRA settings.
+
+    This function sets up a simple HTTP server that serves a configuration
+    page for JIRA settings. It generates a random port for the server and
+    opens the configuration page in the user's default web browser. The
+    server handles both GET and POST requests. The GET request serves an
+    HTML template for the configuration, while the POST request processes
+    the submitted configuration data, saves it, and optionally verifies the
+    connection to JIRA.
     """
     redirect_port = random.randint(30000, 50000)
     server_url = f"http://localhost:{redirect_port}"
@@ -442,6 +541,14 @@ def config_jira_web():
     
     class ConfigHandler(http.server.SimpleHTTPRequestHandler):
         def do_GET(self):
+            """Handle GET requests for the web server.
+
+            This method processes incoming GET requests. If the request path is the
+            root ("/"), it responds with a 200 status code and serves an HTML
+            template file. If the request path is anything else, it responds with a
+            404 status code indicating that the requested resource was not found.
+            """
+
             if self.path == "/":
                 self.send_response(200)
                 self.send_header("Content-type", "text/html")
@@ -463,6 +570,17 @@ def config_jira_web():
                 self.wfile.write(b"Not Found")
 
         def do_POST(self):
+            """Handle POST requests to save JIRA configuration.
+
+            This method processes incoming POST requests to the "/save" endpoint. It
+            reads the request body to extract JIRA configuration details such as the
+            URL, username, and API token. If requested, it verifies the connection
+            to the JIRA server using the provided credentials. Upon successful
+            saving of the configuration, it sends a response indicating success or
+            failure, along with any verification messages. If an error occurs during
+            the process, it returns an appropriate error message.
+            """
+
             if self.path == "/save":
                 content_length = int(self.headers['Content-Length'])
                 post_data = self.rfile.read(content_length)
@@ -564,7 +682,12 @@ def main():
     hooks, generating documentation, committing changes, and logging in to
     obtain an API token. The function also handles the retrieval of the API
     token based on user input or environment variables and executes the
-    appropriate subcommand based on user selection.
+    appropriate subcommand based on user selection.  It provides a
+    structured way to interact with the Penify tool, allowing users to
+    configure settings for LLM (Language Model) and JIRA integration, as
+    well as manage Git hooks effectively. Each subcommand is designed to
+    facilitate specific tasks, ensuring that users can easily navigate and
+    utilize the functionalities offered by the Penify CLI.
     """
     # Configure logging
     logging.basicConfig(level=logging.WARNING, 
