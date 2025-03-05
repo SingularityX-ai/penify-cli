@@ -110,18 +110,24 @@ class APIClient:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]
 
     def generate_commit_summary_with_llm(self, diff, message, repo_details, llm_client, jira_context=None):
-        """
-        Generate a commit summary using a local LLM client instead of the API.
-        
+        """Generate a commit summary using a local LLM client instead of the API.
+
+        This function takes a Git diff, a user-provided commit message, and
+        repository details to generate a commit summary. It utilizes a local LLM
+        client to create the summary, and optionally incorporates JIRA issue
+        context if provided. If an error occurs while using the local LLM
+        client, the function falls back to an alternative method to generate the
+        commit summary.
+
         Args:
-            diff: Git diff of changes
-            message: User-provided commit message or instructions
-            repo_details: Details about the repository
-            llm_client: Instance of LLMClient
-            jira_context: Optional JIRA issue context to enhance the summary
-            
+            diff: The Git diff of changes.
+            message: The user-provided commit message or instructions.
+            repo_details: Details about the repository.
+            llm_client: An instance of LLMClient used for generating the summary.
+            jira_context: Optional; JIRA issue context to enhance the summary.
+
         Returns:
-            Dict with title and description for the commit
+            dict: A dictionary containing the title and description for the commit.
         """
         try:
             return llm_client.generate_commit_summary(diff, message, repo_details, jira_context)
