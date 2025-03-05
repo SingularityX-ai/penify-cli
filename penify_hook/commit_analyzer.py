@@ -104,7 +104,7 @@ class CommitDocGenHook:
         """
         diff = self.repo.git.diff('--cached')
         if not diff:
-            raise Exception("No changes to commit")
+            raise ValueError("No changes to commit")
         
         # Get JIRA context if available
         jira_context = None
