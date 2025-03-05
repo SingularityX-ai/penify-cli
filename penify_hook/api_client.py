@@ -45,24 +45,23 @@ class APIClient:
             print(f"Error: {response.text}")
             return content
         
-    def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None):
-        """Send file content and modified lines to the API and return modified
-        content.
+    def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None, jira_context: dict = None):
+        """Generate a commit summary by sending a POST request to the API endpoint.
 
-        This function constructs a payload containing the file path, content,
-        and modified line numbers, and sends it to a specified API endpoint for
-        processing. It handles the response from the API, returning the modified
-        content if the request is successful. If the request fails, it logs the
-        error details and returns the original content.
+        This function constructs a payload containing the git diff and any
+        additional instructions provided. It then sends this payload to a
+        specified API endpoint to generate a summary of the commit. If the
+        request is successful, it returns the response from the API; otherwise,
+        it returns None.
 
         Args:
-            file_name (str): The path to the file being sent.
-            content (str): The content of the file to be processed.
-            line_numbers (list): A list of line numbers that have been modified.
+            git_diff (str): The git diff of the commit.
+            instruction (str?): Additional instruction for the commit. Defaults to "".
+            repo_details (dict?): Details of the git repository. Defaults to None.
+            jira_context (dict?): JIRA issue details to enhance the commit summary. Defaults to None.
 
         Returns:
-            str: The modified content returned by the API, or the original content if the
-                request fails.
+            dict: The response from the API if the request is successful, None otherwise.
         """
         payload = {
             'git_diff': git_diff,
@@ -70,9 +69,13 @@ class APIClient:
         }
         if repo_details:
             payload['git_repo'] = repo_details
+            
+        # Add JIRA context if available
+        if jira_context:
+            payload['jira_context'] = jira_context
 
         url = self.api_url+"/v1/hook/commit/summary"
-        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
+        response = requests.post(url, json=payload, headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
         if response.status_code == 200:
             response = response.json()
             return response
@@ -100,42 +103,8 @@ class APIClient:
             return response
         else:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]
-        
-    def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None):
-        """Generate a commit summary by sending a POST request to the API endpoint.
 
-        This function constructs a payload containing the git diff and any
-        additional instructions provided. It then sends this payload to a
-        specified API endpoint to generate a summary of the commit. If the
-        request is successful, it returns the response from the API; otherwise,
-        it returns None.
-
-        Args:
-            git_diff (str): The git diff of the commit.
-            instruction (str?): Additional instruction for the commit. Defaults to "".
-            repo_details (dict?): Details of the git repository. Defaults to None.
-
-        Returns:
-            dict: The response from the API if the request is successful, None otherwise.
-        """
-        payload = {
-            'git_diff': git_diff,
-            'additional_instruction': instruction
-        }
-        if repo_details:
-            payload['git_repo'] = repo_details
-
-        url = self.api_url+"/v1/hook/commit/summary"
-        response = requests.post(url, json=payload,headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
-        if response.status_code == 200:
-            response = response.json()
-            return response
-        else:
-            print(f"Response: {response.status_code}")
-            print(f"Error: {response.text}")
-            return None
-
-    def generate_commit_summary_with_llm(self, diff, message, repo_details, llm_client):
+    def generate_commit_summary_with_llm(self, diff, message, repo_details, llm_client, jira_context=None):
         """
         Generate a commit summary using a local LLM client instead of the API.
         
@@ -144,16 +113,17 @@ class APIClient:
             message: User-provided commit message or instructions
             repo_details: Details about the repository
             llm_client: Instance of LLMClient
+            jira_context: Optional JIRA issue context to enhance the summary
             
         Returns:
             Dict with title and description for the commit
         """
         try:
-            return llm_client.generate_commit_summary(diff, message, repo_details)
+            return llm_client.generate_commit_summary(diff, message, repo_details, jira_context)
         except Exception as e:
             print(f"Error using local LLM: {e}")
             # Fall back to API for commit summary
-            return self.generate_commit_summary(diff, message, repo_details)
+            return self.generate_commit_summary(diff, message, repo_details, jira_context)
 
     def get_api_key(self):
 

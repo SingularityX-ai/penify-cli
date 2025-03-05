@@ -27,7 +27,7 @@ class LLMClient:
         if api_key:
             os.environ["OPENAI_API_KEY"] = api_key
     
-    def generate_commit_summary(self, diff: str, message: str, repo_details: Dict) -> Dict:
+    def generate_commit_summary(self, diff: str, message: str, repo_details: Dict, jira_context: Dict = None) -> Dict:
         """
         Generate a commit summary using the LLM.
         
@@ -35,6 +35,7 @@ class LLMClient:
             diff: Git diff of changes
             message: User-provided commit message or instructions
             repo_details: Details about the repository
+            jira_context: Optional JIRA issue context to enhance the summary
             
         Returns:
             Dict with title and description for the commit
@@ -55,6 +56,37 @@ class LLMClient:
         Hosted on: {repo_details.get('vendor', 'Unknown')}
         
         User instructions: {message}
+        """
+        
+        # Add JIRA context if available
+        if jira_context and jira_context.get('primary_issue'):
+            primary = jira_context['primary_issue']
+            prompt += f"""
+            
+            JIRA ISSUE INFORMATION:
+            Issue Key: {primary['key']}
+            Summary: {primary['summary']}
+            Type: {primary['type']}
+            Status: {primary['status']}
+            """
+            
+            if 'description' in primary and primary['description']:
+                # Include a condensed version of the description
+                description = primary['description']
+                if len(description) > 500:
+                    description = description[:500] + "..."
+                prompt += f"Description: {description}\n"
+                
+            if 'acceptance_criteria' in primary:
+                prompt += f"Acceptance Criteria: {primary['acceptance_criteria']}\n"
+                
+            prompt += """
+            
+            Please make sure your commit message addresses the business requirements in the JIRA issue
+            while accurately describing the technical changes in the diff.
+            """
+                
+        prompt += f"""
         
         Git diff:
         ```
@@ -63,7 +95,7 @@ class LLMClient:
         
         Please provide:
         1. A short, focused commit title (50-72 characters)
-        2. A more detailed description of the changes
+        2. A more detailed description of the changes that addresses both business and technical aspects
         
         Format your response as valid JSON with 'title' and 'description' keys.
         """
@@ -74,7 +106,7 @@ class LLMClient:
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2,
-                max_tokens=500
+                max_tokens=800  # Increased token limit to accommodate detailed descriptions
             )
             
             content = response.choices[0].message.content

@@ -102,18 +102,32 @@ class CommitDocGenHook:
         Raises:
             Exception: If there are no changes staged for commit.
         """
-
         diff = self.repo.git.diff('--cached')
         if not diff:
             raise Exception("No changes to commit")
         
+        # Get JIRA context if available
+        jira_context = None
+        if self.jira_client and self.jira_client.is_connected():
+            try:
+                # Check branch name for JIRA issues
+                current_branch = self.repo.active_branch.name
+                issue_keys = self.jira_client.extract_issue_keys_from_branch(current_branch)
+                
+                # If issues found in branch, get context
+                if issue_keys:
+                    jira_context = self.jira_client.get_commit_context_from_issues(issue_keys)
+                    print(f"Adding JIRA context from issues: {', '.join(issue_keys)}")
+            except Exception as e:
+                print(f"Could not get JIRA context: {e}")
+        
         # Use LLM client if provided, otherwise use API client
         if self.llm_client:
             return self.api_client.generate_commit_summary_with_llm(
-                diff, instruction, self.repo_details, self.llm_client
+                diff, instruction, self.repo_details, self.llm_client, jira_context
             )
         else:
-            return self.api_client.generate_commit_summary(diff, instruction, self.repo_details)
+            return self.api_client.generate_commit_summary(diff, instruction, self.repo_details, jira_context)
     
    
     def run(self, msg: Optional[str], edit_commit_message: bool):
