@@ -9,8 +9,20 @@ from pathlib import Path
 from ..api_client import APIClient
 
 def save_credentials(api_key):
-    """
-    Save the token and API keys in the .penify file in the user's home directory.
+    """Save the token and API keys in the .penify file in the user's home
+    directory.
+
+    This function creates a dictionary containing the provided API key and
+    attempts to write it to a file named '.penify' located in the user's
+    home directory. If the operation is successful, it returns True. If
+    there is an error during the file writing process, it catches the
+    exception, prints an error message, and returns False.
+
+    Args:
+        api_key (str): The API key to be saved.
+
+    Returns:
+        bool: True if the credentials were saved successfully, False otherwise.
     """
     home_dir = Path.home()
     penify_file = home_dir / '.penify'
@@ -28,8 +40,19 @@ def save_credentials(api_key):
         return False
 
 def login(api_url, dashboard_url):
-    """
-    Open the login page in a web browser and listen for the redirect URL to capture the token.
+    """Open the login page in a web browser and listen for the redirect URL to
+    capture the token.
+
+    This function generates a unique redirect URL and opens the login page
+    in the user's default web browser. It listens for a redirect from the
+    authentication service, captures the token from the URL, and attempts to
+    fetch the API key using the provided token. If successful, it saves the
+    API key for future use. The user is informed of the login status through
+    printed messages and an HTML response.
+
+    Args:
+        api_url (str): The URL of the API to fetch the API key from.
+        dashboard_url (str): The URL of the dashboard to redirect to after login.
     """
     redirect_port = random.randint(30000, 50000)
     redirect_url = f"http://localhost:{redirect_port}/callback"
@@ -41,6 +64,17 @@ def login(api_url, dashboard_url):
     
     class TokenHandler(http.server.SimpleHTTPRequestHandler):
         def do_GET(self):
+            """Handle GET requests for the login process.
+
+            This method processes incoming GET requests by extracting the token from
+            the query parameters. If a valid token is provided, it sends a success
+            response with an HTML page that informs the user of a successful login
+            and redirects them to the Penify dashboard after 5 seconds. It also
+            attempts to fetch and save API keys using the provided token. If the
+            token is missing or invalid, it sends a failure response with an
+            appropriate message.
+            """
+
             query = urllib.parse.urlparse(self.path).query
             query_components = urllib.parse.parse_qs(query)
             token = query_components.get("token", [None])[0]
