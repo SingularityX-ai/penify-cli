@@ -26,7 +26,17 @@ DASHBOARD_URL = "https://dashboard.penify.dev/auth/localhost/login"
 # API_URL = 'http://localhost:8000/api'
 
 def main():
-    """Main entry point for the Penify CLI tool."""
+    """Main entry point for the Penify CLI tool.
+
+    This function serves as the command-line interface for the Penify tool,
+    allowing users to manage Git hooks, generate documentation, and
+    configure settings for LLM and JIRA integrations. It sets up argument
+    parsing for various subcommands, including installing and uninstalling
+    Git hooks, generating documentation, committing changes, and configuring
+    LLM and JIRA settings. The function also handles user authentication
+    through an API token and manages the execution of the specified
+    subcommands based on user input.
+    """
     # Configure logging
     logging.basicConfig(level=logging.WARNING,
                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
