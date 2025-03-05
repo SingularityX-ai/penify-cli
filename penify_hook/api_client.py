@@ -75,13 +75,18 @@ class APIClient:
             payload['jira_context'] = jira_context
 
         url = self.api_url+"/v1/hook/commit/summary"
-        response = requests.post(url, json=payload, headers={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
-        if response.status_code == 200:
-            response = response.json()
-            return response
-        else:
-            print(f"Response: {response.status_code}")
-            print(f"Error: {response.text}")
+        try:
+            response = requests.post(url, json=payload, headers
+            ={"api-key": f"{self.AUTH_TOKEN}"}, timeout=60*10)
+            if response.status_code == 200:
+                response = response.json()
+                return response
+            else:
+                print(f"Response: {response.status_code}")
+                print(f"Error: {response.text}")
+                return None
+        except Exception as e:
+            print(f"Error: {e}")
             return None
 
     def get_supported_file_types(self) -> list[str]:
