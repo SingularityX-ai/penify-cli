@@ -88,19 +88,22 @@ class CommitDocGenHook:
 
         This function retrieves the differences of the staged changes in the
         repository and generates a commit summary using the provided
-        instruction. If there are no changes staged for commit, an exception is
+        instruction. If there are no changes staged for commit, a ValueError is
         raised. If an LLM client is provided, it will use that for generating
-        the summary, otherwise it will use the API client.
+        the summary; otherwise, it will use the API client. Additionally, if a
+        JIRA client is connected, it attempts to extract issue keys from the
+        current branch name to provide relevant context for the commit summary.
 
         Args:
-            instruction (str): A string containing instructions for generating the commit summary.
+            instruction (str): A string containing instructions for generating
+                the commit summary.
 
         Returns:
-            str: The generated commit summary based on the staged changes and provided
-                instruction.
+            str: The generated commit summary based on the staged changes and
+                provided instruction.
 
         Raises:
-            Exception: If there are no changes staged for commit.
+            ValueError: If there are no changes staged for commit.
         """
         diff = self.repo.git.diff('--cached')
         if not diff:
@@ -170,16 +173,22 @@ class CommitDocGenHook:
             self._amend_commit()
     
     def process_jira_integration(self, title: str, description: str, msg: str) -> tuple:
-        """
-        Process JIRA integration for the commit message.
-        
+        """Process JIRA integration for the commit message.
+
+        This function extracts JIRA issue keys from the provided commit title,
+        description, and user message. It also checks the current branch name
+        for any JIRA issue keys that may be present. If any issue keys are
+        found, it formats the commit message to include JIRA information and
+        adds comments to the corresponding JIRA issues.
+
         Args:
-            title: Generated commit title
-            description: Generated commit description 
-            msg: Original user message that might contain JIRA references
-            
+            title (str): Generated commit title.
+            description (str): Generated commit description.
+            msg (str): Original user message that might contain JIRA references.
+
         Returns:
-            tuple: (updated_title, updated_description) with JIRA information
+            tuple: A tuple containing the updated title and updated description
+                with JIRA information.
         """
         # Look for JIRA issue keys in commit message, title, description and user message
         issue_keys = []
@@ -228,7 +237,9 @@ class CommitDocGenHook:
         This function changes the current working directory to the repository
         path, runs the git command to amend the last commit, and opens the
         default editor for the user to modify the commit message. After the
-        operation, it returns to the original directory.
+        operation, it returns to the original directory. This allows users to
+        easily update their last commit message without needing to manually
+        invoke git commands.
         """
         try:
             # Change to the repository directory
