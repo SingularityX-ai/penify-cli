@@ -103,7 +103,7 @@ To set up the development environment:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/SingularityX-ai/penifycli.git
+   git clone https://github.com/SingularityX-ai/penify-cli.git
    ```
 
 2. Install the package in editable mode:

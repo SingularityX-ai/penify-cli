@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Penify JIRA Configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"], input[type="url"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .help-text {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .verify-section {
+            margin-top: 15px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Penify JIRA Configuration</h1>
+        <p>Configure your JIRA integration for Penify CLI.</p>
+        
+        <form id="jira-config-form">
+            <div class="form-group">
+                <label for="jira-url">JIRA URL:</label>
+                <input type="url" id="jira-url" name="jira-url" placeholder="https://your-domain.atlassian.net" required>
+                <p class="help-text">The base URL of your JIRA instance</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="jira-username">JIRA Email/Username:</label>
+                <input type="email" id="jira-username" name="jira-username" placeholder="your.email@example.com" required>
+                <p class="help-text">Your JIRA account email or username</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="jira-api-token">JIRA API Token:</label>
+                <input type="password" id="jira-api-token" name="jira-api-token" placeholder="Your JIRA API token" required>
+                <p class="help-text">Generate an API token from your Atlassian account: <a href="https://id.atlassian.com/manage/api-tokens" target="_blank">Atlassian API tokens</a></p>
+            </div>
+            
+            <div class="verify-section">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="verify-connection" name="verify-connection" checked>
+                    <label for="verify-connection">Verify connection before saving</label>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn" style="margin-top: 20px;">Save Configuration</button>
+        </form>
+        
+        <div id="result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById("jira-config-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const jiraUrl = document.getElementById("jira-url").value;
+            const jiraUsername = document.getElementById("jira-username").value;
+            const jiraApiToken = document.getElementById("jira-api-token").value;
+            const verifyConnection = document.getElementById("verify-connection").checked;
+            
+            document.getElementById("result").innerHTML = `
+                <div style="padding: 15px; background-color: #cce5ff; color: #004085; border-radius: 4px;">
+                    <p>Saving configuration, please wait...</p>
+                </div>
+            `;
+            
+            // Send the data to the server
+            fetch("/save", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    url: jiraUrl,
+                    username: jiraUsername,
+                    api_token: jiraApiToken,
+                    verify: verifyConnection
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("result").innerHTML = `
+                        <div style="padding: 15px; background-color: #d4edda; color: #155724; border-radius: 4px;">
+                            <h3>Configuration Saved!</h3>
+                            <p>${data.message}</p>
+                            <p>This window will close in 5 seconds...</p>
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        window.close();
+                    }, 5000);
+                } else {
+                    document.getElementById("result").innerHTML = `
+                        <div style="padding: 15px; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
+                            <h3>Error</h3>
+                            <p>${data.message}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch((error) => {
+                document.getElementById("result").innerHTML = `
+                    <div style="padding: 15px; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
+                        <h3>Error</h3>
+                        <p>An error occurred: ${error.message}</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>

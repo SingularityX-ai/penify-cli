@@ -10,6 +10,7 @@ import socketserver
 import urllib.parse
 from threading import Thread
 import logging
+import pkg_resources
 
 from penify_hook.utils import find_git_parent
 
@@ -348,6 +349,184 @@ def login():
     
     print("Login process completed. You can now use other commands with your API token.")
 
+def config_llm_web():
+    """
+    Open a web browser interface for configuring LLM settings.
+    """
+    redirect_port = random.randint(30000, 50000)
+    server_url = f"http://localhost:{redirect_port}"
+    
+    print(f"Starting configuration server on {server_url}")
+    
+    class ConfigHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == "/":
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                
+                # Read the template HTML file
+                template_path = pkg_resources.resource_filename(
+                    "penify_hook", "templates/llm_config.html"
+                )
+                
+                with open(template_path, 'r') as f:
+                    content = f.read()
+                
+                self.wfile.write(content.encode())
+            else:
+                self.send_response(404)
+                self.send_header("Content-type", "text/plain")
+                self.end_headers()
+                self.wfile.write(b"Not Found")
+
+        def do_POST(self):
+            if self.path == "/save":
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data.decode())
+                
+                model = data.get('model')
+                api_base = data.get('api_base')
+                api_key = data.get('api_key')
+                
+                try:
+                    save_llm_config(model, api_base, api_key)
+                    
+                    self.send_response(200)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    response = {
+                        "success": True, 
+                        "message": f"LLM configuration saved successfully. Using model: {model}"
+                    }
+                    self.wfile.write(json.dumps(response).encode())
+                    
+                    # Schedule the server shutdown
+                    thread = Thread(target=self.server.shutdown)
+                    thread.daemon = True
+                    thread.start()
+                    
+                except Exception as e:
+                    self.send_response(500)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    response = {"success": False, "message": f"Error saving configuration: {str(e)}"}
+                    self.wfile.write(json.dumps(response).encode())
+            else:
+                self.send_response(404)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "message": "Not Found"}).encode())
+        
+        def log_message(self, format, *args):
+            # Suppress log messages
+            return
+
+    with socketserver.TCPServer(("", redirect_port), ConfigHandler) as httpd:
+        print(f"Opening configuration page in your browser...")
+        webbrowser.open(server_url)
+        print(f"Waiting for configuration to be submitted...")
+        httpd.serve_forever()
+    
+    print("Configuration completed.")
+
+def config_jira_web():
+    """
+    Open a web browser interface for configuring JIRA settings.
+    """
+    redirect_port = random.randint(30000, 50000)
+    server_url = f"http://localhost:{redirect_port}"
+    
+    print(f"Starting configuration server on {server_url}")
+    
+    class ConfigHandler(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == "/":
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                
+                # Read the template HTML file
+                template_path = pkg_resources.resource_filename(
+                    "penify_hook", "templates/jira_config.html"
+                )
+                
+                with open(template_path, 'r') as f:
+                    content = f.read()
+                
+                self.wfile.write(content.encode())
+            else:
+                self.send_response(404)
+                self.send_header("Content-type", "text/plain")
+                self.end_headers()
+                self.wfile.write(b"Not Found")
+
+        def do_POST(self):
+            if self.path == "/save":
+                content_length = int(self.headers['Content-Length'])
+                post_data = self.rfile.read(content_length)
+                data = json.loads(post_data.decode())
+                
+                url = data.get('url')
+                username = data.get('username')
+                api_token = data.get('api_token')
+                verify = data.get('verify', False)
+                
+                try:
+                    # Save the configuration
+                    save_jira_config(url, username, api_token)
+                    
+                    # Verify the connection if requested
+                    verify_message = ""
+                    if verify and JiraClient is not None:
+                        jira_client = JiraClient(
+                            jira_url=url,
+                            jira_user=username,
+                            jira_api_token=api_token
+                        )
+                        if jira_client.is_connected():
+                            verify_message = " Connection to JIRA verified successfully!"
+                        else:
+                            verify_message = " Warning: Could not connect to JIRA with these credentials."
+                    
+                    self.send_response(200)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    response = {
+                        "success": True, 
+                        "message": f"JIRA configuration saved successfully.{verify_message}"
+                    }
+                    self.wfile.write(json.dumps(response).encode())
+                    
+                    # Schedule the server shutdown
+                    thread = Thread(target=self.server.shutdown)
+                    thread.daemon = True
+                    thread.start()
+                    
+                except Exception as e:
+                    self.send_response(500)
+                    self.send_header("Content-type", "application/json")
+                    self.end_headers()
+                    response = {"success": False, "message": f"Error saving configuration: {str(e)}"}
+                    self.wfile.write(json.dumps(response).encode())
+            else:
+                self.send_response(404)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "message": "Not Found"}).encode())
+        
+        def log_message(self, format, *args):
+            # Suppress log messages
+            return
+
+    with socketserver.TCPServer(("", redirect_port), ConfigHandler) as httpd:
+        print(f"Opening configuration page in your browser...")
+        webbrowser.open(server_url)
+        print(f"Waiting for configuration to be submitted...")
+        httpd.serve_forever()
+    
+    print("Configuration completed.")
 
 def get_token(passed_token):
     """
@@ -431,12 +610,18 @@ def main():
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service (e.g., http://localhost:11434 for Ollama)")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
 
+    # Add a new subcommand: config-llm-web
+    llm_config_web_parser = subparsers.add_parser("config-llm-web", help="Configure LLM settings through a web interface")
+
     # Add a new subcommand: config-jira
     jira_config_parser = subparsers.add_parser("config-jira", help="Configure JIRA settings for commit integration")
     jira_config_parser.add_argument("--url", required=True, help="JIRA base URL (e.g., https://your-domain.atlassian.net)")
     jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
     jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
     jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection after configuration")
+
+    # Add a new subcommand: config-jira-web
+    jira_config_web_parser = subparsers.add_parser("config-jira-web", help="Configure JIRA settings through a web interface")
 
     # Subcommand: login
     login_parser = subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
@@ -498,6 +683,10 @@ def main():
         save_llm_config(args.model, args.api_base, args.api_key)
         print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
     
+    elif args.subcommand == "config-llm-web":
+        # Open web interface for LLM configuration
+        config_llm_web()
+    
     elif args.subcommand == "config-jira":
         # Save JIRA configuration
         save_jira_config(args.url, args.username, args.api_token)
@@ -517,6 +706,10 @@ def main():
                     print("Failed to connect to JIRA. Please check your credentials.")
             else:
                 print("JIRA package not installed. Cannot verify connection.")
+    
+    elif args.subcommand == "config-jira-web":
+        # Open web interface for JIRA configuration
+        config_jira_web()
     
     elif args.subcommand == "login":
         login()
