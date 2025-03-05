@@ -1,17 +1,19 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="penify-cli",
+    name="penifycli",
     version="0.1.5",  # Increment the version number
     packages=['penify_hook'],  # Explicitly include the penify_hook package
     install_requires=[
         "requests",
         "tqdm",
-        "GitPython"
+        "GitPython",
+        "litellm",
+        "jira"  # Add JIRA as a dependency
     ],
     entry_points={
         "console_scripts": [
-            "penify-cli=penify_hook.main:main",
+            "penifycli=penify_hook.main:main",
         ],
     },
     author="Suman Saurabh",
@@ -19,7 +21,7 @@ setup(
     description="A penify cli tool to generate Documentation, Commit-summary and  Hooks to automate git workflows.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/SingularityX-ai/penify-cli",
+    url="https://github.com/SingularityX-ai/penifycli",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

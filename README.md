@@ -7,7 +7,7 @@ Penify CLI is a command-line tool for managing Git hooks, generating documentati
 You can install Penify CLI using pip:
 
 ```bash
-pip install penify-cli
+pip install penifycli
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ Penify CLI provides several subcommands for different functionalities:
 To log in and obtain an API token:
 
 ```bash
-penify-cli login
+penifycli login
 ```
 
 This command will open a browser window for authentication. After successful login, the API key will be saved locally for future use.
@@ -29,7 +29,7 @@ This command will open a browser window for authentication. After successful log
 To install the Git post-commit hook:
 
 ```bash
-penify-cli install-hook -l /path/to/git/repo
+penifycli install-hook -l /path/to/git/repo
 ```
 
 - `-l, --location`: The path to the Git repository where you want to install the hook.
@@ -39,7 +39,7 @@ penify-cli install-hook -l /path/to/git/repo
 To uninstall the Git post-commit hook:
 
 ```bash
-penify-cli uninstall-hook -l /path/to/git/repo
+penifycli uninstall-hook -l /path/to/git/repo
 ```
 
 - `-l, --location`: The path to the Git repository from which you want to uninstall the hook.
@@ -49,7 +49,7 @@ penify-cli uninstall-hook -l /path/to/git/repo
 To generate documentation for files or folders:
 
 ```bash
-penify-cli doc-gen [options]
+penifycli doc-gen [options]
 ```
 
 Options:
@@ -62,12 +62,26 @@ Options:
 To commit code with an automatically generated commit message:
 
 ```bash
-penify-cli commit -gf /path/to/git/repo [-m "Optional message"] [-e True/False]
+penifycli commit -gf /path/to/git/repo [-m "Optional message"] [-e True/False]
 ```
 
 - `-gf, --git_folder_path`: Path to the Git repository. Defaults to the current directory.
 - `-m, --message`: Optional commit message. If not provided, a default message will be used.
 - `-e, --terminal`: Set to "True" to open the terminal for editing the commit message. Defaults to "False".
+
+### JIRA Integration
+
+To integrate with JIRA and automate issue tracking:
+
+```bash
+penifycli jira [options]
+```
+
+Options:
+- `-u, --url`: JIRA instance URL.
+- `-p, --project`: JIRA project key.
+- `-i, --issue`: JIRA issue key.
+- `-a, --assignee`: Assignee for the JIRA issue.
 
 ## Authentication
 
@@ -111,7 +125,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Issues
 
-If you encounter any problems or have suggestions, please file an issue on the [GitHub repository](https://github.com/SingularityX-ai/penify-cli/issues).
+If you encounter any problems or have suggestions, please file an issue on the [GitHub repository](https://github.com/SingularityX-ai/penifycli/issues).
 
 ## Support
 
