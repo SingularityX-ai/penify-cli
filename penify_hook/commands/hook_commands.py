@@ -9,8 +9,18 @@ penifycli -t {token} -gf {git_folder_path}
 """
 
 def install_git_hook(location, token):
-    """
-    Install a post-commit hook in the specified location.
+    """Install a post-commit hook in the specified location.
+
+    This function sets up a post-commit hook script in the Git hooks
+    directory of the specified repository location. It checks if the hooks
+    directory exists, and if it does, it creates a hook script with the
+    provided token and makes it executable. The hook script is used to
+    automate tasks after a commit is made.
+
+    Args:
+        location (str): The path to the Git repository where the hook should be installed.
+        token (str): A token that will be included in the hook script for authentication or
+            other purposes.
     """
     hooks_dir = Path(location) / ".git/hooks"
     hook_path = hooks_dir / HOOK_FILENAME
@@ -26,8 +36,17 @@ def install_git_hook(location, token):
     print(f"Post-commit hook installed in {hook_path}")
 
 def uninstall_git_hook(location):
-    """
-    Uninstalls the post-commit hook from the specified location.
+    """Uninstalls the post-commit hook from the specified location.
+
+    This function removes the post-commit hook file from the .git/hooks
+    directory at the given location. If the hook file exists, it will be
+    deleted, and a confirmation message will be printed. If the hook file
+    does not exist, a message indicating that no hook was found will be
+    printed.
+
+    Args:
+        location (str): The directory path where the .git/hooks directory
+            is located.
     """
     hook_path = Path(location) / ".git/hooks" / HOOK_FILENAME
     
