@@ -170,7 +170,21 @@ class CommitDocGenHook:
         # Look for JIRA issue keys in commit message, title, description and user message
         issue_keys = []
         if self.jira_client:
+            # Extract from message content
             issue_keys = self.jira_client.extract_issue_keys(f"{title} {description} {msg}")
+            
+            # Also check the branch name (which often follows JIRA naming conventions)
+            try:
+                current_branch = self.repo.active_branch.name
+                branch_issue_keys = self.jira_client.extract_issue_keys_from_branch(current_branch)
+                
+                # Add any new keys found in branch name
+                for key in branch_issue_keys:
+                    if key not in issue_keys:
+                        issue_keys.append(key)
+                        print(f"Added JIRA issue {key} from branch name: {current_branch}")
+            except Exception as e:
+                print(f"Could not extract JIRA issues from branch name: {e}")
             
             if issue_keys:
                 print(f"Found JIRA issues: {', '.join(issue_keys)}")
@@ -189,12 +203,8 @@ class CommitDocGenHook:
                         f"Repository: {self.repo_details.get('organization_name')}/{self.repo_details.get('repo_name')}"
                     )
                     self.jira_client.add_comment(issue_key, comment)
-                    
-                    # Optionally update issue status (commented out by default)
-                    # Uncomment and customize the status if needed
-                    # self.jira_client.update_issue_status(issue_key, "In Progress")
             else:
-                print("No JIRA issues found in commit message")
+                print("No JIRA issues found in commit message or branch name")
                 
         return title, description
 

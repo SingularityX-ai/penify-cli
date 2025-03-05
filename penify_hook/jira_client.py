@@ -50,6 +50,28 @@ class JiraClient:
         """
         return self.jira_client is not None
     
+    def extract_issue_keys_from_branch(self, branch_name: str) -> List[str]:
+        """
+        Extract JIRA issue keys from a branch name.
+        
+        Many teams follow conventions like:
+        - feature/ABC-123-description
+        - bugfix/ABC-123-fix-something
+        - hotfix/ABC-123/short-desc
+        
+        Args:
+            branch_name: The git branch name
+            
+        Returns:
+            List of JIRA issue keys found
+        """
+        # Common JIRA issue key pattern: PROJECT-123
+        pattern = r'[A-Z][A-Z0-9_]+-[0-9]+'
+        matches = re.findall(pattern, branch_name)
+        if matches:
+            print(f"Found JIRA issue in branch name: {matches[0]}")
+        return list(set(matches))  # Remove duplicates
+    
     def extract_issue_keys(self, text: str) -> List[str]:
         """
         Extract JIRA issue keys from text.
@@ -63,6 +85,7 @@ class JiraClient:
         # Common JIRA issue key pattern: PROJECT-123
         pattern = r'[A-Z][A-Z0-9_]+-[0-9]+'
         matches = re.findall(pattern, text)
+        print(f"Matches: {matches}")
         return list(set(matches))  # Remove duplicates
     
     def get_issue_details(self, issue_key: str) -> Optional[Dict[str, Any]]:
