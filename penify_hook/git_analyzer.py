@@ -13,13 +13,25 @@ class GitDocGenHook:
         self.repo_path = self._recursive_search_git_folder(repo_path)
         print(f"Repo path: {self.repo_path}")
         self.api_client = api_client
-        self.repo = Repo(repo_path)
+        self.repo = Repo(self.repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
         self.repo_details = self.get_repo_details()
 
     def _recursive_search_git_folder(self, folder_path):
-        """Recursively search for the .git folder in the specified directory and than return parent.
+        """Recursively search for the .git folder in the specified directory and
+        return its parent directory.
 
+        This function takes a folder path as input and checks if the specified
+        directory contains a '.git' folder. If it does, the function returns the
+        path of that directory. If not, it recursively searches the parent
+        directory until it finds a '.git' folder or reaches the root of the
+        filesystem.
+
+        Args:
+            folder_path (str): The path of the directory to search for the .git folder.
+
+        Returns:
+            str: The path of the directory containing the .git folder.
         """
         if os.path.isdir(folder_path):
             if '.git' in os.listdir(folder_path):
