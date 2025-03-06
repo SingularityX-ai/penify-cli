@@ -3,7 +3,10 @@ import re
 from git import Repo
 from tqdm import tqdm
 from .api_client import APIClient
+import logging
 
+# Set up logger
+logger = logging.getLogger(__name__)
 
 class GitDocGenHook:
     def __init__(self, repo_path: str, api_client: APIClient):
@@ -86,7 +89,7 @@ class GitDocGenHook:
                     repo_name = match.group(3)
 
         except Exception as e:
-            print(f"Error determining repo details: {e}")
+            logger.error(f"Error determining GIT provider: {e}")
 
         return {
             "organization_name": org_name,
@@ -185,13 +188,13 @@ class GitDocGenHook:
         file_extension = os.path.splitext(file_path)[1].lower()
 
         if not file_extension:
-            print(f"File {file_path} has no extension. Skipping.")
+            logger.info(f"File {file_path} has no extension. Skipping.")
             return False
         
         file_extension = file_extension[1:]  # Remove the leading dot
 
         if file_extension not in self.supported_file_types:
-            print(f"File type {file_extension} is not supported. Skipping {file_path}.")
+            logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
         with open(file_abs_path, 'r') as file:
@@ -205,7 +208,7 @@ class GitDocGenHook:
         diff_text = self.repo.git.diff(prev_commit.hexsha, last_commit.hexsha, '--', file_path)
 
         if not diff_text:
-            print(f"No changes detected for {file_path}")
+            logger.info(f"No changes detected for {file_path}")
             return False
 
         modified_lines = self.get_modified_lines(diff_text)
@@ -215,11 +218,12 @@ class GitDocGenHook:
             return False
         
         if response == content:
-            print(f"No changes detected for {file_path}")
+            logger.info(f"No changes detected for {file_path}")
             return False
         # If the response is successful, replace the file content
         with open(file_abs_path, 'w') as file:
             file.write(response)
+        logger.info(f"Updated file {file_path} with generated documentation")
         return True
 
     def run(self):
@@ -234,6 +238,7 @@ class GitDocGenHook:
         process. If any modifications are made to the files, an auto-commit is
         created to save those changes.
         """
+        logger.info("Starting doc_gen_hook processing")
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
         total_files = len(modified_files)
@@ -246,12 +251,12 @@ class GitDocGenHook:
                         self.repo.git.add(file)
                         changes_made = True
                 except Exception as file_error:
-                    print(f"Error processing file [{file}]: {file_error}")
+                    logger.error(f"Error processing file [{file}]: {file_error}")
                 pbar.update(1)  # Update the progress bar
 
         # If any file was modified, create a new commit
         if changes_made:
             # self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
-            print("Auto-commit created with changes.")
+            logger.info("Auto-commit created with changes.")
         else:
-            print("doc_gen_hook complete. No changes made.")
+            logger.info("doc_gen_hook complete. No changes made.")
