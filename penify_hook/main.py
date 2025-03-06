@@ -107,7 +107,7 @@ def main():
     # ===== ADVANCED COMMANDS (Login required) =====
     
     # Subcommand: login (bridge between basic and advanced)
-    login_parser = subparsers.add_parser("login", help="Log in to Penify to use advanced features like documentation generation.")
+    login_parser = subparsers.add_parser("login", help="Log in to Penify to use advanced features like 'docgen' generation.")
 
     docgen_description="""By default, 'docgen' generates documentation for the latest Git commit diff. Use the -l flag to document a specific file or folder.
 
