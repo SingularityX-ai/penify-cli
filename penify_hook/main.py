@@ -45,11 +45,9 @@ def main():
 
     # Multi-line description using triple quotes
     description = """Penify CLI tool for:
-1. AI commit message generation
-2. Using JIRA descriptions to enhance commit messages
-3. Generating code documentation for code files
-4. Installing Git hooks for automatic documentation generation
-5. For more information, visit https://docs.penify.dev/
+1. AI commit message generation with JIRA integration to enhance commit messages. By default, it uses local-LLM but can be configured to use Penify's LLM. 
+2. Generating Code Documentation, it requires SignUp to Penify
+3. For more information, visit https://docs.penify.dev/
 """
 
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -68,7 +66,7 @@ def main():
     # ===== BASIC COMMANDS (No login required) =====
     
     # Subcommand: commit
-    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages (no login required).")
+    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).")
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
     commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
@@ -82,7 +80,7 @@ def main():
     commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
     # Subcommand: config
-    config_parser = subparsers.add_parser("config", help="Configure local settings (no login required).")
+    config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
     config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
     
     # Config subcommand: llm
@@ -115,7 +113,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
 """
     
     # Advanced Subcommand: docgen
-    docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the file or folder", description=docgen_description, formatter_class=argparse.RawDescriptionHelpFormatter)
+    docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the Git diff, file or folder.", description=docgen_description, formatter_class=argparse.RawDescriptionHelpFormatter)
     docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
     
     # Docgen main options (for direct documentation generation)
