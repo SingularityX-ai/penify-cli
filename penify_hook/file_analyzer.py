@@ -38,12 +38,9 @@ class FileAnalyzerGenHook:
         file_extension = os.path.splitext(file_path)[1].lower()
         # self.print_processing(self.file_path)
         
-            
+        # First update the stage, then increment the progress
+        update_stage(pbar, "Validating")
         pbar.update(1)  # Complete first stage
-        # Validate file
-        update_stage(pbar, "Validating file")
-        
-        pbar.update(2)
         
         if not file_extension:
             logger.info(f"File {file_path} has no extension. Skipping.")
@@ -55,15 +52,19 @@ class FileAnalyzerGenHook:
             logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
-        # Read content
+        # Read content - first update stage, then progress
         update_stage(pbar, "Reading content")
+        pbar.update(1)
+        
         with open(file_abs_path, 'r') as file:
             content = file.read()
 
         modified_lines = [i for i in range(len(content.splitlines()))]
         
-        # Process with API
-        update_stage(pbar, "Generating documentation")
+        # Process with API - first update stage, then progress
+        update_stage(pbar, "Documenting")
+        pbar.update(1)
+        
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
         
         if response is None:
@@ -73,8 +74,10 @@ class FileAnalyzerGenHook:
             logger.info(f"No changes needed for {file_path}")
             return False
         
-        # Write changes
+        # Write changes - first update stage, then progress
         update_stage(pbar, "Writing changes")
+        pbar.update(1)
+        
         with open(file_abs_path, 'w') as file:
             file.write(response)
         logger.info(f"Updated file {file_path} with generated documentation")
@@ -98,7 +101,7 @@ class FileAnalyzerGenHook:
         """
         
         # Create a progress bar with appropriate stages
-        stages = ["INIT","Validating", "Reading content", "Documenting", "Writing changes"]
+        stages = ["INIT", "Validating", "Reading content", "Documenting", "Writing changes"]
         pbar, _ = create_stage_progress_bar(stages, f"Starting file documentation")
         
         try:
