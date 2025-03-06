@@ -42,10 +42,63 @@ def main():
 
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     
+    # Create subparsers for the main commands
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
+    
+    # Group commands logically
+    basic_title = "Basic Commands (No login required)"
+    advanced_title = "Advanced Commands (Login required)"
+    
+    # Create grouped subparsers (visually separated in help output)
+    parser.add_argument_group(basic_title)
+    parser.add_argument_group(advanced_title)
+    
+    # ===== BASIC COMMANDS (No login required) =====
+    
+    # Subcommand: commit
+    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages (no login required).")
+    commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
+    commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message.", default="N/A")
+    commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
+    # Add LLM options
+    commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use")
+    commit_parser.add_argument("--llm-api-base", help="API base URL for the LLM service")
+    commit_parser.add_argument("--llm-api-key", help="API key for the LLM service")
+    # Add JIRA options
+    commit_parser.add_argument("--jira-url", help="JIRA base URL")
+    commit_parser.add_argument("--jira-user", help="JIRA username or email")
+    commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
-    # Create docgen parser as main command with subcommands
-    docgen_parser = subparsers.add_parser("docgen", help="Generate documentation and manage Git hooks.")
+    # Subcommand: config
+    config_parser = subparsers.add_parser("config", help="Configure local settings (no login required).")
+    config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
+    
+    # Config subcommand: llm
+    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings.")
+    llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
+    llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
+    llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
+    
+    # Config subcommand: llm-web
+    config_subparsers.add_parser("llm-web", help="Configure LLM settings through a web interface")
+    
+    # Config subcommand: jira
+    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings.")
+    jira_config_parser.add_argument("--url", required=True, help="JIRA base URL")
+    jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
+    jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
+    jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection")
+    
+    # Config subcommand: jira-web
+    config_subparsers.add_parser("jira-web", help="Configure JIRA settings through a web interface")
+    
+    # ===== ADVANCED COMMANDS (Login required) =====
+    
+    # Subcommand: login (bridge between basic and advanced)
+    login_parser = subparsers.add_parser("login", help="Log in to Penify to use advanced features like documentation generation.")
+    
+    # Advanced Subcommand: docgen
+    docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate documentation and manage Git hooks.")
     docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
     
     # Docgen main options (for direct documentation generation)
@@ -65,46 +118,6 @@ def main():
                                       help="Location from which to uninstall the Git hook. Defaults to current directory.", 
                                       default=os.getcwd())
 
-    # Subcommand: commit
-    commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
-    commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
-    commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message. Required before using COMMIT feature", default="N/A")
-    commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
-    # Add LLM options
-    commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use")
-    commit_parser.add_argument("--llm-api-base", help="API base URL for the LLM service")
-    commit_parser.add_argument("--llm-api-key", help="API key for the LLM service")
-    # Add JIRA options
-    commit_parser.add_argument("--jira-url", help="JIRA base URL")
-    commit_parser.add_argument("--jira-user", help="JIRA username or email")
-    commit_parser.add_argument("--jira-api-token", help="JIRA API token")
-
-    # Consolidated config subcommand
-    config_parser = subparsers.add_parser("config", help="Configure Local LLM and JIRA settings. It's required to set up local LLM and JIRA settings before using the commit command.")
-    config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
-    
-    # Config subcommand: llm
-    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings like Local LLM model or use your own LLM service.")
-    llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
-    llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
-    llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
-    
-    # Config subcommand: llm-web
-    config_subparsers.add_parser("llm-web", help="Configure LLM settings through a web interface")
-    
-    # Config subcommand: jira
-    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings so that commit messages can be linked to JIRA issues.")
-    jira_config_parser.add_argument("--url", required=True, help="JIRA base URL")
-    jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
-    jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
-    jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection")
-    
-    # Config subcommand: jira-web
-    config_subparsers.add_parser("jira-web", help="Configure JIRA settings through a web interface")
-
-    # Subcommand: login
-    subparsers.add_parser("login", help="Log in to Penify to use advanced features like code documentation generation or code analysis. Basic features like commit documentation are available without logging in.")
-
     args = parser.parse_args()
 
     # Get the token based on priority
@@ -112,38 +125,22 @@ def main():
 
     # Process commands
     if args.subcommand == "docgen":
+        # Check for login for all advanced commands
+        if not token:
+            print("Error: This command requires login. Please run 'penifycli login' first.")
+            sys.exit(1)
+            
         if args.docgen_subcommand == "install-hook":
-            if not token:
-                print("Error: API token is required.")
-                sys.exit(1)
             install_git_hook(args.location, token)
         
         elif args.docgen_subcommand == "uninstall-hook":
             uninstall_git_hook(args.location)
         
         else:  # Direct documentation generation
-            if not token:
-                print("Error: API token is required.")
-                sys.exit(1)
             generate_doc(API_URL, token, args.file_path, args.complete_folder_path, args.git_folder_path)
     
-    # Legacy commands (deprecated)
-    elif args.subcommand == "install-hook":
-        print("Warning: 'install-hook' is deprecated. Please use 'docgen install-hook' instead.")
-        if not token:
-            print("Error: API token is required.")
-            sys.exit(1)
-        install_git_hook(args.location, token)
-    
-    elif args.subcommand == "uninstall-hook":
-        print("Warning: 'uninstall-hook' is deprecated. Please use 'docgen uninstall-hook' instead.")
-        uninstall_git_hook(args.location)
-    
     elif args.subcommand == "commit":
-        if not token:
-            print("Error: API token is required.")
-            sys.exit(1)
-        
+        # For commit, token is now optional - some functionality may be limited without it
         open_terminal = args.terminal.lower() == "true"
         
         # Get LLM configuration
@@ -175,6 +172,7 @@ def main():
                    jira_url, jira_user, jira_api_token)
     
     elif args.subcommand == "config":
+        # Config doesn't require token
         if args.config_type == "llm":
             save_llm_config(args.model, args.api_base, args.api_key)
             print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
