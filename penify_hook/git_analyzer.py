@@ -4,6 +4,10 @@ from git import Repo
 from tqdm import tqdm
 from .api_client import APIClient
 import logging
+from colorama import Fore, Style, init
+
+# Initialize colorama for cross-platform colored terminal output
+init(autoreset=True)
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -241,26 +245,35 @@ class GitDocGenHook:
         process. If any modifications are made to the files, an auto-commit is
         created to save those changes.
         """
-        logger.info("Starting doc_gen_hook processing")
+        logger.info(f"{Fore.CYAN}Starting doc_gen_hook processing{Style.RESET_ALL}")
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
         total_files = len(modified_files)
 
-        with tqdm(total=total_files, desc="Processing files", unit="file", ncols=80, ascii=True) as pbar:
+        with tqdm(total=total_files, desc=f"{Fore.CYAN}Processing files{Style.RESET_ALL}", unit="file", ncols=80, ascii=True) as pbar:
             for file in modified_files:
+                file_display = f"{Fore.YELLOW}{file}{Style.RESET_ALL}"
+                print(f"\n{Fore.BLUE}Processing file: {file_display}")
                 logging.info(f"Processing file: {file}")
                 try:
                     if self.process_file(file):
                         # Stage the modified file
                         self.repo.git.add(file)
                         changes_made = True
+                        print(f"  {Fore.GREEN}✓ Documentation updated{Style.RESET_ALL}")
+                    else:
+                        print(f"  {Fore.WHITE}○ No changes needed{Style.RESET_ALL}")
                 except Exception as file_error:
-                    logger.error(f"Error processing file [{file}]: {file_error}")
+                    error_msg = f"Error processing file [{file}]: {file_error}"
+                    logger.error(error_msg)
+                    print(f"  {Fore.RED}✗ {error_msg}{Style.RESET_ALL}")
                 pbar.update(1)  # Update the progress bar
 
         # If any file was modified, create a new commit
         if changes_made:
             # self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
-            logger.info("Auto-commit created with changes.")
+            logger.info(f"{Fore.GREEN}Auto-commit created with changes.{Style.RESET_ALL}")
+            print(f"\n{Fore.GREEN}✓ Auto-commit created with changes{Style.RESET_ALL}")
         else:
             logger.info("doc_gen_hook complete. No changes made.")
+            print(f"\n{Fore.CYAN}✓ doc_gen_hook complete. No changes made.{Style.RESET_ALL}")
