@@ -103,8 +103,7 @@ def main():
     
     # Docgen main options (for direct documentation generation)
     docgen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
-    docgen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
-    docgen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
+    docgen_parser.add_argument("-l", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
     
     # Subcommand: install-hook (as part of docgen)
     install_hook_parser = docgen_subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
