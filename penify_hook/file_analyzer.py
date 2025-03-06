@@ -1,12 +1,12 @@
 import os
 from git import Repo
 from .api_client import APIClient
-from tqdm import tqdm
-from colorama import Fore, Style, init
 import logging
-
-# Initialize colorama for cross-platform colored terminal output
-init(autoreset=True)
+from .ui_utils import (
+    print_info, print_success, print_warning, print_error,
+    print_processing, print_status, create_stage_progress_bar,
+    update_stage, format_file_path
+)
 
 # Set up logger
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ class FileAnalyzerGenHook:
         self.api_client = api_client
         self.supported_file_types = set(self.api_client.get_supported_file_types())
 
-    def process_file(self, file_path):
+    def process_file(self, file_path, pbar):
         """Process a file by reading its content and sending it to an API for
         processing.
 
@@ -28,6 +28,7 @@ class FileAnalyzerGenHook:
 
         Args:
             file_path (str): The relative path to the file that needs to be processed.
+            pbar (tqdm): Progress bar to update during processing.
 
         Returns:
             bool: True if the file was processed successfully, False otherwise.
@@ -35,6 +36,9 @@ class FileAnalyzerGenHook:
         file_abs_path = os.path.join(os.getcwd(), file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
 
+        # Validate file
+        update_stage(pbar, "Validating file")
+        
         if not file_extension:
             logger.info(f"File {file_path} has no extension. Skipping.")
             return False
@@ -45,12 +49,15 @@ class FileAnalyzerGenHook:
             logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
+        # Read content
+        update_stage(pbar, "Reading content")
         with open(file_abs_path, 'r') as file:
             content = file.read()
 
         modified_lines = [i for i in range(len(content.splitlines()))]
         
-        # Send data to API
+        # Process with API
+        update_stage(pbar, "Generating documentation")
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
         
         if response is None:
@@ -59,8 +66,9 @@ class FileAnalyzerGenHook:
         if response == content:
             logger.info(f"No changes needed for {file_path}")
             return False
-            
-        # If the response is successful, replace the file content
+        
+        # Write changes
+        update_stage(pbar, "Writing changes")
         with open(file_abs_path, 'w') as file:
             file.write(response)
         logger.info(f"Updated file {file_path} with generated documentation")
@@ -76,44 +84,37 @@ class FileAnalyzerGenHook:
         displays a progress bar and colored output to provide visual feedback on
         the processing status.
         """
-        logger.info(f"{Fore.CYAN}Starting file analysis processing{Style.RESET_ALL}")
-        print(f"{Fore.CYAN}Starting file analysis for {Fore.YELLOW}{self.file_path}{Style.RESET_ALL}")
+        print_info(f"Starting file documentation for {format_file_path(self.file_path)}")
         
         # Create a progress bar with appropriate stages
-        stages = ["Validating file", "Reading content", "Processing", "Writing changes"]
+        stages = ["Validating", "Reading content", "Documenting", "Writing changes"]
+        pbar, _ = create_stage_progress_bar(stages, "Processing file")
         
-        with tqdm(total=len(stages), desc=f"{Fore.CYAN}Processing file{Style.RESET_ALL}", 
-                 unit="step", ncols=80, ascii=True) as pbar:
-            try:
-                # Validate and read file
-                pbar.set_description(f"{Fore.CYAN}Validating file{Style.RESET_ALL}")
-                file_display = f"{Fore.YELLOW}{self.file_path}{Style.RESET_ALL}"
-                print(f"\n{Fore.BLUE}Processing file: {file_display}")
-                pbar.update(1)
+        try:
+            print_processing(self.file_path)
+            pbar.update(1)  # Complete first stage
+            
+            result = self.process_file(self.file_path, pbar)
+            
+            # Ensure all stages are completed
+            remaining_steps = len(stages) - pbar.n
+            if remaining_steps > 0:
+                pbar.update(remaining_steps)
                 
-                # Process file
-                pbar.set_description(f"{Fore.CYAN}Processing{Style.RESET_ALL}")
-                pbar.update(1)
+            # Display appropriate message based on result
+            if result:
+                print_status('success', f"Documentation updated for {self.file_path}")
+            else:
+                print_status('warning', f"No changes needed for {self.file_path}")
                 
-                result = self.process_file(self.file_path)
+        except Exception as e:
+            error_msg = f"Error processing file [{self.file_path}]: {str(e)}"
+            logger.error(error_msg)
+            print_status('error', error_msg)
+            
+            # Ensure progress bar completes even on error
+            remaining = len(stages) - pbar.n
+            if remaining > 0:
+                pbar.update(remaining)
                 
-                # Update progress
-                pbar.set_description(f"{Fore.CYAN}Writing changes{Style.RESET_ALL}")
-                pbar.update(2)  # Skip to completion
-                
-                # Display appropriate message based on result
-                if result:
-                    print(f"  {Fore.GREEN}✓ Documentation updated for {file_display}{Style.RESET_ALL}")
-                else:
-                    print(f"  {Fore.WHITE}○ No changes needed for {file_display}{Style.RESET_ALL}")
-                    
-            except Exception as e:
-                error_msg = f"Error processing file [{self.file_path}]: {str(e)}"
-                logger.error(error_msg)
-                print(f"  {Fore.RED}✗ {error_msg}{Style.RESET_ALL}")
-                # Ensure progress bar completes even on error
-                remaining = len(stages) - pbar.n
-                if remaining > 0:
-                    pbar.update(remaining)
-                    
-        print(f"\n{Fore.CYAN}✓ File analysis complete{Style.RESET_ALL}")
+        print_success("\n✓ File analysis complete")
