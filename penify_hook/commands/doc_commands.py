@@ -22,14 +22,8 @@ def generate_doc(api_url, token, location=None):
             If not provided, the current working directory is used.
     """
     api_client = APIClient(api_url, token)
-
-    print("Generating documentation...")
-    print(f"API URL: {api_url}")
-    print(f"API Token: {token}")
-    print(f"Location: {location}")
     if location is None:
         current_folder_path = os.getcwd()
-        print(f"Current Folder Path: {current_folder_path}")
         try:
             analyzer = GitDocGenHook(current_folder_path, api_client)
             analyzer.run()
