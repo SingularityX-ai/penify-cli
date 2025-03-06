@@ -51,10 +51,7 @@ class LLMClient:
         # Create prompt for the LLM
         prompt = f"""
         Based on the Git diff below, generate a concise and descriptive commit summary.
-        
-        Repository: {repo_details.get('organization_name')}/{repo_details.get('repo_name')}
-        Hosted on: {repo_details.get('vendor', 'Unknown')}
-        
+                
         User instructions: {message}
         """
         
@@ -94,8 +91,17 @@ class LLMClient:
         ```
         
         Please provide:
-        1. A short, focused commit title (50-72 characters)
-        2. A more detailed description of the changes that addresses both business and technical aspects
+        1. A short, focused commit title (50-72 characters) in a Semantic Commit Messages format. Format: <type>(<scope>): <subject>
+        2. A detailed description that explains what was changed, why it was changed in both business and technical aspects, and any important context
+
+        List of Semantic Commit Message types that you can use:
+        feat: (new feature for the user, not a new feature for build script)
+        fix: (bug fix for the user, not a fix to a build script)
+        docs: (changes to the documentation)
+        style: (formatting, missing semi colons, etc; no production code change)
+        refactor: (refactoring production code, eg. renaming a variable)
+        test: (adding missing tests, refactoring tests; no production code change)
+        chore: (updating grunt tasks etc; no production code change)
         
         Format your response as valid JSON with 'title' and 'description' keys.
         """
