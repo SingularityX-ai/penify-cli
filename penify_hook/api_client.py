@@ -41,7 +41,11 @@ class APIClient:
             response = response.json()
             return response.get('modified_content')
         else:
-            raise Exception(f"API Error: {response.text}")
+            error_message = response.json().get('detail')
+            if not error_message:
+                error_message = response.text
+
+            raise Exception(f"API Error: {error_message}")
         
     def generate_commit_summary(self, git_diff, instruction: str = "", repo_details = None, jira_context: dict = None):
         """Generate a commit summary by sending a POST request to the API endpoint.

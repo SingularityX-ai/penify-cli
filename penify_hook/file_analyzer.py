@@ -146,8 +146,7 @@ class FileAnalyzerGenHook:
             update_stage(pbar, "Complete")
             pbar.clear()
             pbar.close()
-            error_msg = f"Error: {str(e)}"
-            print_status('error', error_msg)
+            print_status('error', e)
             sys.exit(1)
             
             # Ensure progress bar completes even on error
