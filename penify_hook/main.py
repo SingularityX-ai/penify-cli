@@ -33,22 +33,35 @@ def main():
 
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
-
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
-    # Subcommand: install-hook
-    install_parser = subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
+    # Create docgen parser as main command with subcommands
+    docgen_parser = subparsers.add_parser("docgen", help="Generate documentation and manage Git hooks.")
+    docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
+    
+    # Docgen main options (for direct documentation generation)
+    docgen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
+    docgen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
+    docgen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
+    
+    # Subcommand: install-hook (as part of docgen)
+    install_hook_parser = docgen_subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
+    install_hook_parser.add_argument("-l", "--location", required=False, 
+                                    help="Location in which to install the Git hook. Defaults to current directory.",
+                                    default=os.getcwd())
+    
+    # Subcommand: uninstall-hook (as part of docgen)
+    uninstall_hook_parser = docgen_subparsers.add_parser("uninstall-hook", help="Uninstall the Git post-commit hook.")
+    uninstall_hook_parser.add_argument("-l", "--location", required=False, 
+                                      help="Location from which to uninstall the Git hook. Defaults to current directory.", 
+                                      default=os.getcwd())
+
+    # Legacy commands for backward compatibility (deprecated but still functional)
+    install_parser = subparsers.add_parser("install-hook", help="[DEPRECATED] Install the Git post-commit hook.")
     install_parser.add_argument("-l", "--location", required=True, help="Location in which to install the Git hook.")
 
-    # Subcommand: uninstall-hook
-    uninstall_parser = subparsers.add_parser("uninstall-hook", help="Uninstall the Git post-commit hook.")
+    uninstall_parser = subparsers.add_parser("uninstall-hook", help="[DEPRECATED] Uninstall the Git post-commit hook.")
     uninstall_parser.add_argument("-l", "--location", required=True, help="Location from which to uninstall the Git hook.")
-
-    # Subcommand: doc-gen
-    doc_gen_parser = subparsers.add_parser("doc-gen", help="Generate documentation for specified files or folders.")
-    doc_gen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
-    doc_gen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
-    doc_gen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
 
     # Subcommand: commit
     commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
@@ -96,20 +109,33 @@ def main():
     token = get_token()
 
     # Process commands
-    if args.subcommand == "install-hook":
+    if args.subcommand == "docgen":
+        if args.docgen_subcommand == "install-hook":
+            if not token:
+                print("Error: API token is required.")
+                sys.exit(1)
+            install_git_hook(args.location, token)
+        
+        elif args.docgen_subcommand == "uninstall-hook":
+            uninstall_git_hook(args.location)
+        
+        else:  # Direct documentation generation
+            if not token:
+                print("Error: API token is required.")
+                sys.exit(1)
+            generate_doc(API_URL, token, args.file_path, args.complete_folder_path, args.git_folder_path)
+    
+    # Legacy commands (deprecated)
+    elif args.subcommand == "install-hook":
+        print("Warning: 'install-hook' is deprecated. Please use 'docgen install-hook' instead.")
         if not token:
             print("Error: API token is required.")
             sys.exit(1)
         install_git_hook(args.location, token)
     
     elif args.subcommand == "uninstall-hook":
+        print("Warning: 'uninstall-hook' is deprecated. Please use 'docgen uninstall-hook' instead.")
         uninstall_git_hook(args.location)
-    
-    elif args.subcommand == "doc-gen":
-        if not token:
-            print("Error: API token is required.")
-            sys.exit(1)
-        generate_doc(API_URL, token, args.file_path, args.complete_folder_path, args.git_folder_path)
     
     elif args.subcommand == "commit":
         if not token:

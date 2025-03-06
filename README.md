@@ -49,7 +49,7 @@ penifycli uninstall-hook -l /path/to/git/repo
 To generate documentation for files or folders:
 
 ```bash
-penifycli doc-gen [options]
+penifycli docgen [options]
 ```
 
 Options:
