@@ -33,7 +33,6 @@ def main():
 
     parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
     
-    parser.add_argument("-t", "--token", help="API token for authentication.")
 
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
@@ -65,24 +64,28 @@ def main():
     commit_parser.add_argument("--jira-user", help="JIRA username or email")
     commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
-    # Add a new subcommand: config-llm
-    llm_config_parser = subparsers.add_parser("config-llm", help="Configure LLM settings")
+    # Consolidated config subcommand
+    config_parser = subparsers.add_parser("config", help="Configure various settings")
+    config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
+    
+    # Config subcommand: llm
+    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings")
     llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
-
-    # Add a new subcommand: config-llm-web
-    subparsers.add_parser("config-llm-web", help="Configure LLM settings through a web interface")
-
-    # Add a new subcommand: config-jira
-    jira_config_parser = subparsers.add_parser("config-jira", help="Configure JIRA settings")
+    
+    # Config subcommand: llm-web
+    config_subparsers.add_parser("llm-web", help="Configure LLM settings through a web interface")
+    
+    # Config subcommand: jira
+    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings")
     jira_config_parser.add_argument("--url", required=True, help="JIRA base URL")
     jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
     jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
     jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection")
-
-    # Add a new subcommand: config-jira-web
-    subparsers.add_parser("config-jira-web", help="Configure JIRA settings through a web interface")
+    
+    # Config subcommand: jira-web
+    config_subparsers.add_parser("jira-web", help="Configure JIRA settings through a web interface")
 
     # Subcommand: login
     subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
@@ -90,7 +93,7 @@ def main():
     args = parser.parse_args()
 
     # Get the token based on priority
-    token = get_token(args.token)
+    token = get_token()
 
     # Process commands
     if args.subcommand == "install-hook":
@@ -143,34 +146,38 @@ def main():
                    llm_model, llm_api_base, llm_api_key,
                    jira_url, jira_user, jira_api_token)
     
-    elif args.subcommand == "config-llm":
-        save_llm_config(args.model, args.api_base, args.api_key)
-        print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
-    
-    elif args.subcommand == "config-llm-web":
-        config_llm_web()
-    
-    elif args.subcommand == "config-jira":
-        save_jira_config(args.url, args.username, args.api_token)
-        print(f"JIRA configuration set: URL={args.url}, Username={args.username}")
+    elif args.subcommand == "config":
+        if args.config_type == "llm":
+            save_llm_config(args.model, args.api_base, args.api_key)
+            print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
         
-        # Verify connection if requested
-        if args.verify:
-            if JiraClient:
-                jira_client = JiraClient(
-                    jira_url=args.url,
-                    jira_user=args.username,
-                    jira_api_token=args.api_token
-                )
-                if jira_client.is_connected():
-                    print("JIRA connection verified successfully!")
+        elif args.config_type == "llm-web":
+            config_llm_web()
+        
+        elif args.config_type == "jira":
+            save_jira_config(args.url, args.username, args.api_token)
+            print(f"JIRA configuration set: URL={args.url}, Username={args.username}")
+            
+            # Verify connection if requested
+            if args.verify:
+                if JiraClient:
+                    jira_client = JiraClient(
+                        jira_url=args.url,
+                        jira_user=args.username,
+                        jira_api_token=args.api_token
+                    )
+                    if jira_client.is_connected():
+                        print("JIRA connection verified successfully!")
+                    else:
+                        print("Failed to connect to JIRA. Please check your credentials.")
                 else:
-                    print("Failed to connect to JIRA. Please check your credentials.")
-            else:
-                print("JIRA package not installed. Cannot verify connection.")
-    
-    elif args.subcommand == "config-jira-web":
-        config_jira_web()
+                    print("JIRA package not installed. Cannot verify connection.")
+        
+        elif args.config_type == "jira-web":
+            config_jira_web()
+        
+        else:
+            config_parser.print_help()
     
     elif args.subcommand == "login":
         login(API_URL, DASHBOARD_URL)
