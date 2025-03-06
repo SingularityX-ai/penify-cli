@@ -1,6 +1,8 @@
 import os
+import sys
 from git import Repo
 from tqdm import tqdm
+import time
 from .api_client import APIClient
 import logging
 from .ui_utils import (
@@ -15,10 +17,11 @@ logger = logging.getLogger(__name__)
 class FileAnalyzerGenHook:
     def __init__(self, file_path: str, api_client: APIClient):
         self.file_path = file_path
+        self.relative_file_path = os.path.relpath(file_path)
         self.api_client = api_client
         self.supported_file_types = set(self.api_client.get_supported_file_types())
 
-    def process_file(self, file_path, pbar: tqdm):
+    def process_file(self, file_path, pbar):
         """Process a file by reading its content and sending it to an API for
         processing.
 
@@ -36,12 +39,9 @@ class FileAnalyzerGenHook:
         """
         file_abs_path = os.path.join(os.getcwd(), file_path)
         file_extension = os.path.splitext(file_path)[1].lower()
-        # self.print_processing(self.file_path)
         
-        # First update the stage, then increment the progress
-        update_stage(pbar, "Validating")
-        pbar.update(1)  # Complete first stage
-        
+        # --- STAGE 1: Validating ---
+        update_stage(pbar, "Validating")        
         if not file_extension:
             logger.info(f"File {file_path} has no extension. Skipping.")
             return False
@@ -52,18 +52,25 @@ class FileAnalyzerGenHook:
             logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
-        # Read content - first update stage, then progress
-        update_stage(pbar, "Reading content")
+        # Update progress bar to indicate we're moving to next stage
         pbar.update(1)
         
-        with open(file_abs_path, 'r') as file:
-            content = file.read()
+        # --- STAGE 2: Reading content ---
+        update_stage(pbar, "Reading content")        
+        try:
+            with open(file_abs_path, 'r') as file:
+                content = file.read()
+        except Exception as e:
+            logger.error(f"Error reading file {file_path}: {str(e)}")
+            return False
 
         modified_lines = [i for i in range(len(content.splitlines()))]
         
-        # Process with API - first update stage, then progress
-        update_stage(pbar, "Documenting")
+        # Update progress bar to indicate we're moving to next stage
         pbar.update(1)
+        
+        # --- STAGE 3: Documenting ---
+        update_stage(pbar, "Documenting")
         
         response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
         
@@ -74,20 +81,28 @@ class FileAnalyzerGenHook:
             logger.info(f"No changes needed for {file_path}")
             return False
         
-        # Write changes - first update stage, then progress
-        update_stage(pbar, "Writing changes")
+        # Update progress bar to indicate we're moving to next stage
         pbar.update(1)
         
-        with open(file_abs_path, 'w') as file:
-            file.write(response)
-        logger.info(f"Updated file {file_path} with generated documentation")
-        return True
+        # --- STAGE 4: Writing changes ---
+        update_stage(pbar, "Writing changes")
+        
+        try:
+            with open(file_abs_path, 'w') as file:
+                file.write(response)
+            logger.info(f"Updated file {file_path} with generated documentation")
+            
+            # Mark final stage as complete
+            pbar.update(1)
+            return True
+        except Exception as e:
+            logger.error(f"Error writing file {file_path}: {str(e)}")
+            return False
     
     def print_processing(self, file_path):
         """Print a processing message for a file."""
         formatted_path = format_file_path(file_path)
         print(f"\n{format_highlight(f'Processing file: {formatted_path}')}")
-
 
     def run(self):
         """Run the post-commit hook.
@@ -101,31 +116,43 @@ class FileAnalyzerGenHook:
         """
         
         # Create a progress bar with appropriate stages
-        stages = ["INIT", "Validating", "Reading content", "Documenting", "Writing changes"]
-        pbar, _ = create_stage_progress_bar(stages, f"Starting file documentation")
+        stages = ["Validating", "Reading content", "Documenting", "Writing changes", "Completed"]
+        pbar, _ = create_stage_progress_bar(stages, f"Starting documenting")
         
         try:
+            # Print a clear indication of which file is being processed
+            # self.print_processing(self.file_path)
+            
+            # Process the file
             result = self.process_file(self.file_path, pbar)
             
             # Ensure all stages are completed
             remaining_steps = len(stages) - pbar.n
-            if remaining_steps > 0:
-                pbar.update(remaining_steps)
+            pbar.update(remaining_steps)
+            
                 
             # Display appropriate message based on result
-            if result:
-                print_status('success', f"Documentation updated for {self.file_path}")
-            else:
-                print_status('warning', f"No changes needed for {self.file_path}")
-                
-        except Exception as e:
-            error_msg = f"Error processing file [{self.file_path}]: {str(e)}"
-            logger.error(error_msg)
-            print_status('error', error_msg)
-            
-            # Ensure progress bar completes even on error
             remaining = len(stages) - pbar.n
             if remaining > 0:
                 pbar.update(remaining)
+            update_stage(pbar, "Complete")
+            pbar.clear()
+            pbar.close()
                 
-        print_success("\n✓ File analysis complete")
+        except Exception as e:
+            remaining = len(stages) - pbar.n
+            if remaining > 0:
+                pbar.update(remaining)
+            update_stage(pbar, "Complete")
+            pbar.clear()
+            pbar.close()
+            error_msg = f"Error: {str(e)}"
+            print_status('error', error_msg)
+            sys.exit(1)
+            
+            # Ensure progress bar completes even on error
+        if result:
+            print_success(f"\n✓ Documentation updated for {self.relative_file_path}")
+        else:
+            print_success(f"\n✓ No changes needed for {self.relative_file_path}")
+                

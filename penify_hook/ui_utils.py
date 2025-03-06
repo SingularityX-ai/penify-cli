@@ -131,4 +131,7 @@ def update_stage(pbar, stage_name):
         pbar (tqdm): The progress bar to update
         stage_name (str): The name of the current stage
     """
-    pbar.set_description(format_info(stage_name))
+    # Force refresh with a custom description and ensure it's visible
+    pbar.set_postfix_str("")  # Clear any existing postfix
+    pbar.set_description_str(f"{format_info(stage_name)}")
+    pbar.refresh()  # Force refresh the display
