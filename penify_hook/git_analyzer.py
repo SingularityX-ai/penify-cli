@@ -2,6 +2,8 @@ import os
 import re
 from git import Repo
 from tqdm import tqdm
+
+from penify_hook.utils import get_repo_details, recursive_search_git_folder
 from .api_client import APIClient
 import logging
 from .ui_utils import (
@@ -15,95 +17,11 @@ logger = logging.getLogger(__name__)
 
 class GitDocGenHook:
     def __init__(self, repo_path: str, api_client: APIClient):
-        self.repo_path = self._recursive_search_git_folder(repo_path)
-        print(f"Repo path: {self.repo_path}")
+        self.repo_path = recursive_search_git_folder(repo_path)
         self.api_client = api_client
         self.repo = Repo(self.repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
-        self.repo_details = self.get_repo_details()
-
-    def _recursive_search_git_folder(self, folder_path):
-        """Recursively search for the .git folder in the specified directory and
-        return its parent directory.
-
-        This function takes a folder path as input and checks if the specified
-        directory contains a '.git' folder. If it does, the function returns the
-        path of that directory. If not, it recursively searches the parent
-        directory until it finds a '.git' folder or reaches the root of the
-        filesystem.
-
-        Args:
-            folder_path (str): The path of the directory to search for the .git folder.
-
-        Returns:
-            str: The path of the directory containing the .git folder.
-        """
-        if os.path.isdir(folder_path):
-            if '.git' in os.listdir(folder_path):
-                return folder_path
-            else:
-                return self._recursive_search_git_folder(os.path.dirname(folder_path))
-
-    def get_repo_details(self):
-        """Get the details of the repository, including the hosting service,
-        organization name, and repository name.
-
-        This method checks the remote URL of the repository to determine whether
-        it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
-        service. It extracts the organization (or user) name and the repository
-        name from the URL. If the hosting service cannot be determined, it will
-        return "Unknown Hosting Service".
-
-        Returns:
-            dict: A dictionary containing the organization name, repository name, and
-                hosting service.
-        """
-        remote_url = None
-        hosting_service = "Unknown"
-        org_name = None
-        repo_name = None
-
-        try:
-            # Get the remote URL
-            remote = self.repo.remotes.origin.url
-            remote_url = remote
-
-            # Determine the hosting service based on the URL
-            if "github.com" in remote:
-                hosting_service = "GITHUB"
-                match = re.match(r".*github\.com[:/](.*?)/(.*?)(\.git)?$", remote)
-            elif "dev.azure.com" in remote:
-                hosting_service = "AZUREDEVOPS"
-                match = re.match(r".*dev\.azure\.com/(.*?)/(.*?)/_git/(.*?)(\.git)?$", remote)
-            elif "visualstudio.com" in remote:
-                hosting_service = "AZUREDEVOPS"
-                match = re.match(r".*@(.*?)\.visualstudio\.com/(.*?)/_git/(.*?)(\.git)?$", remote)
-            elif "bitbucket.org" in remote:
-                hosting_service = "BITBUCKET"
-                match = re.match(r".*bitbucket\.org[:/](.*?)/(.*?)(\.git)?$", remote)
-            elif "gitlab.com" in remote:
-                hosting_service = "GITLAB"
-                match = re.match(r".*gitlab\.com[:/](.*?)/(.*?)(\.git)?$", remote)
-            else:
-                hosting_service = "Unknown Hosting Service"
-                match = None
-
-            if match:
-                org_name = match.group(1)
-                repo_name = match.group(2)
-                
-                # For Azure DevOps, adjust the group indices
-                if hosting_service == "AZUREDEVOPS":
-                    repo_name = match.group(3)
-
-        except Exception as e:
-            logger.error(f"Error determining GIT provider: {e}")
-
-        return {
-            "organization_name": org_name,
-            "repo_name": repo_name,
-            "vendor": hosting_service
-        }
+        self.repo_details = get_repo_details(self.repo)
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit.

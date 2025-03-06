@@ -3,6 +3,8 @@ import sys
 from git import Repo
 from tqdm import tqdm
 import time
+
+from penify_hook.utils import get_repo_details, recursive_search_git_folder
 from .api_client import APIClient
 import logging
 from .ui_utils import (
@@ -17,6 +19,9 @@ logger = logging.getLogger(__name__)
 class FileAnalyzerGenHook:
     def __init__(self, file_path: str, api_client: APIClient):
         self.file_path = file_path
+        self.repo_path = recursive_search_git_folder(file_path)
+        self.repo = Repo(self.repo_path)
+        self.repo_details = get_repo_details(self.repo)
         self.relative_file_path = os.path.relpath(file_path)
         self.api_client = api_client
         self.supported_file_types = set(self.api_client.get_supported_file_types())
@@ -72,7 +77,7 @@ class FileAnalyzerGenHook:
         # --- STAGE 3: Documenting ---
         update_stage(pbar, "Documenting")
         
-        response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines)
+        response = self.api_client.send_file_for_docstring_generation(file_path, content, modified_lines, self.repo_details)
         
         if response is None:
             return False
