@@ -3,6 +3,7 @@ import re
 from git import Repo
 from tqdm import tqdm
 
+from penify_hook.base_analyzer import BaseAnalyzer
 from penify_hook.utils import get_repo_details, recursive_search_git_folder
 from .api_client import APIClient
 import logging
@@ -15,13 +16,9 @@ from .ui_utils import (
 # Set up logger
 logger = logging.getLogger(__name__)
 
-class GitDocGenHook:
+class GitDocGenHook(BaseAnalyzer):
     def __init__(self, repo_path: str, api_client: APIClient):
-        self.repo_path = recursive_search_git_folder(repo_path)
-        self.api_client = api_client
-        self.repo = Repo(self.repo_path)
-        self.supported_file_types = set(self.api_client.get_supported_file_types())
-        self.repo_details = get_repo_details(self.repo)
+        super().__init__(repo_path, api_client)
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit.

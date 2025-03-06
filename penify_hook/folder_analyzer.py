@@ -1,13 +1,15 @@
 import os
 from git import Repo
+
+from penify_hook.base_analyzer import BaseAnalyzer
 from .api_client import APIClient
 from .file_analyzer import FileAnalyzerGenHook
 from tqdm import tqdm
 
-class FolderAnalyzerGenHook:
+class FolderAnalyzerGenHook(BaseAnalyzer):
     def __init__(self, dir_path: str, api_client: APIClient):
         self.dir_path = dir_path
-        self.api_client = api_client
+        super().__init__(dir_path, api_client)
 
     def list_all_files_in_dir(self, dir_path: str):
         """List all files in a directory and its subdirectories.

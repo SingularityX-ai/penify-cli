@@ -1,4 +1,7 @@
+import os
 import sys
+
+from penify_hook.utils import recursive_search_git_folder
 from ..commit_analyzer import CommitDocGenHook
 from ..api_client import APIClient
 
@@ -13,7 +16,7 @@ try:
 except ImportError:
     JiraClient = None
 
-def commit_code(api_url, gf_path, token, message, open_terminal, 
+def commit_code(api_url, token, message, open_terminal, 
                llm_model=None, llm_api_base=None, llm_api_key=None,
                jira_url=None, jira_user=None, jira_api_token=None):
     """
@@ -56,6 +59,7 @@ def commit_code(api_url, gf_path, token, message, open_terminal,
     
     try:
         # Pass the LLM client and JIRA client to CommitDocGenHook
+        gf_path = recursive_search_git_folder(os.getcwd())
         analyzer = CommitDocGenHook(gf_path, api_client, llm_client, jira_client)
         analyzer.run(message, open_terminal)
     except Exception as e:

@@ -90,6 +90,9 @@ def recursive_search_git_folder(folder_path):
     if os.path.isdir(folder_path):
         if '.git' in os.listdir(folder_path):
             return folder_path
+        # reached the root of the filesystem
+        elif folder_path == os.path.dirname(folder_path):
+            return None
         else:
             return recursive_search_git_folder(os.path.dirname(folder_path))
         

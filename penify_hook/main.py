@@ -63,20 +63,21 @@ def main():
     parser.add_argument_group(advanced_title)
     
     # ===== BASIC COMMANDS (No login required) =====
+
+    
+    commit_parser_description = """
+It generates smart commit messages. By default, it will just generate just the Title of the commit message.
+
+1. If you have not configured LLM, it will give an error. You either need to configure LLM or use the API key.
+2. If you have not configured JIRA. It will not enhance the commit message with JIRA issue details.
+3. For more information, visit https://docs.penify.dev/
+"""
     
     # Subcommand: commit
-    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).")
-    commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
+    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).", description=commit_parser_description, formatter_class=argparse.RawDescriptionHelpFormatter)
     commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message.", default="N/A")
-    commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
-    # Add LLM options
-    commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use")
-    commit_parser.add_argument("--llm-api-base", help="API base URL for the LLM service")
-    commit_parser.add_argument("--llm-api-key", help="API key for the LLM service")
-    # Add JIRA options
-    commit_parser.add_argument("--jira-url", help="JIRA base URL")
-    commit_parser.add_argument("--jira-user", help="JIRA username or email")
-    commit_parser.add_argument("--jira-api-token", help="JIRA API token")
+    commit_parser.add_argument("-e", "--terminal", action="store_true", help="Open edit terminal before committing.")
+    commit_parser.add_argument("-d", "--description", action="store_false", help="It will generate commit message with title and description.")
 
     # Subcommand: config
     config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
@@ -153,7 +154,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
     
     elif args.subcommand == "commit":
         # For commit, token is now optional - some functionality may be limited without it
-        open_terminal = args.terminal.lower() == "true"
+        open_terminal = args.terminal
         
         # Get LLM configuration
         llm_model = args.llm_model
@@ -179,7 +180,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
             jira_user = jira_user or jira_config.get('username')
             jira_api_token = jira_api_token or jira_config.get('api_token')
         
-        commit_code(API_URL, args.git_folder_path, token, args.message, open_terminal,
+        commit_code(API_URL, token, args.message, open_terminal,
                    llm_model, llm_api_base, llm_api_key,
                    jira_url, jira_user, jira_api_token)
     

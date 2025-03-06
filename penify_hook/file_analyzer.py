@@ -4,6 +4,7 @@ from git import Repo
 from tqdm import tqdm
 import time
 
+from penify_hook.base_analyzer import BaseAnalyzer
 from penify_hook.utils import get_repo_details, recursive_search_git_folder
 from .api_client import APIClient
 import logging
@@ -16,15 +17,12 @@ from .ui_utils import (
 # Set up logger
 logger = logging.getLogger(__name__)
 
-class FileAnalyzerGenHook:
+class FileAnalyzerGenHook(BaseAnalyzer):
     def __init__(self, file_path: str, api_client: APIClient):
         self.file_path = file_path
-        self.repo_path = recursive_search_git_folder(file_path)
-        self.repo = Repo(self.repo_path)
-        self.repo_details = get_repo_details(self.repo)
-        self.relative_file_path = os.path.relpath(file_path)
-        self.api_client = api_client
-        self.supported_file_types = set(self.api_client.get_supported_file_types())
+        super().__init__(file_path, api_client)
+        
+
 
     def process_file(self, file_path, pbar):
         """Process a file by reading its content and sending it to an API for
