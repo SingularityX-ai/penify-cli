@@ -104,10 +104,10 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
     
     # Advanced Subcommand: docgen
     docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the file or folder", description=docgen_description, formatter_class=argparse.RawDescriptionHelpFormatter)
-    docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand")
+    docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
     
     # Docgen main options (for direct documentation generation)
-    docgen_parser.add_argument("-l", "--location", help="[Optional] Path to the folder or file to Generate Documentation. By default it will pick the root directory.", default=os.getcwd())
+    docgen_parser.add_argument("-l", "--location", help="[Optional] Path to the folder or file to Generate Documentation. By default it will pick the root directory.", default=None)
     
     # Subcommand: install-hook (as part of docgen)
     install_hook_parser = docgen_subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
@@ -140,7 +140,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
             uninstall_git_hook(args.location)
         
         else:  # Direct documentation generation
-            generate_doc(API_URL, token, args.file_path)
+            generate_doc(API_URL, token, args.location)
     
     elif args.subcommand == "commit":
         # For commit, token is now optional - some functionality may be limited without it

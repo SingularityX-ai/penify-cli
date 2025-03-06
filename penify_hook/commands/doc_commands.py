@@ -11,8 +11,13 @@ def generate_doc(api_url, token, location=None):
     """
     api_client = APIClient(api_url, token)
 
+    print("Generating documentation...")
+    print(f"API URL: {api_url}")
+    print(f"API Token: {token}")
+    print(f"Location: {location}")
     if location is None:
         current_folder_path = os.getcwd()
+        print(f"Current Folder Path: {current_folder_path}")
         try:
             analyzer = GitDocGenHook(current_folder_path, api_client)
             analyzer.run()
@@ -21,7 +26,7 @@ def generate_doc(api_url, token, location=None):
             sys.exit(1)
 
     # if location is a file
-    if len(location.split('.')) > 1:
+    elif len(location.split('.')) > 1:
         try:
             analyzer = FileAnalyzerGenHook(location, api_client)
             analyzer.run()
@@ -29,16 +34,9 @@ def generate_doc(api_url, token, location=None):
             print(f"Error: {e}")
             sys.exit(1)
 
-    elif complete_folder_path:
-        try:
-            analyzer = FolderAnalyzerGenHook(complete_folder_path, api_client)
-            analyzer.run()
-        except Exception as e:
-            print(f"Error: {e}")
-            sys.exit(1)
     else:
         try:
-            analyzer = GitDocGenHook(git_folder_path, api_client)
+            analyzer = FolderAnalyzerGenHook(location, api_client)
             analyzer.run()
         except Exception as e:
             print(f"Error: {e}")
