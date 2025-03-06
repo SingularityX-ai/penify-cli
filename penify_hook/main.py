@@ -102,8 +102,7 @@ def main():
     docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
     
     # Docgen main options (for direct documentation generation)
-    docgen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
-    docgen_parser.add_argument("-l", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
+    docgen_parser.add_argument("-l", "--location", help="Path to the folder or file to Generate Documentation.", default=os.getcwd())
     
     # Subcommand: install-hook (as part of docgen)
     install_hook_parser = docgen_subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
@@ -136,7 +135,7 @@ def main():
             uninstall_git_hook(args.location)
         
         else:  # Direct documentation generation
-            generate_doc(API_URL, token, args.file_path, args.complete_folder_path, args.git_folder_path)
+            generate_doc(API_URL, token, args.file_path)
     
     elif args.subcommand == "commit":
         # For commit, token is now optional - some functionality may be limited without it
