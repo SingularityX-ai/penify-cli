@@ -51,7 +51,6 @@ def main():
 """
 
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
-    
     # Create subparsers for the main commands
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
     

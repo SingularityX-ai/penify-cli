@@ -14,10 +14,17 @@ def save_credentials(api_key):
     """
     home_dir = Path.home()
     penify_file = home_dir / '.penify'
+    
 
-    credentials = {
-        'api_keys': api_key
-    }
+    # if the file already exists, add the new api key to the existing file
+    if penify_file.exists():
+        with open(penify_file, 'r') as f:
+            credentials = json.load(f)
+            credentials['api_keys'] = api_key
+    else:
+        credentials = {
+            'api_keys': api_key
+        }
 
     try:
         with open(penify_file, 'w') as f:
