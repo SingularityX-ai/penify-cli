@@ -31,7 +31,16 @@ def main():
     logging.basicConfig(level=logging.WARNING,
                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
+    # Multi-line description using triple quotes
+    description = """Penify CLI tool for:
+1. AI commit message generation
+2. Using JIRA descriptions to enhance commit messages
+3. Generating code documentation for code files
+4. Installing Git hooks for automatic documentation generation
+5. For more information, visit https://docs.penify.dev/
+"""
+
+    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
 
@@ -56,17 +65,10 @@ def main():
                                       help="Location from which to uninstall the Git hook. Defaults to current directory.", 
                                       default=os.getcwd())
 
-    # Legacy commands for backward compatibility (deprecated but still functional)
-    install_parser = subparsers.add_parser("install-hook", help="[DEPRECATED] Install the Git post-commit hook.")
-    install_parser.add_argument("-l", "--location", required=True, help="Location in which to install the Git hook.")
-
-    uninstall_parser = subparsers.add_parser("uninstall-hook", help="[DEPRECATED] Uninstall the Git post-commit hook.")
-    uninstall_parser.add_argument("-l", "--location", required=True, help="Location from which to uninstall the Git hook.")
-
     # Subcommand: commit
     commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
-    commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
+    commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message. Required before using COMMIT feature", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
     # Add LLM options
     commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use")
@@ -78,11 +80,11 @@ def main():
     commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
     # Consolidated config subcommand
-    config_parser = subparsers.add_parser("config", help="Configure various settings")
+    config_parser = subparsers.add_parser("config", help="Configure Local LLM and JIRA settings. It's required to set up local LLM and JIRA settings before using the commit command.")
     config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
     
     # Config subcommand: llm
-    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings")
+    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings like Local LLM model or use your own LLM service.")
     llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
@@ -91,7 +93,7 @@ def main():
     config_subparsers.add_parser("llm-web", help="Configure LLM settings through a web interface")
     
     # Config subcommand: jira
-    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings")
+    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings so that commit messages can be linked to JIRA issues.")
     jira_config_parser.add_argument("--url", required=True, help="JIRA base URL")
     jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
     jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
@@ -101,7 +103,7 @@ def main():
     config_subparsers.add_parser("jira-web", help="Configure JIRA settings through a web interface")
 
     # Subcommand: login
-    subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
+    subparsers.add_parser("login", help="Log in to Penify to use advanced features like code documentation generation or code analysis. Basic features like commit documentation are available without logging in.")
 
     args = parser.parse_args()
 
