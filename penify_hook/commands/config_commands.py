@@ -6,6 +6,7 @@ import socketserver
 import pkg_resources
 from pathlib import Path
 from threading import Thread
+import logging
 
 def save_llm_config(model, api_base, api_key):
     """
@@ -267,13 +268,10 @@ def config_jira_web():
     
     print("Configuration completed.")
 
-def get_token(passed_token):
+def get_token():
     """
     Get the token based on priority.
     """
-    if passed_token:
-        return passed_token
-    
     import os
     env_token = os.getenv('PENIFY_API_TOKEN')
     if env_token:

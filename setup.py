@@ -8,6 +8,7 @@ setup(
         "requests",
         "tqdm",
         "GitPython",
+        "colorama",
         "litellm",
         "jira"  # Add JIRA as a dependency
     ],

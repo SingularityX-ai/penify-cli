@@ -26,35 +26,51 @@ DASHBOARD_URL = "https://dashboard.penify.dev/auth/localhost/login"
 # API_URL = 'http://localhost:8000/api'
 
 def main():
-    """Main entry point for the Penify CLI tool."""
+    """Main entry point for the Penify CLI tool.
+
+    This function serves as the main interface for the Penify command-line
+    tool, which provides various functionalities including AI commit message
+    generation, JIRA integration for enhancing commit messages, code
+    documentation generation, and Git hook installation for automatic
+    documentation generation.  It sets up the command-line argument parser
+    with subcommands for basic and advanced operations. Basic commands do
+    not require user login, while advanced commands do. The function also
+    handles the parsing of arguments and the execution of the corresponding
+    commands based on user input.  For more information about the tool and
+    its capabilities, please visit https://docs.penify.dev/.
+    """
     # Configure logging
     logging.basicConfig(level=logging.WARNING,
                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    parser = argparse.ArgumentParser(description="Penify CLI tool for managing Git hooks and generating documentation.")
+    # Multi-line description using triple quotes
+    description = """Penify CLI tool for:
+1. AI commit message generation
+2. Using JIRA descriptions to enhance commit messages
+3. Generating code documentation for code files
+4. Installing Git hooks for automatic documentation generation
+5. For more information, visit https://docs.penify.dev/
+"""
+
+    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
     
-    parser.add_argument("-t", "--token", help="API token for authentication.")
-
+    # Create subparsers for the main commands
     subparsers = parser.add_subparsers(title="subcommands", dest="subcommand")
-
-    # Subcommand: install-hook
-    install_parser = subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
-    install_parser.add_argument("-l", "--location", required=True, help="Location in which to install the Git hook.")
-
-    # Subcommand: uninstall-hook
-    uninstall_parser = subparsers.add_parser("uninstall-hook", help="Uninstall the Git post-commit hook.")
-    uninstall_parser.add_argument("-l", "--location", required=True, help="Location from which to uninstall the Git hook.")
-
-    # Subcommand: doc-gen
-    doc_gen_parser = subparsers.add_parser("doc-gen", help="Generate documentation for specified files or folders.")
-    doc_gen_parser.add_argument("-fl", "--file_path", help="Path of the file to generate documentation.")
-    doc_gen_parser.add_argument("-cf", "--complete_folder_path", help="Generate documentation for the entire folder.")
-    doc_gen_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git to scan for modified files.", default=os.getcwd())
-
+    
+    # Group commands logically
+    basic_title = "Basic Commands (No login required)"
+    advanced_title = "Advanced Commands (Login required)"
+    
+    # Create grouped subparsers (visually separated in help output)
+    parser.add_argument_group(basic_title)
+    parser.add_argument_group(advanced_title)
+    
+    # ===== BASIC COMMANDS (No login required) =====
+    
     # Subcommand: commit
-    commit_parser = subparsers.add_parser("commit", help="Commit with a message.")
+    commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages (no login required).")
     commit_parser.add_argument("-gf", "--git_folder_path", help="Path to the folder with git.", default=os.getcwd())
-    commit_parser.add_argument("-m", "--message", required=False, help="Commit message.", default="N/A")
+    commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", required=False, help="Open edit terminal", default="False")
     # Add LLM options
     commit_parser.add_argument("--llm", "--llm-model", dest="llm_model", help="LLM model to use")
@@ -65,54 +81,81 @@ def main():
     commit_parser.add_argument("--jira-user", help="JIRA username or email")
     commit_parser.add_argument("--jira-api-token", help="JIRA API token")
 
-    # Add a new subcommand: config-llm
-    llm_config_parser = subparsers.add_parser("config-llm", help="Configure LLM settings")
+    # Subcommand: config
+    config_parser = subparsers.add_parser("config", help="Configure local settings (no login required).")
+    config_subparsers = config_parser.add_subparsers(title="config_type", dest="config_type")
+    
+    # Config subcommand: llm
+    llm_config_parser = config_subparsers.add_parser("llm", help="Configure LLM settings.")
     llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
-
-    # Add a new subcommand: config-llm-web
-    subparsers.add_parser("config-llm-web", help="Configure LLM settings through a web interface")
-
-    # Add a new subcommand: config-jira
-    jira_config_parser = subparsers.add_parser("config-jira", help="Configure JIRA settings")
+    
+    # Config subcommand: llm-web
+    config_subparsers.add_parser("llm-web", help="Configure LLM settings through a web interface")
+    
+    # Config subcommand: jira
+    jira_config_parser = config_subparsers.add_parser("jira", help="Configure JIRA settings.")
     jira_config_parser.add_argument("--url", required=True, help="JIRA base URL")
     jira_config_parser.add_argument("--username", required=True, help="JIRA username or email")
     jira_config_parser.add_argument("--api-token", required=True, help="JIRA API token")
     jira_config_parser.add_argument("--verify", action="store_true", help="Verify JIRA connection")
+    
+    # Config subcommand: jira-web
+    config_subparsers.add_parser("jira-web", help="Configure JIRA settings through a web interface")
+    
+    # ===== ADVANCED COMMANDS (Login required) =====
+    
+    # Subcommand: login (bridge between basic and advanced)
+    login_parser = subparsers.add_parser("login", help="Log in to Penify to use advanced features like documentation generation.")
 
-    # Add a new subcommand: config-jira-web
-    subparsers.add_parser("config-jira-web", help="Configure JIRA settings through a web interface")
+    docgen_description="""By default, 'docgen' generates documentation for the latest Git commit diff. Use the -l flag to document a specific file or folder.
 
-    # Subcommand: login
-    subparsers.add_parser("login", help="Log in to Penify and obtain an API token.")
+The 'install-hook' command sets up a Git post-commit hook to auto-generate documentation after each commit.
+"""
+    
+    # Advanced Subcommand: docgen
+    docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the file or folder", description=docgen_description, formatter_class=argparse.RawDescriptionHelpFormatter)
+    docgen_subparsers = docgen_parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
+    
+    # Docgen main options (for direct documentation generation)
+    docgen_parser.add_argument("-l", "--location", help="[Optional] Path to the folder or file to Generate Documentation. By default it will pick the root directory.", default=None)
+    
+    # Subcommand: install-hook (as part of docgen)
+    install_hook_parser = docgen_subparsers.add_parser("install-hook", help="Install the Git post-commit hook.")
+    install_hook_parser.add_argument("-l", "--location", required=False, 
+                                    help="Location in which to install the Git hook. Defaults to current directory.",
+                                    default=os.getcwd())
+    
+    # Subcommand: uninstall-hook (as part of docgen)
+    uninstall_hook_parser = docgen_subparsers.add_parser("uninstall-hook", help="Uninstall the Git post-commit hook.")
+    uninstall_hook_parser.add_argument("-l", "--location", required=False, 
+                                      help="Location from which to uninstall the Git hook. Defaults to current directory.", 
+                                      default=os.getcwd())
 
     args = parser.parse_args()
 
     # Get the token based on priority
-    token = get_token(args.token)
+    token = get_token()
 
     # Process commands
-    if args.subcommand == "install-hook":
+    if args.subcommand == "docgen":
+        # Check for login for all advanced commands
         if not token:
-            print("Error: API token is required.")
+            logging.error("Error: Unable to authenticate. Please run 'penifycli login'.")
             sys.exit(1)
-        install_git_hook(args.location, token)
-    
-    elif args.subcommand == "uninstall-hook":
-        uninstall_git_hook(args.location)
-    
-    elif args.subcommand == "doc-gen":
-        if not token:
-            print("Error: API token is required.")
-            sys.exit(1)
-        generate_doc(API_URL, token, args.file_path, args.complete_folder_path, args.git_folder_path)
+            
+        if args.docgen_subcommand == "install-hook":
+            install_git_hook(args.location, token)
+        
+        elif args.docgen_subcommand == "uninstall-hook":
+            uninstall_git_hook(args.location)
+        
+        else:  # Direct documentation generation
+            generate_doc(API_URL, token, args.location)
     
     elif args.subcommand == "commit":
-        if not token:
-            print("Error: API token is required.")
-            sys.exit(1)
-        
+        # For commit, token is now optional - some functionality may be limited without it
         open_terminal = args.terminal.lower() == "true"
         
         # Get LLM configuration
@@ -143,34 +186,39 @@ def main():
                    llm_model, llm_api_base, llm_api_key,
                    jira_url, jira_user, jira_api_token)
     
-    elif args.subcommand == "config-llm":
-        save_llm_config(args.model, args.api_base, args.api_key)
-        print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
-    
-    elif args.subcommand == "config-llm-web":
-        config_llm_web()
-    
-    elif args.subcommand == "config-jira":
-        save_jira_config(args.url, args.username, args.api_token)
-        print(f"JIRA configuration set: URL={args.url}, Username={args.username}")
+    elif args.subcommand == "config":
+        # Config doesn't require token
+        if args.config_type == "llm":
+            save_llm_config(args.model, args.api_base, args.api_key)
+            print(f"LLM configuration set: Model={args.model}, API Base={args.api_base or 'default'}")
         
-        # Verify connection if requested
-        if args.verify:
-            if JiraClient:
-                jira_client = JiraClient(
-                    jira_url=args.url,
-                    jira_user=args.username,
-                    jira_api_token=args.api_token
-                )
-                if jira_client.is_connected():
-                    print("JIRA connection verified successfully!")
+        elif args.config_type == "llm-web":
+            config_llm_web()
+        
+        elif args.config_type == "jira":
+            save_jira_config(args.url, args.username, args.api_token)
+            print(f"JIRA configuration set: URL={args.url}, Username={args.username}")
+            
+            # Verify connection if requested
+            if args.verify:
+                if JiraClient:
+                    jira_client = JiraClient(
+                        jira_url=args.url,
+                        jira_user=args.username,
+                        jira_api_token=args.api_token
+                    )
+                    if jira_client.is_connected():
+                        print("JIRA connection verified successfully!")
+                    else:
+                        print("Failed to connect to JIRA. Please check your credentials.")
                 else:
-                    print("Failed to connect to JIRA. Please check your credentials.")
-            else:
-                print("JIRA package not installed. Cannot verify connection.")
-    
-    elif args.subcommand == "config-jira-web":
-        config_jira_web()
+                    print("JIRA package not installed. Cannot verify connection.")
+        
+        elif args.config_type == "jira-web":
+            config_jira_web()
+        
+        else:
+            config_parser.print_help()
     
     elif args.subcommand == "login":
         login(API_URL, DASHBOARD_URL)

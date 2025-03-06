@@ -2,76 +2,26 @@ import os
 import re
 from git import Repo
 from tqdm import tqdm
+
+from penify_hook.utils import get_repo_details, recursive_search_git_folder
 from .api_client import APIClient
+import logging
+from .ui_utils import (
+    print_info, print_success, print_warning, print_error,
+    print_processing, print_status, create_progress_bar,
+    format_file_path
+)
+
+# Set up logger
+logger = logging.getLogger(__name__)
 
 class GitDocGenHook:
     def __init__(self, repo_path: str, api_client: APIClient):
-        self.repo_path = repo_path
+        self.repo_path = recursive_search_git_folder(repo_path)
         self.api_client = api_client
-        self.repo = Repo(repo_path)
+        self.repo = Repo(self.repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
-        self.repo_details = self.get_repo_details()
-
-    def get_repo_details(self):
-        """Get the details of the repository, including the hosting service,
-        organization name, and repository name.
-
-        This method checks the remote URL of the repository to determine whether
-        it is hosted on GitHub, Azure DevOps, Bitbucket, GitLab, or another
-        service. It extracts the organization (or user) name and the repository
-        name from the URL. If the hosting service cannot be determined, it will
-        return "Unknown Hosting Service".
-
-        Returns:
-            dict: A dictionary containing the organization name, repository name, and
-                hosting service.
-        """
-        remote_url = None
-        hosting_service = "Unknown"
-        org_name = None
-        repo_name = None
-
-        try:
-            # Get the remote URL
-            remote = self.repo.remotes.origin.url
-            remote_url = remote
-
-            # Determine the hosting service based on the URL
-            if "github.com" in remote:
-                hosting_service = "GITHUB"
-                match = re.match(r".*github\.com[:/](.*?)/(.*?)(\.git)?$", remote)
-            elif "dev.azure.com" in remote:
-                hosting_service = "AZUREDEVOPS"
-                match = re.match(r".*dev\.azure\.com/(.*?)/(.*?)/_git/(.*?)(\.git)?$", remote)
-            elif "visualstudio.com" in remote:
-                hosting_service = "AZUREDEVOPS"
-                match = re.match(r".*@(.*?)\.visualstudio\.com/(.*?)/_git/(.*?)(\.git)?$", remote)
-            elif "bitbucket.org" in remote:
-                hosting_service = "BITBUCKET"
-                match = re.match(r".*bitbucket\.org[:/](.*?)/(.*?)(\.git)?$", remote)
-            elif "gitlab.com" in remote:
-                hosting_service = "GITLAB"
-                match = re.match(r".*gitlab\.com[:/](.*?)/(.*?)(\.git)?$", remote)
-            else:
-                hosting_service = "Unknown Hosting Service"
-                match = None
-
-            if match:
-                org_name = match.group(1)
-                repo_name = match.group(2)
-                
-                # For Azure DevOps, adjust the group indices
-                if hosting_service == "AZUREDEVOPS":
-                    repo_name = match.group(3)
-
-        except Exception as e:
-            print(f"Error determining repo details: {e}")
-
-        return {
-            "organization_name": org_name,
-            "repo_name": repo_name,
-            "vendor": hosting_service
-        }
+        self.repo_details = get_repo_details(self.repo)
 
     def get_modified_files_in_last_commit(self):
         """Get the list of files modified in the last commit.
@@ -164,13 +114,13 @@ class GitDocGenHook:
         file_extension = os.path.splitext(file_path)[1].lower()
 
         if not file_extension:
-            print(f"File {file_path} has no extension. Skipping.")
+            logger.info(f"File {file_path} has no extension. Skipping.")
             return False
         
         file_extension = file_extension[1:]  # Remove the leading dot
 
         if file_extension not in self.supported_file_types:
-            print(f"File type {file_extension} is not supported. Skipping {file_path}.")
+            logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
             return False
 
         with open(file_abs_path, 'r') as file:
@@ -184,7 +134,7 @@ class GitDocGenHook:
         diff_text = self.repo.git.diff(prev_commit.hexsha, last_commit.hexsha, '--', file_path)
 
         if not diff_text:
-            print(f"No changes detected for {file_path}")
+            logger.info(f"No changes detected for {file_path}")
             return False
 
         modified_lines = self.get_modified_lines(diff_text)
@@ -194,11 +144,12 @@ class GitDocGenHook:
             return False
         
         if response == content:
-            print(f"No changes detected for {file_path}")
+            logger.info(f"No changes detected for {file_path}")
             return False
         # If the response is successful, replace the file content
         with open(file_abs_path, 'w') as file:
             file.write(response)
+        logger.info(f"Updated file {file_path} with generated documentation")
         return True
 
     def run(self):
@@ -208,29 +159,41 @@ class GitDocGenHook:
         and processes each file. It stages any files that have been modified
         during processing and creates an auto-commit if changes were made. A
         progress bar is displayed to indicate the processing status of each
-        file.  The method handles any exceptions that occur during file
+        file. The method handles any exceptions that occur during file
         processing, printing an error message for each file that fails to
         process. If any modifications are made to the files, an auto-commit is
         created to save those changes.
         """
+        logger.info("Starting doc_gen_hook processing")
+        print_info("Starting doc_gen_hook processing")
+        
         modified_files = self.get_modified_files_in_last_commit()
         changes_made = False
         total_files = len(modified_files)
 
-        with tqdm(total=total_files, desc="Processing files", unit="file", ncols=80, ascii=True) as pbar:
+        with create_progress_bar(total_files, "Processing files", "file") as pbar:
             for file in modified_files:
+                print_processing(file)
+                logging.info(f"Processing file: {file}")
                 try:
                     if self.process_file(file):
                         # Stage the modified file
                         self.repo.git.add(file)
                         changes_made = True
+                        print_status('success', "Documentation updated")
+                    else:
+                        print_status('warning', "No changes needed")
                 except Exception as file_error:
-                    print(f"Error processing file [{file}]: {file_error}")
+                    error_msg = f"Error processing file [{file}]: {file_error}"
+                    logger.error(error_msg)
+                    print_status('error', error_msg)
                 pbar.update(1)  # Update the progress bar
 
         # If any file was modified, create a new commit
         if changes_made:
             # self.repo.git.commit('-m', 'Auto-commit: Updated files after doc_gen_hook processing.')
-            print("Auto-commit created with changes.")
+            logger.info("Auto-commit created with changes.")
+            print_success("\n✓ Auto-commit created with changes")
         else:
-            print("doc_gen_hook complete. No changes made.")
+            logger.info("doc_gen_hook complete. No changes made.")
+            print_info("\n✓ doc_gen_hook complete. No changes made.")

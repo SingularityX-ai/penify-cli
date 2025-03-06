@@ -1,6 +1,6 @@
 # Penify CLI
 
-Penify CLI is a command-line tool for managing Git hooks, generating documentation, and streamlining the development workflow. It provides functionality to install and uninstall Git post-commit hooks, generate documentation for files or folders, perform Git commits with automated message generation, and manage authentication.
+Penify CLI is a command-line tool for managing Git commits, generating documentation, and streamlining the development workflow. It provides AI-powered commit message generation, JIRA integration, and documentation tools.
 
 ## Installation
 
@@ -49,7 +49,7 @@ penifycli uninstall-hook -l /path/to/git/repo
 To generate documentation for files or folders:
 
 ```bash
-penifycli doc-gen [options]
+penifycli docgen [options]
 ```
 
 Options:
