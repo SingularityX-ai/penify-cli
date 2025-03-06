@@ -12,21 +12,7 @@ class FolderAnalyzerGenHook(BaseAnalyzer):
         super().__init__(dir_path, api_client)
 
     def list_all_files_in_dir(self, dir_path: str):
-        """List all files in a directory and its subdirectories.
-
-        This function traverses the specified directory and its subdirectories,
-        collecting the full paths of all files found. It ignores any directories
-        that start with a dot (.), which are typically hidden directories in
-        Unix-like operating systems. The resulting list contains the full paths
-        of the files, making it useful for file management tasks.
-
-        Args:
-            dir_path (str): The path to the directory to search for files.
-
-        Returns:
-            list: A list of full file paths found in the specified directory and its
-            subdirectories.
-        """
+        """List all files in a directory and its subdirectories."""
 
         files = []
         for dirpath, dirnames, filenames in os.walk(dir_path):
