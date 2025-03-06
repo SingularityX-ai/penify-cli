@@ -4,13 +4,34 @@ from git import Repo
 from tqdm import tqdm
 from .api_client import APIClient
 
+
 class GitDocGenHook:
     def __init__(self, repo_path: str, api_client: APIClient):
-        self.repo_path = repo_path
+        self.repo_path = self._recursive_search_git_folder(repo_path)
         self.api_client = api_client
         self.repo = Repo(repo_path)
         self.supported_file_types = set(self.api_client.get_supported_file_types())
         self.repo_details = self.get_repo_details()
+
+    def _recursive_search_git_folder(self, folder_path):
+        """Recursively search for the .git folder in the specified directory.
+
+        This function searches for the .git folder in the specified directory and
+        its parent directories. It returns the path to the .git folder if found,
+        or None if the folder is not found.
+
+        Args:
+            folder_path (str): The path to the directory to search.
+
+        Returns:
+            str: The path to the .git folder if found, None otherwise.
+        """
+        if not folder_path or folder_path == '/':
+            return None
+        git_folder = os.path.join(folder_path, '.git')
+        if os.path.exists(git_folder):
+            return git_folder
+        return self._recursive_search_git_folder(os.path.dirname(folder_path))
 
     def get_repo_details(self):
         """Get the details of the repository, including the hosting service,

@@ -130,7 +130,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
     if args.subcommand == "docgen":
         # Check for login for all advanced commands
         if not token:
-            print("Error: This command requires login. Please run 'penifycli login' first.")
+            logging.error("Error: Unable to authenticate. Please run 'penifycli login'.")
             sys.exit(1)
             
         if args.docgen_subcommand == "install-hook":
