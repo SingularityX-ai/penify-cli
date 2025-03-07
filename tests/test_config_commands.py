@@ -15,7 +15,7 @@ from penify_hook.commands.config_commands import (
 
 class TestConfigCommands:
     
-    @patch('penify_hook.utils.recursive_search_git_folder')
+    @patch('penify_hook.commands.config_commands.recursive_search_git_folder')  # Updated patch path here
     @patch('penify_hook.commands.config_commands.Path')
     @patch('os.makedirs')
     @patch('builtins.open', new_callable=mock_open)
