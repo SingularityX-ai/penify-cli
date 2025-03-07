@@ -24,21 +24,7 @@ class FolderAnalyzerGenHook(BaseAnalyzer):
         return files
 
     def run(self):
-        """Run the post-commit hook.
-
-        This method processes all files in the specified directory by listing
-        them and running a file analyzer on each one. It provides feedback on
-        the number of files being processed and handles any errors that occur
-        during the analysis of individual files, ensuring that the progress bar
-        updates appropriately even in the event of an error.  It first retrieves
-        a list of all files in the specified directory and prints the total
-        number of files to be processed. Then, it initializes a progress bar to
-        visually indicate the processing status. For each file, it attempts to
-        create an instance of `FileAnalyzerGenHook` and run its analysis method.
-        If an error occurs while processing a file, it catches the exception,
-        prints an error message, and continues with the next file, ensuring that
-        the progress bar reflects the ongoing processing.
-        """
+        """Run the post-commit hook."""
         try:
             file_list = self.list_all_files_in_dir(self.dir_path)
             total_files = len(file_list)
