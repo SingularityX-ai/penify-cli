@@ -1,6 +1,16 @@
 # Penify CLI Tool
 
+![Tests](https://github.com/yourorganization/penify-cli/workflows/Tests/badge.svg)
+![Coverage](./coverage.svg)
+
 A CLI tool to generate smart commit messages, code documentation, and more.
+
+## Features
+
+- Automatically generate documentation for your code
+- Support for multiple programming languages
+- Git hook integration for automatic documentation on commits
+- Folder and file analysis
 
 ## Installation
 
@@ -128,6 +138,12 @@ To set up the development environment:
    ```bash
    pip install -e .
    ```
+
+### Running Tests
+
+```bash
+pytest
+```
 
 ## License
 

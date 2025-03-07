@@ -1,4 +1,10 @@
-# requirements.txt
+# Basic requirements
+requests>=2.25.0
+gitpython>=3.1.0
+tqdm>=4.62.0
 
-requests
-GitPython
+# Testing requirements
+pytest>=7.0.0
+pytest-cov>=4.0.0
+coverage>=6.0.0
+coverage-badge>=1.1.0
