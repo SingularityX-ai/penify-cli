@@ -18,6 +18,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install setuptools wheel twine
+      - name: Check package name availability
+        run: |
+          echo "Checking if package name is available on PyPI..."
+          PACKAGE_NAME=$(python -c "from setuptools import setup; import sys; sys.argv=[sys.argv[0]]; __file__='setup.py'; exec(open('setup.py').read()); print(locals()['name'])")
+          if pip search $PACKAGE_NAME 2>/dev/null | grep -q "^$PACKAGE_NAME "; then
+            echo "WARNING: Package name '$PACKAGE_NAME' seems to be already taken on PyPI"
+            echo "Please consider updating the name in setup.py before proceeding"
+            # Uncomment next line to fail the build if you want strict enforcement
+            # exit 1
+          else
+            echo "Package name '$PACKAGE_NAME' appears to be available"
+          fi
+        continue-on-error: true
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}

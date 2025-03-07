@@ -1,10 +1,10 @@
-# Penify CLI
+# Penify CLI Tool
 
-Penify CLI is a command-line tool for managing Git commits, generating documentation, and streamlining the development workflow. It provides AI-powered commit message generation, JIRA integration, and documentation tools.
+A CLI tool to generate Documentation, Commit-summary, and more.
 
 ## Installation
 
-You can install Penify CLI using pip:
+Install from PyPI:
 
 ```bash
 pip install penifycli

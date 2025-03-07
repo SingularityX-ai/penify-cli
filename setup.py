@@ -1,20 +1,20 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="penifycli",
-    version="1.0.0",  # Increment the version number
-    packages=['penify_hook'],  # Explicitly include the penify_hook package
+    name="penify-cli",  # Changed from "penifycli" to a more unique name
+    version="1.0.0",
+    packages=['penify_hook'],
     install_requires=[
         "requests",
         "tqdm",
         "GitPython",
         "colorama",
         "litellm",
-        "jira"  # Add JIRA as a dependency
+        "jira"
     ],
     entry_points={
         "console_scripts": [
-            "penifycli=penify_hook.main:main",
+            "penifycli=penify_hook.main:main",  # Command name remains the same
         ],
     },
     author="Suman Saurabh",
