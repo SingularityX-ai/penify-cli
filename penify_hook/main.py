@@ -49,8 +49,6 @@ def main():
         except:
             print("penifycli version 0.2.2")
         return 0
-
-    print("Welcome to Penify CLI!")
     
     # Parse the arguments to determine which command was requested
     args = parser.parse_args()    
