@@ -56,6 +56,7 @@ class CommitDocGenHook(BaseAnalyzer):
                 print(f"Could not get JIRA context: {e}")
         
         # Use LLM client if provided, otherwise use API client
+        print_info("Fetching commit summary from LLM...")
         if self.llm_client:
             return self.api_client.generate_commit_summary_with_llm(
                 diff, instruction, generate_description, self.repo_details, self.llm_client, jira_context
