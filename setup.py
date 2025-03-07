@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="penify-cli",  # Changed from "penifycli" to a more unique name
-    version="1.0.0",
+    name="penifycli",  # Changed from "penifycli" to a more unique name
+    version="0.2.0",
     packages=['penify_hook'],
     install_requires=[
         "requests",
