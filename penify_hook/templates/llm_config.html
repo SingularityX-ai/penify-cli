@@ -30,7 +30,8 @@
             margin-bottom: 8px;
             font-weight: bold;
         }
-        input[type="text"] {
+        input[type="text"], 
+        input[type="password"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -83,12 +84,40 @@
             background-color: #f1f3f5;
             border-color: #adb5bd;
         }
+        .input-group {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            color: #666;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .current-config {
+            background-color: #e0f7fa;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0066cc;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>LLM Configuration</h1>
         <p>Configure your preferred LLM (Large Language Model) for generating commit messages.</p>
+        
+        <div id="current-config" class="current-config">
+            <h3>Current Configuration</h3>
+            <div id="current-config-details">Loading current settings...</div>
+        </div>
         
         <form id="llm-config-form">
             <div class="form-group">
@@ -105,7 +134,10 @@
             
             <div class="form-group">
                 <label for="api-key">API Key (optional):</label>
-                <input type="text" id="api-key" name="api-key" placeholder="API key for the LLM service">
+                <div class="input-group">
+                    <input type="password" id="api-key" name="api-key" placeholder="API key for the LLM service">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">Show</button>
+                </div>
                 <p class="help-text">Required for commercial LLMs like OpenAI's GPT models</p>
             </div>
             
@@ -125,6 +157,55 @@
     </div>
 
     <script>
+        // Function to get the current configuration
+        function getCurrentConfig() {
+            fetch("/get_config")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const config = data.config;
+                        
+                        // Update display
+                        let configHtml = `<p><strong>Model:</strong> ${config.model || 'Not set'}</p>
+                                         <p><strong>API Base:</strong> ${config.api_base || 'Not set'}</p>
+                                         <p><strong>API Key:</strong> ${config.api_key ? '********' : 'Not set'}</p>`;
+                        
+                        document.getElementById("current-config-details").innerHTML = configHtml;
+                        
+                        // Pre-fill form
+                        document.getElementById("model").value = config.model || '';
+                        document.getElementById("api-base").value = config.api_base || '';
+                        document.getElementById("api-key").value = config.api_key || '';
+                    } else {
+                        document.getElementById("current-config-details").innerHTML = 
+                            "<p>No existing configuration found.</p>";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("current-config-details").innerHTML = 
+                        `<p>Error loading configuration: ${error.message}</p>`;
+                });
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const apiKeyInput = document.getElementById("api-key");
+            const toggleButton = document.querySelector(".toggle-password");
+            
+            if (apiKeyInput.type === "password") {
+                apiKeyInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                apiKeyInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+
+        // Load current configuration when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            getCurrentConfig();
+        });
+
         // Handle form submission
         document.getElementById("llm-config-form").addEventListener("submit", function(e) {
             e.preventDefault();

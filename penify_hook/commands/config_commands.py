@@ -125,6 +125,26 @@ def config_llm_web():
                     content = f.read()
                 
                 self.wfile.write(content.encode())
+            elif self.path == "/get_config":
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                
+                # Get current LLM configuration
+                current_config = get_llm_config()
+                
+                if current_config:
+                    response = {
+                        "success": True,
+                        "config": current_config
+                    }
+                else:
+                    response = {
+                        "success": False,
+                        "message": "No configuration found"
+                    }
+                
+                self.wfile.write(json.dumps(response).encode())
             else:
                 self.send_response(404)
                 self.send_header("Content-type", "text/plain")
@@ -186,7 +206,6 @@ def config_jira_web():
     """
     Open a web browser interface for configuring JIRA settings.
     """
-    # Similar implementation to config_llm_web but for JIRA settings
     redirect_port = random.randint(30000, 50000)
     server_url = f"http://localhost:{redirect_port}"
     
@@ -208,6 +227,26 @@ def config_jira_web():
                     content = f.read()
                 
                 self.wfile.write(content.encode())
+            elif self.path == "/get_config":
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                
+                # Get current JIRA configuration
+                current_config = get_jira_config()
+                
+                if current_config:
+                    response = {
+                        "success": True,
+                        "config": current_config
+                    }
+                else:
+                    response = {
+                        "success": False,
+                        "message": "No JIRA configuration found"
+                    }
+                
+                self.wfile.write(json.dumps(response).encode())
             else:
                 self.send_response(404)
                 self.send_header("Content-type", "text/plain")

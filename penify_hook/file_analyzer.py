@@ -46,13 +46,13 @@ class FileAnalyzerGenHook(BaseAnalyzer):
         # --- STAGE 1: Validating ---
         update_stage(pbar, "Validating")        
         if not file_extension:
-            logger.info(f"File {file_path} has no extension. Skipping.")
+            print_warning(f"  Empty extension is not supported. Skipping '{self.relative_file_path}'.")
             return False
         
         file_extension = file_extension[1:]  # Remove the leading dot
 
         if file_extension not in self.supported_file_types:
-            logger.info(f"File type {file_extension} is not supported. Skipping {file_path}.")
+            print_warning(f"  File type '{file_extension}' is not supported. Skipping '{self.relative_file_path}'.")
             return False
 
         # Update progress bar to indicate we're moving to next stage
