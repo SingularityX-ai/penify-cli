@@ -8,6 +8,7 @@ import pkg_resources
 from pathlib import Path
 from threading import Thread
 import logging
+from penify_hook.utils import recursive_search_git_folder
 
 
 def get_penify_config() -> Path:
@@ -16,8 +17,6 @@ def get_penify_config() -> Path:
     This function searches for the .penify file in the current directory
     and its parent directories until it finds it or reaches the home directory.
     """
-    from penify_hook.utils import recursive_search_git_folder
-
     current_dir = os.getcwd()
     home_dir = recursive_search_git_folder(current_dir)
     
@@ -55,8 +54,9 @@ def save_llm_config(model, api_base, api_key):
         try:
             with open(penify_file, 'r') as f:
                 config = json.load(f)
-        except json.JSONDecodeError:
-            pass
+        except (json.JSONDecodeError, IOError, OSError) as e:
+            print(f"Error reading configuration file: {str(e)}")
+            # Continue with empty config
     
     # Update or add LLM configuration
     config['llm'] = {
