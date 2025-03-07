@@ -15,7 +15,7 @@ from penify_hook.commands.config_commands import (
 
 class TestConfigCommands:
     
-    @patch('penify_hook.commands.config_commands.recursive_search_git_folder')
+    @patch('penify_hook.utils.recursive_search_git_folder')
     @patch('penify_hook.commands.config_commands.Path')
     @patch('os.makedirs')
     @patch('builtins.open', new_callable=mock_open)
@@ -40,7 +40,7 @@ class TestConfigCommands:
         mock_path_instance.__truediv__.assert_called_with('.penify')
         assert mock_makedirs.call_count == 0  # Should not create directory
         
-    @patch('penify_hook.commands.config_commands.recursive_search_git_folder')
+    @patch('penify_hook.utils.recursive_search_git_folder')
     @patch('penify_hook.commands.config_commands.Path')
     @patch('os.makedirs')
     @patch('builtins.open', new_callable=mock_open)

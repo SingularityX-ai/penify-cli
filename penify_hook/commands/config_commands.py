@@ -8,6 +8,7 @@ import pkg_resources
 from pathlib import Path
 from threading import Thread
 import logging
+from penify_hook.utils import recursive_search_git_folder
 
 
 def get_penify_config() -> Path:
@@ -16,8 +17,6 @@ def get_penify_config() -> Path:
     This function searches for the .penify file in the current directory
     and its parent directories until it finds it or reaches the home directory.
     """
-    from penify_hook.utils import recursive_search_git_folder
-
     current_dir = os.getcwd()
     home_dir = recursive_search_git_folder(current_dir)
     
