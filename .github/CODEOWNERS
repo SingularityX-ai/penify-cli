@@ -1,0 +1,5 @@
+# These owners will be the default owners for everything in the repo
+* @SingularityX-ai
+
+# Critical files that require special attention
+setup.py @ss.sumansaurabh92

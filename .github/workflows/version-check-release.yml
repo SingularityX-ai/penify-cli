@@ -1,0 +1,85 @@
+name: Version Check and Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'setup.py'
+
+jobs:
+  check-version-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Extract version from setup.py
+        id: extract_version
+        run: |
+          VERSION=$(grep -oP "version=[\"']\K[^\"']+" setup.py)
+          echo "Current version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      
+      - name: Get latest release
+        id: latest_release
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+          excludes: prerelease, draft
+        continue-on-error: true
+      
+      - name: Compare versions
+        id: compare_versions
+        run: |
+          LATEST_VERSION="${{ steps.latest_release.outputs.release }}"
+          LATEST_VERSION=${LATEST_VERSION#v}
+          
+          echo "Latest released version: $LATEST_VERSION"
+          echo "Current setup.py version: $VERSION"
+          
+          if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" != "$VERSION" ]; then
+            echo "NEW_RELEASE=true" >> $GITHUB_ENV
+          else
+            echo "NEW_RELEASE=false" >> $GITHUB_ENV
+          fi
+      
+      - name: Generate release notes
+        if: env.NEW_RELEASE == 'true'
+        id: generate_notes
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: commits } = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 10
+            });
+            
+            let releaseNotes = "## What's Changed\n\n";
+            commits.forEach(commit => {
+              releaseNotes += `* ${commit.commit.message} by @${commit.author ? commit.author.login : 'unknown'}\n`;
+            });
+            
+            return releaseNotes;
+      
+      - name: Create Release
+        if: env.NEW_RELEASE == 'true'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          name: Release v${{ env.VERSION }}
+          body: ${{ steps.generate_notes.outputs.result }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}

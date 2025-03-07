@@ -1,6 +1,6 @@
 # Penify CLI Tool
 
-A CLI tool to generate Documentation, Commit-summary, and more.
+A CLI tool to generate smart commit messages, code documentation, and more.
 
 ## Installation
 
@@ -12,7 +12,42 @@ pip install penifycli
 
 ## Usage
 
-Penify CLI provides several subcommands for different functionalities:
+Penify CLI provides several subcommands for different functionalities, organized into basic commands (no login required) and advanced commands (login required).
+
+## Basic Commands (No login required)
+
+### Commit
+
+Generate smart commit messages using local LLM:
+
+```bash
+penifycli commit [-m "Optional message"] [-e] [-d]
+```
+
+Options:
+- `-m, --message`: Optional custom commit message
+- `-e, --terminal`: Open editor to modify commit message before committing
+- `-d, --description`: Generate commit message with both title and description (without this flag, only title is generated)
+
+### Config
+
+Configure local LLM and JIRA settings:
+
+```bash
+# Configure LLM settings
+penifycli config llm --model MODEL_NAME [--api-base API_URL] [--api-key API_KEY]
+
+# Configure LLM settings through web interface
+penifycli config llm-web
+
+# Configure JIRA settings
+penifycli config jira --url JIRA_URL --username USERNAME --api-token TOKEN [--verify]
+
+# Configure JIRA settings through web interface
+penifycli config jira-web
+```
+
+## Advanced Commands (Login required)
 
 ### Login
 
@@ -24,78 +59,61 @@ penifycli login
 
 This command will open a browser window for authentication. After successful login, the API key will be saved locally for future use.
 
-### Install Git Hook
+### Documentation Generation
 
-To install the Git post-commit hook:
-
-```bash
-penifycli install-hook -l /path/to/git/repo
-```
-
-- `-l, --location`: The path to the Git repository where you want to install the hook.
-
-### Uninstall Git Hook
-
-To uninstall the Git post-commit hook:
+Generate documentation for Git diff, files or folders:
 
 ```bash
-penifycli uninstall-hook -l /path/to/git/repo
-```
+# Generate documentation for latest Git commit diff
+penifycli docgen
 
-- `-l, --location`: The path to the Git repository from which you want to uninstall the hook.
-
-### Generate Documentation
-
-To generate documentation for files or folders:
-
-```bash
-penifycli docgen [options]
+# Generate documentation for specific file or folder
+penifycli docgen -l /path/to/file/or/folder
 ```
 
 Options:
-- `-fl, --file_path`: Path to a specific file for which to generate documentation.
-- `-cf, --complete_folder_path`: Path to a folder for which to generate documentation for all files.
-- `-gf, --git_folder_path`: Path to a Git repository to generate documentation for modified files. Defaults to the current directory.
+- `-l, --location`: Path to specific file or folder for documentation generation (defaults to current directory)
 
-### Commit Code
+### Git Hook Management
 
-To commit code with an automatically generated commit message:
+Install or uninstall Git post-commit hooks:
 
 ```bash
-penifycli commit -gf /path/to/git/repo [-m "Optional message"] [-e True/False]
-```
+# Install Git hook
+penifycli docgen install-hook [-l /path/to/repo]
 
-- `-gf, --git_folder_path`: Path to the Git repository. Defaults to the current directory.
-- `-m, --message`: Optional commit message. If not provided, a default message will be used.
-- `-e, --terminal`: Set to "True" to open the terminal for editing the commit message. Defaults to "False".
-
-### JIRA Integration
-
-To integrate with JIRA and automate issue tracking:
-
-```bash
-penifycli jira [options]
+# Uninstall Git hook
+penifycli docgen uninstall-hook [-l /path/to/repo]
 ```
 
 Options:
-- `-u, --url`: JIRA instance URL.
-- `-p, --project`: JIRA project key.
-- `-i, --issue`: JIRA issue key.
-- `-a, --assignee`: Assignee for the JIRA issue.
+- `-l, --location`: Path to the Git repository (defaults to current directory)
 
 ## Authentication
 
-Penify CLI uses an API token for authentication. The token is obtained and used in the following priority:
+Penify CLI uses an API token for authentication with advanced features.
 
-1. Command-line argument: `-t` or `--token`
-2. Environment variable: `PENIFY_API_TOKEN`
-3. Stored credentials: `~/.penify` file (created after successful login)
+If no token is available and you try to access an advanced feature, you'll be prompted to log in.
 
-If no token is available, you'll be prompted to log in or provide a token.
+## Local LLM Configuration
 
-## Environment Variables
+For commit message generation, Penify can use a local LLM. Configure it using:
 
-- `PENIFY_API_TOKEN`: You can set this environment variable with your API token to avoid passing it as an argument each time.
+```bash
+penifycli config llm --model MODEL_NAME --api-base API_URL --api-key API_KEY
+```
+
+Common configurations:
+- OpenAI: `--model gpt-3.5-turbo --api-base https://api.openai.com/v1 --api-key YOUR_KEY`
+- Anthropic: `--model claude-2 --api-base https://api.anthropic.com --api-key YOUR_KEY`
+
+## JIRA Integration
+
+Configure JIRA integration to enhance commit messages with issue details:
+
+```bash
+penifycli config jira --url https://your-domain.atlassian.net --username your-email@example.com --api-token YOUR_API_TOKEN
+```
 
 ## Development
 
