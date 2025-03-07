@@ -1,18 +1,17 @@
-
-
 from penify_hook.commands.config_commands import config_jira_web, config_llm_web, save_jira_config
-from penify_hook.jira_client import JiraClient
 
 
 def setup_config_parser(parent_parser):
-    # Config subcommand: llm
+    # Config subcommand: Create subparsers for config types
     parser = parent_parser.add_subparsers(title="config_type", dest="config_type")
 
-    llm_config_parser = parser.add_subparsers("llm", help="Configure LLM settings.")
+    # Config subcommand: llm
+    llm_config_parser = parser.add_parser("llm", help="Configure LLM settings.")
     llm_config_parser.add_argument("--model", required=True, help="LLM model to use")
     llm_config_parser.add_argument("--api-base", help="API base URL for the LLM service")
     llm_config_parser.add_argument("--api-key", help="API key for the LLM service")
 
+    # Config subcommand: llm-web
     parser.add_parser("llm-web", help="Configure LLM settings through a web interface")
 
     # Config subcommand: jira
@@ -30,6 +29,7 @@ def setup_config_parser(parent_parser):
 def handle_config(args):
     # Only import dependencies needed for config functionality here
     from penify_hook.commands.config_commands import save_llm_config
+    from penify_hook.jira_client import JiraClient  # Import moved here
 
     if args.config_type == "llm":
         save_llm_config(args.model, args.api_base, args.api_key)
@@ -61,4 +61,7 @@ def handle_config(args):
         config_jira_web()
 
     else:
-        config_parser.print_help()
+        print("Please specify a config type: llm, llm-web, jira, or jira-web")
+        return 1
+    
+    return 0
