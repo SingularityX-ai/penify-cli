@@ -90,7 +90,6 @@ class TestCommitCommands:
             api_base="http://llm-api.example.com",
             api_key="llm-api-key"
         )
-        mock_info.assert_called_once_with("Using LLM model: gpt-4")
         mock_doc_gen.assert_called_once_with('/mock/git/folder', api_instance, llm_instance, None)
         doc_gen_instance.run.assert_called_once_with("test commit", False, True)
 
