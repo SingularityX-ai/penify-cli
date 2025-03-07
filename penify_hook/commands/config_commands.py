@@ -55,8 +55,9 @@ def save_llm_config(model, api_base, api_key):
         try:
             with open(penify_file, 'r') as f:
                 config = json.load(f)
-        except json.JSONDecodeError:
-            pass
+        except (json.JSONDecodeError, IOError, OSError) as e:
+            print(f"Error reading configuration file: {str(e)}")
+            # Continue with empty config
     
     # Update or add LLM configuration
     config['llm'] = {

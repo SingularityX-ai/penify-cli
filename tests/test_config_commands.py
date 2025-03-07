@@ -169,15 +169,15 @@ class TestConfigCommands:
     def test_save_llm_config_failure(self, mock_print, mock_file_open, mock_get_config):
         # Setup mock
         mock_config_file = MagicMock()
+        mock_config_file.exists.return_value = True
         mock_get_config.return_value = mock_config_file
-        
+    
         # Call function
         result = save_llm_config("gpt-4", "https://api.openai.com", "test-key")
         
-        # Assertions
-        assert result == False
-        mock_print.assert_called_once()
-        assert 'Error saving LLM configuration' in mock_print.call_args[0][0]
+        # Assert
+        assert result is False
+        mock_print.assert_called_with("Error saving LLM configuration: Permission denied")
         
     @patch('penify_hook.commands.config_commands.Path')
     @patch('builtins.open', new_callable=mock_open)
