@@ -38,7 +38,7 @@ def main():
     setup_login_parser(login_parser)
     
     docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the Git diff, file or folder.")
-    from .docgen_command import setup_docgen_parser
+    from .commands.doc_commands import setup_docgen_parser
     setup_docgen_parser(docgen_parser)
     
     # Parse args without validation first to check for simple flags like --version
@@ -65,7 +65,7 @@ def main():
         from .login_command import handle_login
         return handle_login(args)
     elif args.subcommands == "docgen":
-        from .docgen_command import handle_docgen
+        from .commands.doc_commands import handle_docgen
         return handle_docgen(args)
     else:
         parser.print_help()
