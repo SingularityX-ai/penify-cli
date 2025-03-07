@@ -26,7 +26,7 @@ def main():
     
     # Set up subparsers with proper imports upfront
     commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).")
-    from .commit_command import setup_commit_parser
+    from .commands.commit_commands import setup_commit_parser
     setup_commit_parser(commit_parser)
     
     config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
@@ -55,7 +55,7 @@ def main():
     # Handle the commands
     if args.subcommands == "commit":
         print("Please wait while we generate the commit message...")
-        from .commit_command import handle_commit
+        from .commands.commit_commands import handle_commit
         time.sleep(1)
         return handle_commit(args)
     elif args.subcommands == "config":
