@@ -1,6 +1,7 @@
 import os
 import sys
 
+from penify_hook.ui_utils import print_error
 from penify_hook.utils import recursive_search_git_folder
 from ..commit_analyzer import CommitDocGenHook
 from ..api_client import APIClient
@@ -38,6 +39,9 @@ def commit_code(api_url, token, message, open_terminal,
         except Exception as e:
             print(f"Error initializing LLM client: {e}")
             print("Falling back to API for commit summary generation")
+    else:
+        if not token:
+            print_error("No LLM model or API token provided. Please provide an LLM model or API token.")
     
     # Initialize JIRA client if parameters are provided and JiraClient is available
     jira_client = None
