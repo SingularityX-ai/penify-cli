@@ -53,21 +53,20 @@ def main():
     print("Welcome to Penify CLI!")
     
     # Parse the arguments to determine which command was requested
-    args = parser.parse_args()
-    
+    args = parser.parse_args()    
     # Handle the commands
-    if args.command == "commit":
+    if args.subcommands == "commit":
         print("Please wait while we generate the commit message...")
         from .commit_command import handle_commit
         time.sleep(1)
         return handle_commit(args)
-    elif args.command == "config":
+    elif args.subcommands == "config":
         from .config_command import handle_config
         return handle_config(args)
-    elif args.command == "login":
+    elif args.subcommands == "login":
         from .login_command import handle_login
         return handle_login(args)
-    elif args.command == "docgen":
+    elif args.subcommands == "docgen":
         from .docgen_command import handle_docgen
         return handle_docgen(args)
     else:
