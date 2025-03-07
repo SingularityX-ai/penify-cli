@@ -111,10 +111,7 @@ class LLMClient:
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2,
                 max_tokens=800  # Increased token limit to accommodate detailed descriptions
-            )
-
-            print(f"LLM response: {response}")
-            
+            )            
             content = response.choices[0].message.content
             
             # Extract JSON from the response
