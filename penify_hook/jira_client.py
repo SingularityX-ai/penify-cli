@@ -2,7 +2,7 @@ import re
 import logging
 from typing import Optional, Dict, List, Any
 
-from penify_hook.ui_utils import print_success
+from penify_hook.ui_utils import print_info, print_success
 try:
     from jira import JIRA
     JIRA_AVAILABLE = True
@@ -71,7 +71,7 @@ class JiraClient:
         pattern = r'[A-Z][A-Z0-9_]+-[0-9]+'
         matches = re.findall(pattern, branch_name)
         if matches:
-            print_success(f"Found JIRA issue in branch name: {matches[0]}")
+            print_info(f"Fetching relevant JIRA issues")
         return list(set(matches))  # Remove duplicates
     
     def extract_issue_keys(self, text: str) -> List[str]:

@@ -52,7 +52,6 @@ class CommitDocGenHook(BaseAnalyzer):
                 # If issues found in branch, get context
                 if issue_keys:
                     jira_context = self.jira_client.get_commit_context_from_issues(issue_keys)
-                    print(f"Adding JIRA context from issues: {', '.join(issue_keys)}")
             except Exception as e:
                 print(f"Could not get JIRA context: {e}")
         
