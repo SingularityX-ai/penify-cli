@@ -72,6 +72,20 @@ jobs:
             });
             
             return releaseNotes;
+            
+      - name: Configure Git
+        if: env.NEW_RELEASE == 'true'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          
+      - name: Create and push tag
+        if: env.NEW_RELEASE == 'true'
+        run: |
+          TAG_NAME="v${{ env.VERSION }}"
+          echo "Creating new tag: $TAG_NAME"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
       
       - name: Create Release
         if: env.NEW_RELEASE == 'true'
