@@ -1,6 +1,7 @@
 import json
 import os
 import requests
+from .llm_client import LLMClient
 
 class APIClient:
     def __init__(self, api_url, api_token: str = None, bearer_token: str = None):
@@ -111,7 +112,7 @@ class APIClient:
         else:
             return ["py", "js", "ts", "java", "kt", "cs", "c"]
 
-    def generate_commit_summary_with_llm(self, diff, message, repo_details, llm_client, jira_context=None):
+    def generate_commit_summary_with_llm(self, diff, message, generate_description: bool, repo_details, llm_client : LLMClient, jira_context=None):
         """
         Generate a commit summary using a local LLM client instead of the API.
         
@@ -126,7 +127,7 @@ class APIClient:
             Dict with title and description for the commit
         """
         try:
-            return llm_client.generate_commit_summary(diff, message, repo_details, jira_context)
+            return llm_client.generate_commit_summary(diff, message, generate_description, repo_details, jira_context)
         except Exception as e:
             print(f"Error using local LLM: {e}")
             # Fall back to API for commit summary

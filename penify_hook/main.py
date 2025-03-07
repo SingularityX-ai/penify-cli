@@ -155,32 +155,24 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
     elif args.subcommand == "commit":
         # For commit, token is now optional - some functionality may be limited without it
         open_terminal = args.terminal
+        generate_description = args.description
         
-        # Get LLM configuration
-        llm_model = args.llm_model
-        llm_api_base = args.llm_api_base
-        llm_api_key = args.llm_api_key
+        # Try to get from config
+        llm_config = get_llm_config()
+        llm_model = llm_config.get('model')
+        llm_api_base = llm_config.get('api_base') 
+        llm_api_key = llm_config.get('api_key')
         
-        if not llm_model:
-            # Try to get from config
-            llm_config = get_llm_config()
-            llm_model = llm_config.get('model')
-            llm_api_base = llm_config.get('api_base') if not llm_api_base else llm_api_base
-            llm_api_key = llm_config.get('api_key') if not llm_api_key else llm_api_key
         
-        # Get JIRA configuration
-        jira_url = args.jira_url
-        jira_user = args.jira_user
-        jira_api_token = args.jira_api_token
-        
-        if not jira_url or not jira_user or not jira_api_token:
-            # Try to get from config
-            jira_config = get_jira_config()
-            jira_url = jira_url or jira_config.get('url')
-            jira_user = jira_user or jira_config.get('username')
-            jira_api_token = jira_api_token or jira_config.get('api_token')
-        
-        commit_code(API_URL, token, args.message, open_terminal,
+       
+        # Try to get from config
+        jira_config = get_jira_config()
+        jira_url = jira_config.get('url')
+        jira_user = jira_config.get('username')
+        jira_api_token = jira_config.get('api_token')
+
+    
+        commit_code(API_URL, token, args.message, open_terminal, generate_description,
                    llm_model, llm_api_base, llm_api_key,
                    jira_url, jira_user, jira_api_token)
     

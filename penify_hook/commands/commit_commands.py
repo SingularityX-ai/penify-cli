@@ -17,7 +17,7 @@ try:
 except ImportError:
     JiraClient = None
 
-def commit_code(api_url, token, message, open_terminal, 
+def commit_code(api_url, token, message, open_terminal, generate_description,
                llm_model=None, llm_api_base=None, llm_api_key=None,
                jira_url=None, jira_user=None, jira_api_token=None):
     """
@@ -65,7 +65,7 @@ def commit_code(api_url, token, message, open_terminal,
         # Pass the LLM client and JIRA client to CommitDocGenHook
         gf_path = recursive_search_git_folder(os.getcwd())
         analyzer = CommitDocGenHook(gf_path, api_client, llm_client, jira_client)
-        analyzer.run(message, open_terminal)
+        analyzer.run(message, open_terminal, generate_description)
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)

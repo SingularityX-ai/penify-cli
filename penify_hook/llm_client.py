@@ -27,7 +27,7 @@ class LLMClient:
         if api_key:
             os.environ["OPENAI_API_KEY"] = api_key
     
-    def generate_commit_summary(self, diff: str, message: str, repo_details: Dict, jira_context: Dict = None) -> Dict:
+    def generate_commit_summary(self, diff: str, message: str, generate_description: bool, repo_details: Dict, jira_context: Dict = None) -> Dict:
         """
         Generate a commit summary using the LLM.
         
@@ -92,7 +92,7 @@ class LLMClient:
         
         Please provide:
         1. A short, focused commit title (50-72 characters) in a Semantic Commit Messages format. Format: <type>(<scope>): <subject>
-        2. A detailed description that explains what was changed, why it was changed in both business and technical aspects, and any important context
+        {'2. A detailed description that explains what was changed, why it was changed in both business and technical aspects, and any important context' if generate_description else ''}
 
         List of Semantic Commit Message types that you can use:
         feat: (new feature for the user, not a new feature for build script)
@@ -103,8 +103,9 @@ class LLMClient:
         test: (adding missing tests, refactoring tests; no production code change)
         chore: (updating grunt tasks etc; no production code change)
         
-        Format your response as valid JSON with 'title' and 'description' keys.
+        Format your response as valid JSON with 'title' {"and 'description'" if generate_description else ''} keys.
         """
+        print(prompt)
         
         try:
             # Call the LLM using litellm

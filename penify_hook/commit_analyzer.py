@@ -16,7 +16,7 @@ class CommitDocGenHook(BaseAnalyzer):
         self.llm_client = llm_client  # Add LLM client as an optional parameter
         self.jira_client = jira_client  # Add JIRA client as an optional parameter
 
-    def get_summary(self, instruction: str):
+    def get_summary(self, instruction: str, generate_description: bool) -> dict:
         """Generate a summary for the commit based on the staged changes.
 
         This function retrieves the differences of the staged changes in the
@@ -57,13 +57,13 @@ class CommitDocGenHook(BaseAnalyzer):
         # Use LLM client if provided, otherwise use API client
         if self.llm_client:
             return self.api_client.generate_commit_summary_with_llm(
-                diff, instruction, self.repo_details, self.llm_client, jira_context
+                diff, instruction, generate_description, self.repo_details, self.llm_client, jira_context
             )
         else:
             return self.api_client.generate_commit_summary(diff, instruction, self.repo_details, jira_context)
     
    
-    def run(self, msg: Optional[str], edit_commit_message: bool):
+    def run(self, msg: Optional[str], edit_commit_message: bool, generate_description: bool):
         """Run the post-commit hook.
 
         This method retrieves the list of modified files from the last commit
@@ -81,7 +81,7 @@ class CommitDocGenHook(BaseAnalyzer):
         Raises:
             Exception: If there is an error generating the commit summary.
         """
-        summary: dict = self.get_summary(msg)
+        summary: dict = self.get_summary(msg, generate_description)
         if not summary:
             raise Exception("Error generating commit summary")
         
