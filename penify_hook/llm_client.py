@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from typing import Dict, Optional, List, Any, Union
 import litellm
 
@@ -24,6 +25,8 @@ class LLMClient:
         self.model = model
         self.api_base = api_base
         self.api_key = api_key
+        litellm.api_key = api_key
+        litellm.api_base = api_base
         
         # Configure litellm if parameters are provided
         if api_base:
@@ -150,6 +153,7 @@ class LLMClient:
             return result
             
         except Exception as e:
+            sys.exit(f"Error generating commit summary: {e}")
             # Fallback to a basic summary if LLM fails
             print(f"Error generating commit summary with LLM: {e}")
             return {
