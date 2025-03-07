@@ -77,7 +77,7 @@ It generates smart commit messages. By default, it will just generate just the T
     commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).", description=commit_parser_description, formatter_class=argparse.RawDescriptionHelpFormatter)
     commit_parser.add_argument("-m", "--message", required=False, help="Commit with contextual commit message.", default="N/A")
     commit_parser.add_argument("-e", "--terminal", action="store_true", help="Open edit terminal before committing.")
-    commit_parser.add_argument("-d", "--description", action="store_false", help="It will generate commit message with title and description.")
+    commit_parser.add_argument("-d", "--description", action="store_false", help="It will generate commit message with title and description.", default=False)
 
     # Subcommand: config
     config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
@@ -156,7 +156,7 @@ The 'install-hook' command sets up a Git post-commit hook to auto-generate docum
         # For commit, token is now optional - some functionality may be limited without it
         open_terminal = args.terminal
         generate_description = args.description
-        
+        print(f"Generate Description: {generate_description}")        
         # Try to get from config
         llm_config = get_llm_config()
         llm_model = llm_config.get('model')
