@@ -125,6 +125,26 @@ def config_llm_web():
                     content = f.read()
                 
                 self.wfile.write(content.encode())
+            elif self.path == "/get_config":
+                self.send_response(200)
+                self.send_header("Content-type", "application/json")
+                self.end_headers()
+                
+                # Get current LLM configuration
+                current_config = get_llm_config()
+                
+                if current_config:
+                    response = {
+                        "success": True,
+                        "config": current_config
+                    }
+                else:
+                    response = {
+                        "success": False,
+                        "message": "No configuration found"
+                    }
+                
+                self.wfile.write(json.dumps(response).encode())
             else:
                 self.send_response(404)
                 self.send_header("Content-type", "text/plain")
