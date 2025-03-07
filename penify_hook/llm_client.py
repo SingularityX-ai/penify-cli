@@ -105,7 +105,6 @@ class LLMClient:
         
         Format your response as valid JSON with 'title' {"and 'description'" if generate_description else ''} keys.
         """
-        print(prompt)
         
         try:
             # Call the LLM using litellm
@@ -141,6 +140,9 @@ class LLMClient:
                         "description": description
                     }
             
+            if not generate_description:
+                # If description is missing and user requested it, add a placeholder
+                del result['description']
             return result
             
         except Exception as e:
