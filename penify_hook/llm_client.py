@@ -17,6 +17,10 @@ class LLMClient:
             api_base: Base URL for API requests (e.g., "http://localhost:11434" for Ollama)
             api_key: API key for the LLM service
         """
+        print("Initializing LLM client...")
+        print(f"Model: {model}")
+        print(f"API Base: {api_base}")
+        print(f"API Key: {api_key}")
         self.model = model
         self.api_base = api_base
         self.api_key = api_key
