@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import webbrowser
 import http.server
@@ -8,12 +9,46 @@ from pathlib import Path
 from threading import Thread
 import logging
 
+
+def get_penify_config() -> Path:
+    """
+    Get the home directory for the .penify configuration file.
+    This function searches for the .penify file in the current directory
+    and its parent directories until it finds it or reaches the home directory.
+    """
+    from penify_hook.utils import recursive_search_git_folder
+
+    current_dir = os.getcwd()
+    home_dir = recursive_search_git_folder(current_dir)
+    
+
+    if not home_dir:
+        home_dir = Path.home()
+    else:
+        home_dir = Path(home_dir)
+
+    penify_dir = home_dir / '.penify'
+    if penify_dir.exists():
+        return penify_dir / 'config.json'
+    else:
+        # Create the .penify directory if it doesn't exist
+        os.makedirs(penify_dir, exist_ok=True)
+        ## update gitignore
+        
+        # Create the .penify directory
+        os.makedirs(penify_dir, exist_ok=True)        
+        # Create an empty config.json file
+        with open(penify_dir / 'config.json', 'w') as f:
+            json.dump({}, f)
+    return penify_dir / 'config.json'
+    
+
 def save_llm_config(model, api_base, api_key):
     """
     Save LLM configuration settings in the .penify file.
     """
-    home_dir = Path.home()
-    penify_file = home_dir / '.penify'
+
+    penify_file = get_penify_config()
     
     config = {}
     if penify_file.exists():
@@ -43,6 +78,8 @@ def save_jira_config(url, username, api_token):
     """
     Save JIRA configuration settings in the .penify file.
     """
+    from penify_hook.utils import recursive_search_git_folder
+
     home_dir = Path.home()
     penify_file = home_dir / '.penify'
     
@@ -74,7 +111,7 @@ def get_llm_config():
     """
     Get LLM configuration from the .penify file.
     """
-    config_file = Path.home() / '.penify'
+    config_file = get_penify_config()
     if config_file.exists():
         try:
             with open(config_file, 'r') as f:
@@ -89,7 +126,7 @@ def get_jira_config():
     """
     Get JIRA configuration from the .penify file.
     """
-    config_file = Path.home() / '.penify'
+    config_file = get_penify_config()
     if config_file.exists():
         try:
             with open(config_file, 'r') as f:
