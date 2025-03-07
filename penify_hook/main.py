@@ -2,6 +2,7 @@ import argparse
 import sys
 import time
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="""Penify CLI tool for:
@@ -54,9 +55,9 @@ def main():
     args = parser.parse_args()    
     # Handle the commands
     if args.subcommands == "commit":
-        print("Please wait while we generate the commit message...")
+        from penify_hook.ui_utils import print_info
+        print_info("Please wait while we generate the commit message...")
         from .commands.commit_commands import handle_commit
-        time.sleep(1)
         return handle_commit(args)
     elif args.subcommands == "config":
         from .config_command import handle_config

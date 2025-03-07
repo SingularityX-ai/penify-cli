@@ -7,6 +7,7 @@ from git import Repo
 from tqdm import tqdm
 
 from penify_hook.base_analyzer import BaseAnalyzer
+from penify_hook.ui_utils import print_info, print_success, print_warning
 from .api_client import APIClient
 
 class CommitDocGenHook(BaseAnalyzer):
@@ -96,10 +97,11 @@ class CommitDocGenHook(BaseAnalyzer):
         # commit the changes to the repository with above details
         commit_msg = f"{title}\n\n{description}"
         self.repo.git.commit('-m', commit_msg)
+        print_success(f"Commit: {commit_msg}")
         
         if edit_commit_message:
             # Open the git commit edit terminal
-            print("Opening git commit edit terminal...")
+            print_info("Opening git commit edit terminal...")
             self._amend_commit()
     
     def process_jira_integration(self, title: str, description: str, msg: str) -> tuple:
@@ -129,12 +131,12 @@ class CommitDocGenHook(BaseAnalyzer):
                 for key in branch_issue_keys:
                     if key not in issue_keys:
                         issue_keys.append(key)
-                        print(f"Added JIRA issue {key} from branch name: {current_branch}")
+                        print_info(f"Added JIRA issue {key} from branch name: {current_branch}")
             except Exception as e:
-                print(f"Could not extract JIRA issues from branch name: {e}")
+                print_warning(f"Could not extract JIRA issues from branch name: {e}")
             
             if issue_keys:
-                print(f"Found JIRA issues: {', '.join(issue_keys)}")
+                print_info(f"Found JIRA issues: {', '.join(issue_keys)}")
                 
                 # Format commit message with JIRA info
                 title, description = self.jira_client.format_commit_message_with_jira_info(
@@ -151,7 +153,7 @@ class CommitDocGenHook(BaseAnalyzer):
                     )
                     self.jira_client.add_comment(issue_key, comment)
             else:
-                print("No JIRA issues found in commit message or branch name")
+                print_warning("No JIRA issues found in commit message or branch name")
                 
         return title, description
 

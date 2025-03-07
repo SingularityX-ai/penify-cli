@@ -2,6 +2,8 @@ import os
 import sys
 import argparse
 
+from penify_hook.ui_utils import print_info, print_warning
+
 
 def commit_code(api_url, token, message, open_terminal, generate_description,
                llm_model=None, llm_api_base=None, llm_api_key=None,
@@ -37,10 +39,10 @@ def commit_code(api_url, token, message, open_terminal, generate_description,
                 api_base=llm_api_base,
                 api_key=llm_api_key
             )
-            print(f"Using LLM model: {llm_model}")
+            print_info(f"Using LLM model: {llm_model}")
         except Exception as e:
-            print(f"Error initializing LLM client: {e}")
-            print("Falling back to API for commit summary generation")
+            print_error(f"Error initializing LLM client: {e}")
+            print_error("Falling back to API for commit summary generation")
     else:
         if not token:
             print_error("No LLM model or API token provided. Please provide an LLM model or API token.")
@@ -55,12 +57,12 @@ def commit_code(api_url, token, message, open_terminal, generate_description,
                 jira_api_token=jira_api_token
             )
             if jira_client.is_connected():
-                print(f"Connected to JIRA: {jira_url}")
+                print_info(f"Connected to JIRA: {jira_url}")
             else:
-                print(f"Failed to connect to JIRA: {jira_url}")
+                print_warning(f"Failed to connect to JIRA: {jira_url}")
                 jira_client = None
         except Exception as e:
-            print(f"Error initializing JIRA client: {e}")
+            print_warning(f"Error initializing JIRA client: {e}")
             jira_client = None
     
     try:
@@ -100,7 +102,7 @@ def handle_commit(args):
     # Only import dependencies needed for commit functionality here
     open_terminal = args.terminal
     generate_description = args.description
-    print(f"Generate Description: {generate_description}")        
+    print_info(f"Generate Commit Description: {generate_description}")        
     # Try to get from config
     llm_config = get_llm_config()
     llm_model = llm_config.get('model')
