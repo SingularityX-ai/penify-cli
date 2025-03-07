@@ -19,6 +19,7 @@ class LLMClient:
             api_key: API key for the LLM service
         """        
         # Configure litellm if parameters are provided
+        self.model = model
         if api_base:
             os.environ["OPENAI_API_BASE"] = api_base
         if api_key:
