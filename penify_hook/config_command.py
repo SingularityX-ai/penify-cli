@@ -1,4 +1,4 @@
-from penify_hook.commands.config_commands import config_jira_web, config_llm_web, save_jira_config
+
 
 
 def setup_config_parser(parent_parser):
@@ -30,6 +30,7 @@ def handle_config(args):
     # Only import dependencies needed for config functionality here
     from penify_hook.commands.config_commands import save_llm_config
     from penify_hook.jira_client import JiraClient  # Import moved here
+    from penify_hook.commands.config_commands import config_jira_web, config_llm_web, save_jira_config
 
     if args.config_type == "llm":
         save_llm_config(args.model, args.api_base, args.api_key)
