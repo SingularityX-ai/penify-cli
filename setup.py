@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="penifycli",
-    version="0.1.5",  # Increment the version number
+    version="1.0.0",  # Increment the version number
     packages=['penify_hook'],  # Explicitly include the penify_hook package
     install_requires=[
         "requests",
@@ -19,7 +19,7 @@ setup(
     },
     author="Suman Saurabh",
     author_email="ss.sumansaurabh92@gmail.com",
-    description="A penify cli tool to generate Documentation, Commit-summary and  Hooks to automate git workflows.",
+    description="A penify cli tool to generate Documentation, Commit-summary.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/SingularityX-ai/penifycli",
