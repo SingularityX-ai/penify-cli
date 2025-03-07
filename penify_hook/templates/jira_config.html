@@ -65,12 +65,40 @@
         .checkbox-group input {
             margin-right: 10px;
         }
+        .current-config {
+            background-color: #e0f7fa;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0066cc;
+        }
+        .input-group {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            color: #666;
+            background: none;
+            border: none;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Penify JIRA Configuration</h1>
         <p>Configure your JIRA integration for Penify CLI.</p>
+        
+        <div id="current-config" class="current-config">
+            <h3>Current Configuration</h3>
+            <div id="current-config-details">Loading current settings...</div>
+        </div>
         
         <form id="jira-config-form">
             <div class="form-group">
@@ -87,7 +115,10 @@
             
             <div class="form-group">
                 <label for="jira-api-token">JIRA API Token:</label>
-                <input type="password" id="jira-api-token" name="jira-api-token" placeholder="Your JIRA API token" required>
+                <div class="input-group">
+                    <input type="password" id="jira-api-token" name="jira-api-token" placeholder="Your JIRA API token" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">Show</button>
+                </div>
                 <p class="help-text">Generate an API token from your Atlassian account: <a href="https://id.atlassian.com/manage/api-tokens" target="_blank">Atlassian API tokens</a></p>
             </div>
             
@@ -105,6 +136,55 @@
     </div>
 
     <script>
+        // Function to get the current configuration
+        function getCurrentConfig() {
+            fetch("/get_config")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const config = data.config;
+                        
+                        // Update display
+                        let configHtml = `<p><strong>JIRA URL:</strong> ${config.url || 'Not set'}</p>
+                                         <p><strong>Username:</strong> ${config.username || 'Not set'}</p>
+                                         <p><strong>API Token:</strong> ${config.api_token ? '********' : 'Not set'}</p>`;
+                        
+                        document.getElementById("current-config-details").innerHTML = configHtml;
+                        
+                        // Pre-fill form
+                        document.getElementById("jira-url").value = config.url || '';
+                        document.getElementById("jira-username").value = config.username || '';
+                        document.getElementById("jira-api-token").value = config.api_token || '';
+                    } else {
+                        document.getElementById("current-config-details").innerHTML = 
+                            "<p>No existing JIRA configuration found.</p>";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("current-config-details").innerHTML = 
+                        `<p>Error loading configuration: ${error.message}</p>`;
+                });
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const apiTokenInput = document.getElementById("jira-api-token");
+            const toggleButton = document.querySelector(".toggle-password");
+            
+            if (apiTokenInput.type === "password") {
+                apiTokenInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                apiTokenInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+
+        // Load current configuration when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            getCurrentConfig();
+        });
+
         // Handle form submission
         document.getElementById("jira-config-form").addEventListener("submit", function(e) {
             e.preventDefault();
