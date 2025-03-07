@@ -2,6 +2,7 @@ import argparse
 import sys
 import time
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="""Penify CLI tool for:
@@ -26,7 +27,7 @@ def main():
     
     # Set up subparsers with proper imports upfront
     commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).")
-    from .commit_command import setup_commit_parser
+    from .commands.commit_commands import setup_commit_parser
     setup_commit_parser(commit_parser)
     
     config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
@@ -38,7 +39,7 @@ def main():
     setup_login_parser(login_parser)
     
     docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the Git diff, file or folder.")
-    from .docgen_command import setup_docgen_parser
+    from .commands.doc_commands import setup_docgen_parser
     setup_docgen_parser(docgen_parser)
     
     # Parse args without validation first to check for simple flags like --version
@@ -54,9 +55,9 @@ def main():
     args = parser.parse_args()    
     # Handle the commands
     if args.subcommands == "commit":
-        print("Please wait while we generate the commit message...")
-        from .commit_command import handle_commit
-        time.sleep(1)
+        from penify_hook.ui_utils import print_info
+        print_info("Please wait while we generate the commit message...")
+        from .commands.commit_commands import handle_commit
         return handle_commit(args)
     elif args.subcommands == "config":
         from .config_command import handle_config
@@ -65,7 +66,7 @@ def main():
         from .login_command import handle_login
         return handle_login(args)
     elif args.subcommands == "docgen":
-        from .docgen_command import handle_docgen
+        from .commands.doc_commands import handle_docgen
         return handle_docgen(args)
     else:
         parser.print_help()

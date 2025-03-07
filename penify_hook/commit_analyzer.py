@@ -7,6 +7,8 @@ from git import Repo
 from tqdm import tqdm
 
 from penify_hook.base_analyzer import BaseAnalyzer
+from penify_hook.jira_client import JiraClient
+from penify_hook.ui_utils import print_info, print_success, print_warning
 from .api_client import APIClient
 
 class CommitDocGenHook(BaseAnalyzer):
@@ -14,7 +16,7 @@ class CommitDocGenHook(BaseAnalyzer):
         super().__init__(repo_path, api_client)
 
         self.llm_client = llm_client  # Add LLM client as an optional parameter
-        self.jira_client = jira_client  # Add JIRA client as an optional parameter
+        self.jira_client: JiraClient = jira_client  # Add JIRA client as an optional parameter
 
     def get_summary(self, instruction: str, generate_description: bool) -> dict:
         """Generate a summary for the commit based on the staged changes.
@@ -50,11 +52,11 @@ class CommitDocGenHook(BaseAnalyzer):
                 # If issues found in branch, get context
                 if issue_keys:
                     jira_context = self.jira_client.get_commit_context_from_issues(issue_keys)
-                    print(f"Adding JIRA context from issues: {', '.join(issue_keys)}")
             except Exception as e:
                 print(f"Could not get JIRA context: {e}")
         
         # Use LLM client if provided, otherwise use API client
+        print_info("Fetching commit summary from LLM...")
         if self.llm_client:
             return self.api_client.generate_commit_summary_with_llm(
                 diff, instruction, generate_description, self.repo_details, self.llm_client, jira_context
@@ -81,7 +83,7 @@ class CommitDocGenHook(BaseAnalyzer):
         Raises:
             Exception: If there is an error generating the commit summary.
         """
-        summary: dict = self.get_summary(msg, generate_description)
+        summary: dict = self.get_summary(msg, True)
         if not summary:
             raise Exception("Error generating commit summary")
         
@@ -91,15 +93,16 @@ class CommitDocGenHook(BaseAnalyzer):
         # If JIRA client is available, integrate JIRA information
         if self.jira_client and self.jira_client.is_connected():
             # Add JIRA information to commit message
-            title, description = self.process_jira_integration(title, description, msg)
+            self.process_jira_integration(title, description, msg)
             
         # commit the changes to the repository with above details
-        commit_msg = f"{title}\n\n{description}"
+        commit_msg = f"{title}\n\n{description}" if generate_description else title
         self.repo.git.commit('-m', commit_msg)
+        print_success(f"Commit: {commit_msg}")
         
         if edit_commit_message:
             # Open the git commit edit terminal
-            print("Opening git commit edit terminal...")
+            print_info("Opening git commit edit terminal...")
             self._amend_commit()
     
     def process_jira_integration(self, title: str, description: str, msg: str) -> tuple:
@@ -129,17 +132,14 @@ class CommitDocGenHook(BaseAnalyzer):
                 for key in branch_issue_keys:
                     if key not in issue_keys:
                         issue_keys.append(key)
-                        print(f"Added JIRA issue {key} from branch name: {current_branch}")
+                        print_info(f"Added JIRA issue {key} from branch name: {current_branch}")
             except Exception as e:
-                print(f"Could not extract JIRA issues from branch name: {e}")
+                print_warning(f"Could not extract JIRA issues from branch name: {e}")
             
             if issue_keys:
-                print(f"Found JIRA issues: {', '.join(issue_keys)}")
+                print_info(f"Found JIRA issues: {', '.join(issue_keys)}")
                 
                 # Format commit message with JIRA info
-                title, description = self.jira_client.format_commit_message_with_jira_info(
-                    title, description, issue_keys
-                )
                 
                 # Add comments to JIRA issues
                 for issue_key in issue_keys:
@@ -147,11 +147,10 @@ class CommitDocGenHook(BaseAnalyzer):
                         f"Commit related to this issue:\n\n"
                         f"**{title}**\n\n"
                         f"{description}\n\n"
-                        f"Repository: {self.repo_details.get('organization_name')}/{self.repo_details.get('repo_name')}"
                     )
                     self.jira_client.add_comment(issue_key, comment)
             else:
-                print("No JIRA issues found in commit message or branch name")
+                print_warning("No JIRA issues found in commit message or branch name")
                 
         return title, description
 

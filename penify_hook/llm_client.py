@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from typing import Dict, Optional, List, Any, Union
 import litellm
 
@@ -16,12 +17,9 @@ class LLMClient:
             model: LLM model to use (e.g., "gpt-4", "ollama/llama2", etc.)
             api_base: Base URL for API requests (e.g., "http://localhost:11434" for Ollama)
             api_key: API key for the LLM service
-        """
-        self.model = model
-        self.api_base = api_base
-        self.api_key = api_key
-        
+        """        
         # Configure litellm if parameters are provided
+        self.model = model
         if api_base:
             os.environ["OPENAI_API_BASE"] = api_base
         if api_key:
@@ -113,8 +111,7 @@ class LLMClient:
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2,
                 max_tokens=800  # Increased token limit to accommodate detailed descriptions
-            )
-            
+            )            
             content = response.choices[0].message.content
             
             # Extract JSON from the response
@@ -146,6 +143,7 @@ class LLMClient:
             return result
             
         except Exception as e:
+            sys.exit(f"Error generating commit summary: {e}")
             # Fallback to a basic summary if LLM fails
             print(f"Error generating commit summary with LLM: {e}")
             return {
