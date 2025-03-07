@@ -17,17 +17,7 @@ class LLMClient:
             model: LLM model to use (e.g., "gpt-4", "ollama/llama2", etc.)
             api_base: Base URL for API requests (e.g., "http://localhost:11434" for Ollama)
             api_key: API key for the LLM service
-        """
-        print("Initializing LLM client...")
-        print(f"Model: {model}")
-        print(f"API Base: {api_base}")
-        print(f"API Key: {api_key}")
-        self.model = model
-        self.api_base = api_base
-        self.api_key = api_key
-        litellm.api_key = api_key
-        litellm.api_base = api_base
-        
+        """        
         # Configure litellm if parameters are provided
         if api_base:
             os.environ["OPENAI_API_BASE"] = api_base
@@ -121,6 +111,8 @@ class LLMClient:
                 temperature=0.2,
                 max_tokens=800  # Increased token limit to accommodate detailed descriptions
             )
+
+            print(f"LLM response: {response}")
             
             content = response.choices[0].message.content
             
