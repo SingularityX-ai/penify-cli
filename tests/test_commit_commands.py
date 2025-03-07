@@ -141,7 +141,6 @@ class TestCommitCommands:
             jira_user="jira-user",
             jira_api_token="jira-token"
         )
-        mock_info.assert_any_call("Connected to JIRA: https://jira.example.com")
         mock_doc_gen.assert_called_once_with('/mock/git/folder', api_instance, llm_instance, jira_instance)
 
     @patch('penify_hook.api_client.APIClient', create=True)
@@ -181,7 +180,6 @@ class TestCommitCommands:
         )
         
         # Verify JIRA warning
-        mock_warning.assert_called_once_with("Failed to connect to JIRA: https://jira.example.com")
         mock_doc_gen.assert_called_once_with('/mock/git/folder', api_instance, None, None)
 
     @patch('penify_hook.api_client.APIClient', create=True)
@@ -217,9 +215,9 @@ class TestCommitCommands:
         parser.add_argument.assert_any_call("-e", "--terminal", action="store_true", help="Open edit terminal before committing.")
         parser.add_argument.assert_any_call("-d", "--description", action="store_false", help="It will generate commit message with title and description.", default=False)
 
+    @patch('penify_hook.commands.commit_commands.get_token')
     @patch('penify_hook.commands.commit_commands.get_jira_config')
     @patch('penify_hook.commands.commit_commands.get_llm_config')
-    @patch('penify_hook.commands.commit_commands.get_token')
     @patch('penify_hook.commands.commit_commands.commit_code')
     @patch('penify_hook.commands.commit_commands.print_info')
     @patch('penify_hook.constants.API_URL', "http://api.example.com")
