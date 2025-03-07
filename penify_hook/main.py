@@ -11,17 +11,35 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    
     # Add version flag
     parser.add_argument('--version', '-v', action='store_true', help='Show version information')
 
-    subparsers = parser.add_subparsers(title="subcommands", dest="command")
+    subparsers = parser.add_subparsers(title="options", dest="subcommands")
+
+    # Group commands logically
+    basic_title = "Basic Commands (No login required)"
+    advanced_title = "Advanced Commands (Login required)"
+
+    # Create grouped subparsers (visually separated in help output)
+    parser.add_argument_group(basic_title)
+    parser.add_argument_group(advanced_title)
     
-    # Define subparsers without importing their modules yet
+    # Set up subparsers with proper imports upfront
     commit_parser = subparsers.add_parser("commit", help="Generate smart commit messages using local-LLM(no login required).")
+    from .commit_command import setup_commit_parser
+    setup_commit_parser(commit_parser)
+    
     config_parser = subparsers.add_parser("config", help="Configure local-LLM and JIRA.")
+    from .config_command import setup_config_parser
+    setup_config_parser(config_parser)
+    
     login_parser = subparsers.add_parser("login", help="Log in to Penify to use advanced features like 'docgen' generation.")
+    from .login_command import setup_login_parser
+    setup_login_parser(login_parser)
+    
     docgen_parser = subparsers.add_parser("docgen", help="[REQUIRES LOGIN] Generate code documentation for the Git diff, file or folder.")
+    from .docgen_command import setup_docgen_parser
+    setup_docgen_parser(docgen_parser)
     
     # Parse args without validation first to check for simple flags like --version
     if '--version' in sys.argv or '-v' in sys.argv:
@@ -35,32 +53,23 @@ def main():
     print("Welcome to Penify CLI!")
     
     # Parse the arguments to determine which command was requested
-    args, unknown = parser.parse_known_args()
-    # print(f"Unknown args: {unknown}")
-    # print(f"Running command: {args.command}")
-    print("Please run 'penifycli --help' to see the available commands.")
+    args = parser.parse_args()
     
-    
-    # Import only the needed module based on the command
+    # Handle the commands
     if args.command == "commit":
         print("Please wait while we generate the commit message...")
-        from .commit_command import setup_commit_parser, handle_commit
-        setup_commit_parser(commit_parser)
+        from .commit_command import handle_commit
         time.sleep(1)
-        sys.exit(0) 
-        return handle_commit(parser.parse_args())
+        return handle_commit(args)
     elif args.command == "config":
-        from .config_command import setup_config_parser, handle_config
-        setup_config_parser(config_parser)
-        return handle_config(parser.parse_args())
+        from .config_command import handle_config
+        return handle_config(args)
     elif args.command == "login":
-        from .login_command import setup_login_parser, handle_login
-        setup_login_parser(login_parser)
-        return handle_login(parser.parse_args())
+        from .login_command import handle_login
+        return handle_login(args)
     elif args.command == "docgen":
-        from .docgen_command import setup_docgen_parser, handle_docgen
-        setup_docgen_parser(docgen_parser)
-        return handle_docgen(parser.parse_args())
+        from .docgen_command import handle_docgen
+        return handle_docgen(args)
     else:
         parser.print_help()
         return 1
