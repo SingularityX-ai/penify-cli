@@ -140,7 +140,7 @@ class LLMClient:
                         "description": description
                     }
             
-            if not generate_description:
+            if not generate_description and 'description' in result:
                 # If description is missing and user requested it, add a placeholder
                 del result['description']
             return result
@@ -150,5 +150,4 @@ class LLMClient:
             print(f"Error generating commit summary with LLM: {e}")
             return {
                 "title": "Update code",
-                "description": f"Changes were made to the repository.\n\nUser message: {message}"
             }
