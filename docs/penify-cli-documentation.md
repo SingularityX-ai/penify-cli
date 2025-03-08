@@ -1,3 +1,10 @@
+---
+layout: doc
+title: Streamline Git Commits and Code Documentation with Penify-CLI's Automated Generation
+description: Discover how Penify-CLI automates both Git commit messages and code documentation, with Jira integration and flexible options. Save time, improve repository clarity, and boost productivity with this detailed guide to usage and best practices.
+keywords: Penify-CLI, Git commit messages, code documentation, Jira integration, automated documentation, version control, repository management, developer productivity
+author: Suman Sauarbh
+---
 # Penify CLI Documentation
 
 Penify CLI is a powerful tool for enhancing your development workflow with AI-powered features like commit message generation, code documentation, and JIRA integration.
