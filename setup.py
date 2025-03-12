@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="penifycli",  # Changed from "penifycli" to a more unique name
-    version="0.2.2",
+    version="0.2.3",
     packages=['penify_hook'],
     install_requires=[
         "requests",
