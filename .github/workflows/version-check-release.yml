@@ -85,7 +85,7 @@ jobs:
           TAG_NAME="v${{ env.VERSION }}"
           echo "Creating new tag: $TAG_NAME"
           git tag $TAG_NAME
-          git push origin $TAG_NAME
+          git push https://${{ secrets.PAT_GITHUB }}@github.com/${{ github.repository }} $TAG_NAME
       
       - name: Create Release
         if: env.NEW_RELEASE == 'true'
