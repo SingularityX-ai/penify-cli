@@ -8,7 +8,7 @@ def main():
         description="""Penify CLI tool for:
 1. AI commit message generation with JIRA integration to enhance commit messages.
 2. Generating Code Documentation, it requires SignUp to Penify
-3. For more information, visit https://docs.penify.dev/""",
+3. For more information, visit https://penify.wiki/dpc1""",
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 

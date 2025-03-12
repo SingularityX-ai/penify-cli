@@ -1,4 +1,5 @@
 
+import argparse
 import logging
 import os
 
@@ -64,6 +65,17 @@ You can generate documentation for:
 
 def setup_docgen_parser(parser):
     # We don't need to create a new docgen_parser since it's passed as a parameter
+    docgen_parser_description = """
+It generates Documentation for the Git diff, file or folder.
+1. By default, it will git diff documentation - visit https://penify.wiki/dcdc for more details.
+2. If file is provided, it will generate documentation for that file - visit https://penify.wiki/dfdc
+3. If folder is provided, it will generate documentation for that folder - visit https://penify.wiki/drdc
+4. Commit Hooks will automatically generate documentation for the Git diff on commit - https://penify.wiki/dpchc
+5. You need to be logged in to your Penify account to use these commands.
+"""
+
+    parser.description = docgen_parser_description
+    parser.formatter_class = argparse.RawDescriptionHelpFormatter
     docgen_subparsers = parser.add_subparsers(title="docgen_subcommand", dest="docgen_subcommand")
 
     # Docgen main options (for direct documentation generation)

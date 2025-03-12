@@ -83,7 +83,7 @@ def setup_commit_parser(parser):
 It generates smart commit messages. By default, it will just generate just the Title of the commit message.
 1. If you have not configured LLM, it will give an error. You either need to configure LLM or use the API key.
 2. If you have not configured JIRA. It will not enhance the commit message with JIRA issue details.
-3. For more information, visit https://docs.penify.dev/
+3. For more information, visit https://penify.wiki/dcsgc1
 """
     parser.help = "Generate smart commit messages using local-LLM(no login required)."
     parser.description = commit_parser_description
